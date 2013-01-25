@@ -2,7 +2,7 @@
 
 App::uses('TournamentAppModel', 'Tournament.Model');
 
-class Season extends TournamentAppModel {
+class Division extends TournamentAppModel {
 
 	/**
 	 * Belongs to.
@@ -12,20 +12,17 @@ class Season extends TournamentAppModel {
 	public $belongsTo = array(
 		'League' => array(
 			'className' => 'Tournament.League'
-		),
-		'Division' => array(
-			'className' => 'Tournament.Division'
 		)
 	);
 
 	/**
-	 * Behaviors.
+	 * Has many.
 	 *
 	 * @var array
 	 */
-	public $actsAs = array(
-		'Utility.Sluggable' => array(
-			'field' => 'name'
+	public $hasMany = array(
+		'Season' => array(
+			'className' => 'Tournament.Season'
 		)
 	);
 

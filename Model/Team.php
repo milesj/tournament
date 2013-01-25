@@ -10,7 +10,7 @@ class Team extends TournamentAppModel {
 	 * @var array
 	 */
 	public $belongsTo = array(
-		'Captain' => array(
+		'Owner' => array(
 			'className' => TOURNAMENT_USER
 		)
 	);

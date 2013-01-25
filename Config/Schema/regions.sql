@@ -13,4 +13,5 @@ CREATE TABLE `{prefix}regions` (
 
 INSERT INTO `{prefix}regions` (`id`, `name`, `slug`, `description`, `created`, `modified`) VALUES
 	(1, 'United States', 'US', '', NOW(), NOW()),
-	(2, 'Europe', 'EU', '', NOW(), NOW());
+	(2, 'Europe', 'EU', '', NOW(), NOW()),
+	(3, 'Korea', 'KR', '', NOW(), NOW());

@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS `{prefix}seasons`;
 CREATE TABLE `{prefix}seasons` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`league_id` int(11) NOT NULL,
+	`division_id` int(11) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`start` datetime DEFAULT NULL,
 	`end` datetime DEFAULT NULL,
@@ -14,5 +15,6 @@ CREATE TABLE `{prefix}seasons` (
 	`created` datetime DEFAULT NULL,
 	`modified` datetime DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	KEY `league_id` (`league_id`)
+	KEY `league_id` (`league_id`),
+	KEY `division_id` (`division_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

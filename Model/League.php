@@ -10,8 +10,25 @@ class League extends TournamentAppModel {
 	 * @var array
 	 */
 	public $belongsTo = array(
+		'Game' => array(
+			'className' => 'Tournament.Game'
+		),
 		'Region' => array(
 			'className' => 'Tournament.Region'
+		)
+	);
+
+	/**
+	 * Has many.
+	 *
+	 * @var array
+	 */
+	public $hasMany = array(
+		'Division' => array(
+			'className' => 'Tournament.Division'
+		),
+		'Season' => array(
+			'className' => 'Tournament.Season'
 		)
 	);
 
