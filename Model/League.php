@@ -27,8 +27,8 @@ class League extends TournamentAppModel {
 		'Division' => array(
 			'className' => 'Tournament.Division'
 		),
-		'Season' => array(
-			'className' => 'Tournament.Season'
+		'Event' => array(
+			'className' => 'Tournament.Event'
 		)
 	);
 

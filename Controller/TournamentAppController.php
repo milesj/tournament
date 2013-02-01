@@ -16,7 +16,14 @@ class TournamentAppController extends AppController {
 	 * @access public
 	 * @var array
 	 */
-	public $components = array('Session', 'Security', 'Cookie', 'Auth', 'Utility.AutoLogin');
+	public $components = array(
+		'Session', 'Security', 'Cookie', 'Acl',
+		'Auth' => array(
+			'authorize' => array('Controller')
+		),
+		'Utility.AutoLogin',
+		//'Tournament.TournamentToolbar'
+	);
 
 	/**
 	 * Helpers.
@@ -24,7 +31,11 @@ class TournamentAppController extends AppController {
 	 * @access public
 	 * @var array
 	 */
-	public $helpers = array('Html', 'Session', 'Form', 'Time', 'Text', 'Utility.Breadcrumb', 'Utility.OpenGraph');
+	public $helpers = array(
+		'Html', 'Session', 'Form', 'Time', 'Text',
+		'Utility.Breadcrumb', 'Utility.OpenGraph', 'Utility.Decoda',
+		//'Tournament.Tournament'
+	);
 
 	/**
 	 * Plugin configuration.
@@ -42,9 +53,15 @@ class TournamentAppController extends AppController {
 
 		// Settings
 		$this->config = Configure::read('Tournament');
+		$this->layout = $this->config['viewLayout'];
+
+		// Admin
+		if (isset($this->request->params['admin'])) {
+			$this->layout = 'admin';
+		}
 
 		// Localization
-		$locale = $this->Auth->user('locale') ?: 'eng';
+		$locale = $this->Auth->user('TournamentProfile.locale') ?: $this->settings['defaultLocale'];
 		Configure::write('Config.language', $locale);
 		setlocale(LC_ALL, $locale . 'UTF8', $locale . 'UTF-8', $locale, 'eng.UTF8', 'eng.UTF-8', 'eng', 'en_US');
 
@@ -52,8 +69,8 @@ class TournamentAppController extends AppController {
 		$referrer = $this->referer();
 		$routes = $this->config['routes'];
 
-		if (!$referrer || $referrer === '/tournament/users/login' || $referrer === '/admin/tournament/users/login') {
-			$referrer = array('plugin' => 'tournament', 'controller' => 'tournament', 'action' => 'index');
+		if (!$referrer || strpos($referrer, 'users/login') !== false) {
+			$referrer = array('plugin' => 'forum', 'controller' => 'forum', 'action' => 'index');
 		}
 
 		$this->Auth->loginAction = $routes['login'];

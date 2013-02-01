@@ -22,14 +22,14 @@ class TournamentAppModel extends AppModel {
 	 *
 	 * @var string
 	 */
-	public $tablePrefix = 'tourn_';
+	public $tablePrefix = TOURNAMENT_PREFIX;
 
 	/**
 	 * Database config.
 	 *
 	 * @var string
 	 */
-	public $useDbConfig = 'default';
+	public $useDbConfig = TOURNAMENT_DATABASE;
 
 	/**
 	 * Cache queries.
@@ -57,12 +57,8 @@ class TournamentAppModel extends AppModel {
 			'format' => false
 		),
 		'Utility.Cacheable' => array(
-			'cacheConfig' => 'forum',
 			'appendKey' => false,
-			'expires' => '+1 hour',
-			'events' => array(
-				'onCreate' => false
-			)
+			'expires' => '+1 hour'
 		)
 	);
 

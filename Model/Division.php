@@ -21,8 +21,8 @@ class Division extends TournamentAppModel {
 	 * @var array
 	 */
 	public $hasMany = array(
-		'Season' => array(
-			'className' => 'Tournament.Season'
+		'Event' => array(
+			'className' => 'Tournament.Event'
 		)
 	);
 

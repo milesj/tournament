@@ -5,7 +5,7 @@ Regions
 Games
 	-> Leagues
 		-> Divisions
-			-> Seasons
+			-> Events
 ```
 
 Example:

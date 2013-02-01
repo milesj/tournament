@@ -1,10 +1,11 @@
 
-DROP TABLE IF EXISTS `{prefix}seasons`;
+DROP TABLE IF EXISTS `{prefix}events`;
 
-CREATE TABLE `{prefix}seasons` (
+CREATE TABLE `{prefix}events` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`league_id` int(11) NOT NULL,
 	`division_id` int(11) NOT NULL,
+	`type` smallint(6) NOT NULL DEFAULT '0',
 	`name` varchar(50) NOT NULL,
 	`start` datetime DEFAULT NULL,
 	`end` datetime DEFAULT NULL,

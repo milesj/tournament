@@ -4,16 +4,29 @@ App::uses('ClassRegistry', 'Utility');
 App::uses('Sanitize', 'Utility');
 
 /**
- * Name of the User model.
+ * Tournament critical constants.
  */
+define('TOURNAMENT_PLUGIN', dirname(__DIR__) . '/');
+
+// User Model
 if (!defined('TOURNAMENT_USER')) {
 	define('TOURNAMENT_USER', 'User');
+}
+
+// Table Prefix
+if (!defined('TOURNAMENT_PREFIX')) {
+	define('TOURNAMENT_PREFIX', 'tourn_');
+}
+
+// Database config
+if (!defined('TOURNAMENT_DATABASE')) {
+	define('TOURNAMENT_DATABASE', 'default');
 }
 
 /**
  * Current version.
  */
-Configure::write('Tournament.version', '0.0.0');
+Configure::write('Tournament.version', file_get_contents(dirname(__DIR__) . '/version.md'));
 
 /**
  * A map of user fields that are used within this plugin. If your users table has a different naming scheme
@@ -23,7 +36,26 @@ Configure::write('Tournament.userMap', array(
 	'username'	=> 'username',
 	'password'	=> 'password',
 	'email'		=> 'email',
-	'status'	=> 'status'
+	'status'	=> 'status',
+	'avatar'	=> 'avatar'
+));
+
+/**
+ * A map of status values for the users "status" column.
+ * This column determines if the user is pending, currently active, or banned.
+ */
+Configure::write('Tournament.statusMap', array(
+	'pending'	=> 0,
+	'active'	=> 1,
+	'banned'	=> 2
+));
+
+/**
+ * A map of keys to ACL requester aliases.
+ */
+Configure::write('Tournament.aroMap', array(
+	'admin' 	=> 'administrator',
+	'superMod'	=> 'superModerator'
 ));
 
 /**
@@ -33,8 +65,13 @@ Configure::write('Tournament.routes', array(
 	'login' => array('plugin' => false, 'admin' => false, 'controller' => 'users', 'action' => 'login'),
 	'logout' => array('plugin' => false, 'admin' => false, 'controller' => 'users', 'action' => 'logout'),
 	'signup' => array('plugin' => false, 'admin' => false, 'controller' => 'users', 'action' => 'signup'),
-	'forgotPass' => array('plugin' => false, 'admin' => false, 'controller' => 'users', 'action' => 'forgot_password')
+	'profile' => array('plugin' => 'tournament', 'admin' => false, 'controller' => 'users', 'action' => 'profile', 'id' => '{id}')
 ));
+
+/**
+ * Customizable view settings. This allows for layout and template overrides.
+ */
+Configure::write('Tournament.viewLayout', 'forum');
 
 /**
  * Handle exceptions and errors.

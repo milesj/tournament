@@ -2,7 +2,7 @@
 
 App::uses('TournamentAppModel', 'Tournament.Model');
 
-class SeasonsTeam extends TournamentAppModel {
+class EventsTeam extends TournamentAppModel {
 
 	/**
 	 * Belongs to.
@@ -10,8 +10,8 @@ class SeasonsTeam extends TournamentAppModel {
 	 * @var array
 	 */
 	public $belongsTo = array(
-		'Season' => array(
-			'className' => 'Tournament.Season'
+		'Event' => array(
+			'className' => 'Tournament.Event'
 		),
 		'Team' => array(
 			'className' => 'Tournament.Team'
