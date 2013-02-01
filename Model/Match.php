@@ -4,9 +4,11 @@ App::uses('TournamentAppModel', 'Tournament.Model');
 
 class Match extends TournamentAppModel {
 
+	// Type
 	const TEAM = 0;
 	const PLAYER = 1;
 
+	// Outcome
 	const PENDING = 0;
 	const WIN = 1;
 	const LOSS = 2;
@@ -35,12 +37,12 @@ class Match extends TournamentAppModel {
 			'conditions' => array('Match.type' => self::TEAM)
 		),
 		'PlayerA' => array(
-			'className' => 'Tournament.User',
+			'className' => 'Tournament.Player',
 			'foreignKey' => 'a_id',
 			'conditions' => array('Match.type' => self::PLAYER)
 		),
 		'PlayerB' => array(
-			'className' => 'Tournament.User',
+			'className' => 'Tournament.Player',
 			'foreignKey' => 'b_id',
 			'conditions' => array('Match.type' => self::PLAYER)
 		)

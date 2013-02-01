@@ -4,11 +4,13 @@ App::uses('TournamentAppModel', 'Tournament.Model');
 
 class Event extends TournamentAppModel {
 
+	// Type
 	const SINGLE_ELIM = 0;
 	const DOUBLE_ELIM = 1;
 	const ROUND_ROBIN = 2;
 	const SWISS = 3;
 
+	// For
 	const TEAM = 0;
 	const PLAYER = 1;
 
@@ -18,6 +20,9 @@ class Event extends TournamentAppModel {
 	 * @var array
 	 */
 	public $belongsTo = array(
+		'Game' => array(
+			'className' => 'Tournament.Game'
+		),
 		'League' => array(
 			'className' => 'Tournament.League'
 		),

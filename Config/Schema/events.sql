@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS `{prefix}events`;
 
 CREATE TABLE `{prefix}events` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`game_id` int(11) NOT NULL,
 	`league_id` int(11) NOT NULL,
 	`division_id` int(11) NOT NULL,
 	`type` smallint(6) NOT NULL DEFAULT '0',
@@ -17,6 +18,7 @@ CREATE TABLE `{prefix}events` (
 	`created` datetime DEFAULT NULL,
 	`modified` datetime DEFAULT NULL,
 	PRIMARY KEY (`id`),
+	KEY `game_id` (`game_id`),
 	KEY `league_id` (`league_id`),
 	KEY `division_id` (`division_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

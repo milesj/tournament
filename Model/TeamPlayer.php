@@ -4,10 +4,17 @@ App::uses('TournamentAppModel', 'Tournament.Model');
 
 class TeamsUser extends TournamentAppModel {
 
+	// Roles
 	const MEMBER = 0;
 	const LEADER = 1;
 	const MANAGER = 2;
 	const SUB = 3;
+
+	// Status
+	const PENDING = 0;
+	const ACTIVE = 1;
+	const REMOVED = 2; // Removed by captain
+	const QUIT = 3; // Left team personally
 
 	/**
 	 * Belongs to.
@@ -18,8 +25,8 @@ class TeamsUser extends TournamentAppModel {
 		'Team' => array(
 			'className' => 'Tournament.Team'
 		),
-		'User' => array(
-			'className' => TOURNAMENT_USER
+		'Player' => array(
+			'className' => 'Tournament.Player'
 		)
 	);
 
@@ -34,6 +41,12 @@ class TeamsUser extends TournamentAppModel {
 			self::LEADER => 'LEADER',
 			self::MANAGER => 'MANAGER',
 			self::SUB => 'SUB'
+		),
+		'status' => array(
+			self::PENDING => 'PENDING',
+			self::ACTIVE => 'ACTIVE',
+			self::REMOVED => 'REMOVED',
+			self::QUIT => 'QUIT'
 		)
 	);
 
