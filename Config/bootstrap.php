@@ -76,4 +76,4 @@ Configure::write('Tournament.viewLayout', 'forum');
 /**
  * Handle exceptions and errors.
  */
-//Configure::write('Exception.renderer', 'Forum.ForumExceptionRenderer');
+Configure::write('Exception.renderer', 'Tournament.TournamentExceptionRenderer');
