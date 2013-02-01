@@ -6,6 +6,7 @@ Games
 	-> Leagues
 		-> Divisions
 			-> Events
+				-> Matches
 ```
 
 Example:

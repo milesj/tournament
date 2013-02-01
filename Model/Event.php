@@ -9,6 +9,9 @@ class Event extends TournamentAppModel {
 	const ROUND_ROBIN = 2;
 	const SWISS = 3;
 
+	const TEAM = 0;
+	const PLAYER = 1;
+
 	/**
 	 * Belongs to.
 	 *
@@ -45,6 +48,10 @@ class Event extends TournamentAppModel {
 			self::DOUBLE_ELIM => 'DOUBLE_ELIM',
 			self::ROUND_ROBIN => 'ROUND_ROBIN',
 			self::SWISS => 'SWISS'
+		),
+		'for' => array(
+			self::TEAM => 'TEAM',
+			self::PLAYER => 'PLAYER'
 		)
 	);
 

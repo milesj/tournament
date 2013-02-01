@@ -6,6 +6,7 @@ CREATE TABLE `{prefix}events` (
 	`league_id` int(11) NOT NULL,
 	`division_id` int(11) NOT NULL,
 	`type` smallint(6) NOT NULL DEFAULT '0',
+	`for` smallint(6) NOT NULL DEFAULT '0',
 	`name` varchar(50) NOT NULL,
 	`start` datetime DEFAULT NULL,
 	`end` datetime DEFAULT NULL,
