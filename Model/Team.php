@@ -16,6 +16,19 @@ class Team extends TournamentAppModel {
 	);
 
 	/**
+	 * Has many.
+	 *
+	 * @var array
+	 */
+	public $hasMany = array(
+		'Member' => array(
+			'className' => 'Tournament.TeamMember',
+			'dependent' => true,
+			'exclusive' => true
+		)
+	);
+
+	/**
 	 * Behaviors.
 	 *
 	 * @var array

@@ -10,7 +10,7 @@ CREATE TABLE `{prefix}teams` (
 	`slug` varchar(50) NOT NULL,
 	`description` varchar(255) NOT NULL,
 	`logo` varchar(255) NOT NULL,
-	`members` int(11) NOT NULL DEFAULT '0',
+	`team_member_count` int(11) NOT NULL DEFAULT '0',
 	`wins` int(11) NOT NULL DEFAULT '0',
 	`losses` int(11) NOT NULL DEFAULT '0',
 	`ties` int(11) NOT NULL DEFAULT '0',

@@ -2,7 +2,7 @@
 
 App::uses('TournamentAppModel', 'Tournament.Model');
 
-class TeamsUser extends TournamentAppModel {
+class TeamMember extends TournamentAppModel {
 
 	// Roles
 	const MEMBER = 0;
@@ -23,7 +23,8 @@ class TeamsUser extends TournamentAppModel {
 	 */
 	public $belongsTo = array(
 		'Team' => array(
-			'className' => 'Tournament.Team'
+			'className' => 'Tournament.Team',
+			'counterCache' => true
 		),
 		'Player' => array(
 			'className' => 'Tournament.Player'

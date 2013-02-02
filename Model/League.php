@@ -25,10 +25,14 @@ class League extends TournamentAppModel {
 	 */
 	public $hasMany = array(
 		'Division' => array(
-			'className' => 'Tournament.Division'
+			'className' => 'Tournament.Division',
+			'dependent' => true,
+			'exclusive' => true
 		),
 		'Event' => array(
-			'className' => 'Tournament.Event'
+			'className' => 'Tournament.Event',
+			'dependent' => true,
+			'exclusive' => true
 		)
 	);
 

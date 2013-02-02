@@ -32,6 +32,26 @@ class Event extends TournamentAppModel {
 	);
 
 	/**
+	 * Has many.
+	 *
+	 * @var array
+	 */
+	public $hasMany = array(
+		'Team' => array(
+			'className' => 'Tournament.EventParticipant',
+			'conditions' => array('Event.for' => self::TEAM, 'Team.team_id !=' => ''),
+			'dependent' => true,
+			'exclusive' => true
+		),
+		'Player' => array(
+			'className' => 'Tournament.EventParticipant',
+			'conditions' => array('Event.for' => self::PLAYER, 'Player.player_id !=' => ''),
+			'dependent' => true,
+			'exclusive' => true
+		)
+	);
+
+	/**
 	 * Behaviors.
 	 *
 	 * @var array

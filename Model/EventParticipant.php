@@ -2,7 +2,7 @@
 
 App::uses('TournamentAppModel', 'Tournament.Model');
 
-class EventsTeam extends TournamentAppModel {
+class EventParticipant extends TournamentAppModel {
 
 	/**
 	 * Belongs to.
@@ -15,6 +15,9 @@ class EventsTeam extends TournamentAppModel {
 		),
 		'Team' => array(
 			'className' => 'Tournament.Team'
+		),
+		'Player' => array(
+			'className' => 'Tournament.Player'
 		)
 	);
 
