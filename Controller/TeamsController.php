@@ -68,7 +68,7 @@ class TeamsController extends TournamentAppController {
 				$this->request->data['Team']['status'] = Team::ACTIVE;
 			}
 
-			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'logo', 'user_id', 'status'))) {
+			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'user_id', 'status'))) {
 				$this->Team->TeamMember->join(
 					$this->Team->id,
 					$this->Auth->user('TournamentPlayer.id'),
@@ -108,23 +108,44 @@ class TeamsController extends TournamentAppController {
 		if ($this->request->is('put')) {
 			$this->Team->id = $id;
 
+			// Only change password if value is set
+			if (empty($this->request->data['Team']['password'])) {
+				unset($this->request->data['Team']['password']);
+			}
+
 			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'logo', 'user_id'))) {
-				// No changes to owner
-				if ($this->request->data['Team']['user_id'] == $team['Team']['user_id']) {
-					$this->Session->setFlash(__d('tournament', 'Your team was updated.'));
-					unset($this->request->data['Team']);
+				switch ($this->request->data['Team']['action']) {
+					case 'owner':
+						if ($this->request->data['Team']['user_id'] != $team['Team']['user_id']) {
+							$oldOwner = $this->Team->TeamMember->getByUserId($team['Team']['id'], $team['Team']['user_id']);
+							$newOwner = $this->Team->TeamMember->getByUserId($team['Team']['id'], $this->request->data['Team']['user_id']);
 
-				// Change owners
-				} else {
-					$oldOwner = $this->Team->TeamMember->getByUserId($team['Team']['id'], $team['Team']['user_id']);
-					$newOwner = $this->Team->TeamMember->getByUserId($team['Team']['id'], $this->request->data['Team']['user_id']);
+							// Demote old and promote new
+							$this->Team->TeamMember->demote($oldOwner['TeamMember']['id'], TeamMember::MEMBER);
+							$this->Team->TeamMember->promote($newOwner['TeamMember']['id'], TeamMember::LEADER);
 
-					// Demote old and promote new
-					$this->Team->TeamMember->demote($oldOwner['TeamMember']['id'], TeamMember::MEMBER);
-					$this->Team->TeamMember->promote($newOwner['TeamMember']['id'], TeamMember::LEADER);
+							// Remove from team if true
+							if ($this->request->data['Team']['leave']) {
+								$this->Team->TeamMember->updateStatus($oldOwner['TeamMember']['id'], TeamMember::QUIT);
+								$this->Session->setFlash(__d('tournament', 'Left %s and changed ownership', $team['Team']['name']));
+
+							} else {
+								$this->Session->setFlash(__d('tournament', '%s ownership changed', $team['Team']['name']));
+							}
+						}
+					break;
+					case 'logo':
+						$this->Session->setFlash(__d('tournament', '%s logo successfully uploaded', $team['Team']['name']));
+					break;
+					default:
+						$this->Session->setFlash(__d('tournament', '%s successfully updated', $team['Team']['name']));
+					break;
 				}
+
+				unset($this->request->data['Team']);
 			}
 		} else {
+			unset($team['Team']['password']);
 			$this->request->data = $team;
 		}
 
