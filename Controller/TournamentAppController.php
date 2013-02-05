@@ -95,6 +95,7 @@ class TournamentAppController extends AppController {
 	public function beforeRender() {
 		$this->set('user', $this->Auth->user());
 		$this->set('config', $this->config);
+		$this->set('settings', $this->config['settings']);
 	}
 
 }

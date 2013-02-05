@@ -71,7 +71,17 @@ Configure::write('Tournament.routes', array(
 /**
  * Customizable view settings. This allows for layout and template overrides.
  */
-Configure::write('Tournament.viewLayout', 'forum');
+Configure::write('Tournament.viewLayout', 'tournament');
+
+/**
+ * List of settings that alter the forum systems.
+ */
+Configure::write('Tournament.settings', array(
+	'name' => __d('tournament', 'Tournament'),
+	'email' => 'tournament@cakephp.org',
+	'url' => 'http://milesj.me/code/cakephp/tournament',
+	'titleSeparator' => ' - ',
+));
 
 /**
  * Handle exceptions and errors.
