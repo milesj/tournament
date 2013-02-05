@@ -29,6 +29,9 @@ class TeamMember extends TournamentAppModel {
 		),
 		'Player' => array(
 			'className' => 'Tournament.Player'
+		),
+		'User' => array(
+			'className' => TOURNAMENT_USER
 		)
 	);
 
@@ -70,6 +73,22 @@ class TeamMember extends TournamentAppModel {
 	}
 
 	/**
+	 * Return a member based on user ID.
+	 *
+	 * @param int $team_id
+	 * @param int $user_id
+	 * @return bool
+	 */
+	public function getByUserId($team_id, $user_id) {
+		return $this->find('first', array(
+			'conditions' => array(
+				'TeamMember.team_id' => $team_id,
+				'TeamMember.user_id' => $user_id
+			)
+		));
+	}
+
+	/**
 	 * Return all members of a team.
 	 *
 	 * @param int $team_id
@@ -81,7 +100,7 @@ class TeamMember extends TournamentAppModel {
 				'TeamMember.team_id' => $team_id,
 				'TeamMember.status !=' => self::PENDING
 			),
-			'contain' => array('Player' => array('User')),
+			'contain' => array('Player', 'User'),
 			'order' => array(
 				'TeamMember.role' => 'ASC',
 				'TeamMember.created' => 'ASC'
@@ -105,14 +124,14 @@ class TeamMember extends TournamentAppModel {
 				'TeamMember.status' => self::ACTIVE,
 				'TeamMember.role' => $role
 			),
-			'contain' => array('Player' => array('User'))
+			'contain' => array('User')
 		));
 
 		if ($results) {
 			foreach ($results as $result) {
-				$list[$result['Player']['User']['id']] = sprintf('%s - %s',
-					__d('tournament', 'team.role.' . strtolower($this->enum('role', $result['TeamMember']['role']))),
-					$result['Player']['User'][Configure::read('Tournament.userMap.username')]);
+				$list[$result['User']['id']] = sprintf('%s - %s',
+					__d('tournament', 'team.role.' . strtolower($result['TeamMember']['role_enum'])),
+					$result['User'][Configure::read('Tournament.userMap.username')]);
 			}
 		}
 
@@ -124,11 +143,12 @@ class TeamMember extends TournamentAppModel {
 	 *
 	 * @param int $team_id
 	 * @param int $player_id
+	 * @param int $user_id
 	 * @param int $role
 	 * @param int $status
 	 * @return mixed
 	 */
-	public function join($team_id, $player_id, $role = self::MEMBER, $status = self::PENDING) {
+	public function join($team_id, $player_id, $user_id, $role = self::MEMBER, $status = self::PENDING) {
 		if ($this->isMember($team_id, $player_id)) {
 			return true;
 		}
@@ -138,6 +158,7 @@ class TeamMember extends TournamentAppModel {
 		$data = array(
 			'team_id' => $team_id,
 			'player_id' => $player_id,
+			'user_id' => $user_id,
 			'role' => $role,
 			'status' => $status
 		);

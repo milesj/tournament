@@ -72,6 +72,7 @@ class TeamsController extends TournamentAppController {
 				$this->Team->TeamMember->join(
 					$this->Team->id,
 					$this->Auth->user('TournamentPlayer.id'),
+					$this->Auth->user('id'),
 					TeamMember::LEADER,
 					TeamMember::ACTIVE
 				);
@@ -108,8 +109,20 @@ class TeamsController extends TournamentAppController {
 			$this->Team->id = $id;
 
 			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'logo', 'user_id'))) {
-				$this->Session->setFlash(__d('tournament', 'Your team was updated.'));
-				unset($this->request->data['Team']);
+				// No changes to owner
+				if ($this->request->data['Team']['user_id'] == $team['Team']['user_id']) {
+					$this->Session->setFlash(__d('tournament', 'Your team was updated.'));
+					unset($this->request->data['Team']);
+
+				// Change owners
+				} else {
+					$oldOwner = $this->Team->TeamMember->getByUserId($team['Team']['id'], $team['Team']['user_id']);
+					$newOwner = $this->Team->TeamMember->getByUserId($team['Team']['id'], $this->request->data['Team']['user_id']);
+
+					// Demote old and promote new
+					$this->Team->TeamMember->demote($oldOwner['TeamMember']['id'], TeamMember::MEMBER);
+					$this->Team->TeamMember->promote($newOwner['TeamMember']['id'], TeamMember::LEADER);
+				}
 			}
 		} else {
 			$this->request->data = $team;

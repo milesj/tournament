@@ -1,0 +1,47 @@
+Custom strings that won't be generated through the shell.
+Will have to manually be added later on.
+
+msgid "aro.administrator"
+msgstr "Administrator"
+
+msgid "aro.superModerator"
+msgstr "Super Moderator"
+
+msgid "status.pending"
+msgstr "Pending"
+
+msgid "status.active"
+msgstr "Active"
+
+msgid "status.banned"
+msgstr "Banned"
+
+msgid "status.removed"
+msgstr "Removed"
+
+msgid "status.quit"
+msgstr "Quit"
+
+msgid "team.role.leader"
+msgstr "Leader"
+
+msgid "team.role.co_leader"
+msgstr "Co-Leader"
+
+msgid "team.role.manager"
+msgstr "Manager"
+
+msgid "team.role.member"
+msgstr "Member"
+
+msgid "team.role.sub"
+msgstr "Substitute"
+
+msgid "Not Found"
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "Unauthorized"
+msgstr ""

@@ -53,8 +53,8 @@ class TournamentAppModel extends AppModel {
 	public $actsAs = array(
 		'Containable',
 		'Utility.Enumerable' => array(
-			'persist' => false,
-			'format' => false
+			'persist' => true,
+			'format' => 'append'
 		),
 		'Utility.Cacheable' => array(
 			'appendKey' => false,
