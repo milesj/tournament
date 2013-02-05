@@ -58,12 +58,18 @@ class InstallShell extends BaseInstallShell {
 	 * @return bool
 	 */
 	public function createAdmin() {
-		$answer = strtoupper($this->in('<question>Would you like to [c]reate a new user, or use an [e]xisting user?</question>', array('C', 'E')));
+		$answer = strtoupper($this->in('<question>Would you like to [c]reate a new user, use an [e]xisting user, or [s]kip?</question>', array('C', 'E', 'S')));
 
 		if ($answer === 'C') {
 			$id = $this->createUser();
+
 		} else if ($answer === 'E') {
 			$id = $this->findUser();
+
+		} else if ($answer === 'S') {
+			$this->out('<info>Skipped administrator, continuing...</info>');
+			return true;
+
 		} else {
 			return $this->createAdmin();
 		}

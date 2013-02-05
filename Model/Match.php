@@ -26,24 +26,24 @@ class Match extends TournamentAppModel {
 		'Event' => array(
 			'className' => 'Tournament.Event'
 		),
-		'TeamA' => array(
+		'HomeTeam' => array(
 			'className' => 'Tournament.Team',
-			'foreignKey' => 'a_id',
+			'foreignKey' => 'home_id',
 			'conditions' => array('Match.type' => self::TEAM)
 		),
-		'TeamB' => array(
+		'AwayTeam' => array(
 			'className' => 'Tournament.Team',
-			'foreignKey' => 'b_id',
+			'foreignKey' => 'away_id',
 			'conditions' => array('Match.type' => self::TEAM)
 		),
-		'PlayerA' => array(
+		'HomePlayer' => array(
 			'className' => 'Tournament.Player',
-			'foreignKey' => 'a_id',
+			'foreignKey' => 'home_id',
 			'conditions' => array('Match.type' => self::PLAYER)
 		),
-		'PlayerB' => array(
+		'AwayPlayer' => array(
 			'className' => 'Tournament.Player',
-			'foreignKey' => 'b_id',
+			'foreignKey' => 'away_id',
 			'conditions' => array('Match.type' => self::PLAYER)
 		)
 	);

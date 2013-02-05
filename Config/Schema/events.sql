@@ -13,6 +13,7 @@ CREATE TABLE `{prefix}events` (
 	`end` datetime DEFAULT NULL,
 	`signupStart` datetime DEFAULT NULL,
 	`signupEnd` datetime DEFAULT NULL,
+	`isRunning` tinyint(4) NOT NULL DEFAULT '0',
 	`requiredMembers` int(11) NOT NULL,
 	`maxTeams` int(11) NOT NULL,
 	`created` datetime DEFAULT NULL,
