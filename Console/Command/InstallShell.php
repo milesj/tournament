@@ -65,7 +65,7 @@ class InstallShell extends BaseInstallShell {
 		} else if ($answer === 'E') {
 			$id = $this->findUser();
 		} else {
-			$id = $this->createAdmin();
+			return $this->createAdmin();
 		}
 
 		$result = ClassRegistry::init('Tournament.Access')->add(array(
