@@ -22,7 +22,7 @@ class TournamentAppController extends AppController {
 			'authorize' => array('Controller')
 		),
 		'Utility.AutoLogin',
-		//'Tournament.TournamentToolbar'
+		'Tournament.TournamentToolbar'
 	);
 
 	/**
