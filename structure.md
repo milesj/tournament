@@ -26,6 +26,7 @@ League of Legends
 
 Possible URLs:
 
+```
 /
 	- List all leagues
 		- Game it belongs to
@@ -64,3 +65,4 @@ Possible URLs:
 	- List of players
 /players/edit/<id>
 	- Edit player
+```

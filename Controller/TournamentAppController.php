@@ -45,6 +45,10 @@ class TournamentAppController extends AppController {
 	 */
 	public $config = array();
 
+	public function isAuthorized($user) {
+		return true;
+	}
+
 	/**
 	 * Before filter.
 	 */

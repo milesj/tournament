@@ -13,21 +13,19 @@ Router::parseExtensions('rss');
 /**
  * Defaults.
  */
+foreach (array('teams') as $controller) {
+	Router::connect('/tournament/' . $controller, array('plugin' => 'tournament', 'controller' => $controller, 'action' => 'index'));
+	Router::connect('/tournament/' . $controller . '/:action/*', array('plugin' => 'tournament', 'controller' => $controller));
+}
+
 Router::connect('/tournament/schedule/*', array('plugin' => 'tournament', 'controller' => 'tournament', 'action' => 'schedule'));
 
 /**
- * Players.
+ * Profiles.
  */
-Router::connect('/tournament/players/*', array('plugin' => 'tournament', 'controller' => 'players'));
-
 Router::connect('/tournament/player/:id/*',
 	array('plugin' => 'tournament', 'controller' => 'players', 'action' => 'profile'),
 	array('pass' => array('id')));
-
-/**
- * Teams.
- */
-Router::connect('/tournament/teams/*', array('plugin' => 'tournament', 'controller' => 'teams'));
 
 Router::connect('/tournament/team/:slug/*',
 	array('plugin' => 'tournament', 'controller' => 'teams', 'action' => 'profile'),

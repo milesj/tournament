@@ -11,7 +11,8 @@ class Team extends TournamentAppModel {
 	 */
 	public $belongsTo = array(
 		'Owner' => array(
-			'className' => TOURNAMENT_USER
+			'className' => TOURNAMENT_USER,
+			'foreignKey' => 'user_id'
 		)
 	);
 

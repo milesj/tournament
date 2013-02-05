@@ -1,6 +1,7 @@
 <?php
 
 App::uses('TournamentAppController', 'Tournament.Controller');
+App::uses('Team', 'Tournament.Model');
 
 /**
  * @property Team $Team
@@ -49,6 +50,7 @@ class TeamsController extends TournamentAppController {
 		}
 
 		$this->set('team', $team);
+		$this->set('roster', $this->Team->TeamMember->getRoster($team['Team']['id']));
 	}
 
 	/**
@@ -58,13 +60,22 @@ class TeamsController extends TournamentAppController {
 		$autoApprove = $this->config['settings']['autoApproveTeams'];
 
 		if ($this->request->is('post')) {
+			$this->Team->create();
+
 			$this->request->data['Team']['user_id'] = $this->Auth->user('id');
 
 			if ($autoApprove) {
 				$this->request->data['Team']['status'] = Team::ACTIVE;
 			}
 
-			if ($this->Team->save($this->Team->create($this->request->data), true, array('name', 'password', 'slug', 'description', 'logo'))) {
+			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'logo', 'user_id', 'status'))) {
+				$this->Team->TeamMember->join(
+					$this->Team->id,
+					$this->Auth->user('TournamentPlayer.id'),
+					TeamMember::LEADER,
+					TeamMember::ACTIVE
+				);
+
 				if ($autoApprove) {
 					$this->Session->setFlash(__d('tournament', 'Your team was successfully created.'));
 					$this->redirect(array('action' => 'profile', $this->Team->data['Team']['slug']));
@@ -75,8 +86,6 @@ class TeamsController extends TournamentAppController {
 				}
 			}
 		}
-
-		$this->render('form');
 	}
 
 	/**
@@ -98,7 +107,7 @@ class TeamsController extends TournamentAppController {
 		if ($this->request->is('put')) {
 			$this->Team->id = $id;
 
-			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'logo'))) {
+			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'logo', 'user_id'))) {
 				$this->Session->setFlash(__d('tournament', 'Your team was updated.'));
 				unset($this->request->data['Team']);
 			}
@@ -107,7 +116,7 @@ class TeamsController extends TournamentAppController {
 		}
 
 		$this->set('team', $team);
-		$this->render('form');
+		$this->set('users', $this->Team->TeamMember->getListByRole($team['Team']['id'], array(TeamMember::LEADER, TeamMember::CO_LEADER, TeamMember::MANAGER)));
 	}
 
 	/**

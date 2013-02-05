@@ -83,7 +83,8 @@ Configure::write('Tournament.settings', array(
 	'titleSeparator' => ' - ',
 
 	// Teams
-	'autoApproveTeams' => false
+	'autoApproveTeams' => false,
+	'maxTeamsToJoin' => 1
 ));
 
 /**
