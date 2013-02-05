@@ -9,17 +9,20 @@ CREATE TABLE `{prefix}events` (
 	`type` smallint(6) NOT NULL DEFAULT '0',
 	`for` smallint(6) NOT NULL DEFAULT '0',
 	`name` varchar(50) NOT NULL,
+	`slug` varchar(50) NOT NULL,
 	`start` datetime DEFAULT NULL,
 	`end` datetime DEFAULT NULL,
 	`signupStart` datetime DEFAULT NULL,
 	`signupEnd` datetime DEFAULT NULL,
 	`isRunning` tinyint(4) NOT NULL DEFAULT '0',
+	`isFinished` tinyint(4) NOT NULL DEFAULT '0',
 	`requiredMembers` int(11) NOT NULL,
-	`maxTeams` int(11) NOT NULL,
+	`maxParticipants` int(11) NOT NULL,
 	`created` datetime DEFAULT NULL,
 	`modified` datetime DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	KEY `game_id` (`game_id`),
 	KEY `league_id` (`league_id`),
-	KEY `division_id` (`division_id`)
+	KEY `division_id` (`division_id`),
+	KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

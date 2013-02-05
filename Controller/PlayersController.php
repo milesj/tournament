@@ -2,15 +2,15 @@
 
 App::uses('TournamentAppController', 'Tournament.Controller');
 
-class TournamentController extends TournamentAppController {
+class PlayersController extends TournamentAppController {
 
-	public $uses = array('Tournament.League');
+	public $uses = array('Tournament.Player');
 
 	public function index() {
 
 	}
 
-	public function schedule() {
+	public function profile($id) {
 
 	}
 
