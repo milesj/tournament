@@ -8,7 +8,7 @@ CREATE TABLE `{prefix}teams` (
 	`name` varchar(50) NOT NULL,
 	`password` varchar(50) NOT NULL,
 	`slug` varchar(50) NOT NULL,
-	`description` varchar(255) NOT NULL,
+	`description` text NOT NULL,
 	`logo` varchar(255) NOT NULL,
 	`team_member_count` int(11) NOT NULL DEFAULT '0',
 	`wins` int(11) NOT NULL DEFAULT '0',

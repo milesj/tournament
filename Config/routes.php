@@ -29,9 +29,9 @@ Router::connect('/tournament/player/:id/*',
  */
 Router::connect('/tournament/teams/*', array('plugin' => 'tournament', 'controller' => 'teams'));
 
-Router::connect('/tournament/team/:id/*',
+Router::connect('/tournament/team/:slug/*',
 	array('plugin' => 'tournament', 'controller' => 'teams', 'action' => 'profile'),
-	array('pass' => array('id')));
+	array('pass' => array('slug'), 'slug' => '[-_a-zA-Z0-9]+'));
 
 /**
  * Leagues.

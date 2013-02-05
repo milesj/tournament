@@ -81,6 +81,9 @@ Configure::write('Tournament.settings', array(
 	'email' => 'tournament@cakephp.org',
 	'url' => 'http://milesj.me/code/cakephp/tournament',
 	'titleSeparator' => ' - ',
+
+	// Teams
+	'autoApproveTeams' => false
 ));
 
 /**

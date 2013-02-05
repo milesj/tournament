@@ -50,11 +50,17 @@ Possible URLs:
 /schedule
 	- Events calendar
 	- List matches and times
-/team/<id>
+/team/<slug>
 	- Team profile
 /teams
 	- List of teams
+/teams/create
+	- Create a team
+/teams/edit/<id>
+	- Edit team
 /player/<id>
 	- Player profile
 /players
 	- List of players
+/players/edit/<id>
+	- Edit player

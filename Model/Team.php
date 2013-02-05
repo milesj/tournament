@@ -39,4 +39,28 @@ class Team extends TournamentAppModel {
 		)
 	);
 
+	/**
+	 * Validation rules.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'name' => 'notEmpty',
+		'password' => 'notEmpty'
+	);
+
+	/**
+	 * Before save.
+	 *
+	 * @param array $options
+	 * @return bool
+	 */
+	public function beforeSave($options = array()) {
+		if (isset($this->data['Team']['password'])) {
+			$this->data['Team']['password'] = AuthComponent::password($this->data['Team']['password']);
+		}
+
+		return true;
+	}
+
 }
