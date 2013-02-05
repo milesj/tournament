@@ -37,7 +37,7 @@ Router::connect('/tournament/teams/:id/*',
  * Leagues.
  */
 Router::connect('/tournament/:league/*',
-	array('plugin' => 'tournament', 'controller' => 'leagues', 'action' => 'league'),
+	array('plugin' => 'tournament', 'controller' => 'leagues', 'action' => 'index'),
 	array('pass' => array('league'), 'league' => '[-_a-zA-Z0-9]+'));
 
 Router::connect('/tournament/:league/:event/*',

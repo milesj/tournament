@@ -37,15 +37,13 @@ class Event extends TournamentAppModel {
 	 * @var array
 	 */
 	public $hasMany = array(
-		'Team' => array(
+		'Participant' => array(
 			'className' => 'Tournament.EventParticipant',
-			'conditions' => array('Event.for' => self::TEAM, 'Team.team_id !=' => ''),
 			'dependent' => true,
 			'exclusive' => true
 		),
-		'Player' => array(
-			'className' => 'Tournament.EventParticipant',
-			'conditions' => array('Event.for' => self::PLAYER, 'Player.player_id !=' => ''),
+		'Match' => array(
+			'className' => 'Tournament.Match',
 			'dependent' => true,
 			'exclusive' => true
 		)
@@ -79,5 +77,20 @@ class Event extends TournamentAppModel {
 			self::PLAYER => 'PLAYER'
 		)
 	);
+
+	/**
+	 * Return all events for a league.
+	 *
+	 * @param int $league_id
+	 * @return array
+	 */
+	public function getEventsInLeague($league_id) {
+		return $this->find('all', array(
+			'conditions' => array('Event.league_id' => $league_id),
+			'order' => array('Event.start' => 'DESC'),
+			'contain' => array('Division'),
+			'cache' => array(__METHOD__, $league_id)
+		));
+	}
 
 }

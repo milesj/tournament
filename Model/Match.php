@@ -24,7 +24,8 @@ class Match extends TournamentAppModel {
 			'className' => 'Tournament.League'
 		),
 		'Event' => array(
-			'className' => 'Tournament.Event'
+			'className' => 'Tournament.Event',
+			'counterCache' => true
 		),
 		'HomeTeam' => array(
 			'className' => 'Tournament.Team',
@@ -48,6 +49,31 @@ class Match extends TournamentAppModel {
 		)
 	);
 
+	/**
+	 * Return all matches for an event bracket.
+	 *
+	 * @param int $event_id
+	 * @param int $type
+	 * @return array
+	 */
+	public function getBrackets($event_id, $type = self::TEAM) {
+		$query = array(
+			'conditions' => array('Match.event_id' => $event_id),
+			'order' => array('Match.bracket' => 'ASC'),
+			'cache' => array(__METHOD__, $event_id, $type)
+		);
+
+		if ($type == self::TEAM) {
+			$query['contain'] = array('HomeTeam', 'AwayTeam');
+		} else {
+			$query['contain'] = array(
+				'HomePlayer' => array('User'),
+				'AwayPlayer' => array('User')
+			);
+		}
+
+		return $this->find('all', $query);
+	}
 
 
 }

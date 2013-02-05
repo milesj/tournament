@@ -18,6 +18,8 @@ CREATE TABLE `{prefix}events` (
 	`isFinished` tinyint(4) NOT NULL DEFAULT '0',
 	`requiredMembers` int(11) NOT NULL,
 	`maxParticipants` int(11) NOT NULL,
+	`event_participant_count` int(11) NOT NULL DEFAULT '0',
+	`match_count` int(11) NOT NULL DEFAULT '0',
 	`created` datetime DEFAULT NULL,
 	`modified` datetime DEFAULT NULL,
 	PRIMARY KEY (`id`),
