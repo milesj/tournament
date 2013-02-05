@@ -37,7 +37,7 @@ class Event extends TournamentAppModel {
 	 * @var array
 	 */
 	public $hasMany = array(
-		'Participant' => array(
+		'EventParticipant' => array(
 			'className' => 'Tournament.EventParticipant',
 			'dependent' => true,
 			'exclusive' => true

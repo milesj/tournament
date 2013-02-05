@@ -1,7 +1,7 @@
 
-DROP TABLE IF EXISTS `{prefix}events_teams`;
+DROP TABLE IF EXISTS `{prefix}event_participants`;
 
-CREATE TABLE `{prefix}events_teams` (
+CREATE TABLE `{prefix}event_participants` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`event_id` int(11) NOT NULL,
 	`team_id` int(11) NOT NULL,

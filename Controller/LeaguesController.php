@@ -42,14 +42,12 @@ class LeaguesController extends TournamentAppController {
 	 * @throws NotFoundException
 	 */
 	public function event($league, $event) {
-		$league = $this->League->getBySlug($league);
 		$event = $this->Event->getBySlug($event);
 
-		if (!$league || !$event) {
+		if (!$event) {
 			throw new NotFoundException();
 		}
 
-		$this->set('league', $league);
 		$this->set('event', $event);
 		$this->set('bracket', $this->Match->getBrackets($event['Event']['id'], $event['Event']['for']));
 	}
@@ -62,16 +60,14 @@ class LeaguesController extends TournamentAppController {
 	 * @throws NotFoundException
 	 */
 	public function teams($league, $event) {
-		$league = $this->League->getBySlug($league);
 		$event = $this->Event->getBySlug($event);
 
-		if (!$league || !$event) {
+		if (!$event) {
 			throw new NotFoundException();
 		}
 
-		$this->set('league', $league);
 		$this->set('event', $event);
-		$this->set('participants', $this->Event->Participant->getParticipantsByType($event['Event']['id'], Event::TEAM));
+		$this->set('participants', $this->Event->EventParticipant->getParticipantsByType($event['Event']['id'], Event::TEAM));
 	}
 
 	/**
@@ -82,16 +78,14 @@ class LeaguesController extends TournamentAppController {
 	 * @throws NotFoundException
 	 */
 	public function players($league, $event) {
-		$league = $this->League->getBySlug($league);
 		$event = $this->Event->getBySlug($event);
 
-		if (!$league || !$event) {
+		if (!$event) {
 			throw new NotFoundException();
 		}
 
-		$this->set('league', $league);
 		$this->set('event', $event);
-		$this->set('participants', $this->Event->Participant->getParticipantsByType($event['Event']['id'], Event::PLAYER));
+		$this->set('participants', $this->Event->EventParticipant->getParticipantsByType($event['Event']['id'], Event::PLAYER));
 	}
 
 	/**
@@ -102,14 +96,12 @@ class LeaguesController extends TournamentAppController {
 	 * @throws NotFoundException
 	 */
 	public function matches($league, $event) {
-		$league = $this->League->getBySlug($league);
 		$event = $this->Event->getBySlug($event);
 
-		if (!$league || !$event) {
+		if (!$event) {
 			throw new NotFoundException();
 		}
 
-		$this->set('league', $league);
 		$this->set('event', $event);
 		$this->set('bracket', $this->Match->getBrackets($event['Event']['id'], $event['Event']['for']));
 	}
