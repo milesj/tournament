@@ -19,6 +19,19 @@ class League extends TournamentAppModel {
 	);
 
 	/**
+	 * Has one.
+	 *
+	 * @var array
+	 */
+	public $hasOne = array(
+		'CurrentEvent' => array(
+			'className' => 'Tournament.Event',
+			'conditions' => array('CurrentEvent.isRunning' => self::YES),
+			'limit' => 1
+		)
+	);
+
+	/**
 	 * Has many.
 	 *
 	 * @var array
@@ -46,5 +59,19 @@ class League extends TournamentAppModel {
 			'field' => 'name'
 		)
 	);
+
+	/**
+	 * Return a record based on ID.
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	public function getById($id) {
+		return $this->find('first', array(
+			'conditions' => array('League.id' => $id),
+			'contain' => array('Game', 'Region', 'Division', 'CurrentEvent'),
+			'cache' => array(__METHOD__, $id)
+		));
+	}
 
 }

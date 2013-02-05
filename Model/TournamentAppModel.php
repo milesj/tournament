@@ -127,7 +127,7 @@ class TournamentAppModel extends AppModel {
 	 */
 	public function getById($id) {
 		return $this->find('first', array(
-			'conditions' => array('id' => $id),
+			'conditions' => array($this->alias . '.' . $this->primaryKey => $id),
 			'contain' => array_keys($this->belongsTo),
 			'cache' => array($this->alias . '::' . __FUNCTION__, $id)
 		));
@@ -141,7 +141,7 @@ class TournamentAppModel extends AppModel {
 	 */
 	public function getBySlug($slug) {
 		return $this->find('first', array(
-			'conditions' => array('slug' => $slug),
+			'conditions' => array($this->alias . '.slug' => $slug),
 			'contain' => array_keys($this->belongsTo),
 			'cache' => array($this->alias . '::' . __FUNCTION__, $slug)
 		));
