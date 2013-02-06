@@ -31,6 +31,10 @@ Router::connect('/tournament/team/:slug/*',
 	array('plugin' => 'tournament', 'controller' => 'teams', 'action' => 'profile'),
 	array('pass' => array('slug'), 'slug' => '[-_a-zA-Z0-9]+'));
 
+Router::connect('/tournament/team/:slug/:action/*',
+	array('plugin' => 'tournament', 'controller' => 'teams'),
+	array('pass' => array('slug'), 'slug' => '[-_a-zA-Z0-9]+'));
+
 /**
  * Leagues.
  */

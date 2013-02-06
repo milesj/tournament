@@ -84,7 +84,9 @@ Configure::write('Tournament.settings', array(
 
 	// Teams
 	'autoApproveTeams' => false,
-	'maxTeamsToJoin' => 1
+	'maxTeamsToJoin' => 1,
+	'showRemovedTeamMembers' => true,
+	'showQuitTeamMembers' => true
 ));
 
 /**

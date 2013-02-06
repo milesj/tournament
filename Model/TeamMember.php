@@ -113,7 +113,7 @@ class TeamMember extends TournamentAppModel {
 	 * Return a list of members based on role.
 	 *
 	 * @param int $team_id
-	 * @param int $role
+	 * @param int|array $role
 	 * @return array
 	 */
 	public function getListByRole($team_id, $role) {
@@ -149,8 +149,9 @@ class TeamMember extends TournamentAppModel {
 	 * @return mixed
 	 */
 	public function join($team_id, $player_id, $user_id, $role = self::MEMBER, $status = self::PENDING) {
-		if ($this->isMember($team_id, $player_id)) {
-			return true;
+		if ($member = $this->isMember($team_id, $player_id)) {
+			// Update status in case they are QUIT or REMOVED
+			return $this->updateStatus($member['TeamMember']['id'], $status);
 		}
 
 		$this->create();
@@ -178,7 +179,7 @@ class TeamMember extends TournamentAppModel {
 	 * @return bool
 	 */
 	public function isMember($team_id, $player_id) {
-		return (bool) $this->find('count', array(
+		return $this->find('first', array(
 			'conditions' => array(
 				'TeamMember.team_id' => $team_id,
 				'TeamMember.player_id' => $player_id
