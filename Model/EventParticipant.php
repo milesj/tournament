@@ -32,7 +32,7 @@ class EventParticipant extends TournamentAppModel {
 	 */
 	public function getParticipantsByType($event_id, $type = Event::TEAM) {
 		if ($type == Event::TEAM) {
-			$contain = array('Team' => array('Owner'));
+			$contain = array('Team' => array('Leader'));
 		} else {
 			$contain = array('Player' => array('User'));
 		}

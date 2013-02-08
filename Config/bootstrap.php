@@ -90,6 +90,14 @@ Configure::write('Tournament.settings', array(
 ));
 
 /**
+ * File dimensions and settings for uploads.
+ */
+Configure::write('Tournament.uploads', array(
+	'teamLogo' => array(250, 125),
+	'transport' => array()
+));
+
+/**
  * Handle exceptions and errors.
  */
 Configure::write('Exception.renderer', 'Tournament.TournamentExceptionRenderer');

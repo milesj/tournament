@@ -10,7 +10,7 @@ class Team extends TournamentAppModel {
 	 * @var array
 	 */
 	public $belongsTo = array(
-		'Owner' => array(
+		'Leader' => array(
 			'className' => TOURNAMENT_USER,
 			'foreignKey' => 'user_id'
 		)
@@ -51,17 +51,18 @@ class Team extends TournamentAppModel {
 	);
 
 	/**
-	 * Before save.
+	 * Disband a team.
 	 *
-	 * @param array $options
-	 * @return bool
+	 * @param int $id
+	 * @return mixed
 	 */
-	public function beforeSave($options = array()) {
-		if (isset($this->data['Team']['password'])) {
-			$this->data['Team']['password'] = AuthComponent::password($this->data['Team']['password']);
-		}
+	public function disband($id) {
+		$this->TeamMember->updateAll(
+			array('TeamMember.status' => TeamMember::DISBANDED),
+			array('TeamMember.team_id' => $id)
+		);
 
-		return true;
+		return $this->updateStatus($id, self::DELETED);
 	}
 
 }

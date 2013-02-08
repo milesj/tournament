@@ -16,6 +16,7 @@ class TournamentAppModel extends AppModel {
 	const PENDING = 0;
 	const ACTIVE = 1;
 	const DISABLED = 2;
+	const DELETED = 3;
 
 	/**
 	 * Table prefix.
@@ -173,6 +174,19 @@ class TournamentAppModel extends AppModel {
 		parent::invalidate($field, sprintf(__d('tournament', $value), $param));
 
 		return false;
+	}
+
+	/**
+	 * Change a records status.
+	 *
+	 * @param int $id
+	 * @param int $status
+	 * @return mixed
+	 */
+	public function updateStatus($id, $status) {
+		$this->id = $id;
+
+		return $this->saveField('status', $status);
 	}
 
 }

@@ -16,6 +16,7 @@ class TeamMember extends TournamentAppModel {
 	const ACTIVE = 1;
 	const REMOVED = 2; // Removed by leader
 	const QUIT = 3; // Left team personally
+	const DISBANDED = 4;
 
 	/**
 	 * Belongs to.
@@ -52,7 +53,8 @@ class TeamMember extends TournamentAppModel {
 			self::PENDING => 'PENDING',
 			self::ACTIVE => 'ACTIVE',
 			self::REMOVED => 'REMOVED',
-			self::QUIT => 'QUIT'
+			self::QUIT => 'QUIT',
+			self::DISBANDED => 'DISBANDED'
 		)
 	);
 
@@ -77,14 +79,21 @@ class TeamMember extends TournamentAppModel {
 	 *
 	 * @param int $team_id
 	 * @param int $user_id
+	 * @param bool $nonEx
 	 * @return bool
 	 */
-	public function getByUserId($team_id, $user_id) {
+	public function getByUserId($team_id, $user_id, $nonEx = false) {
+		$conditions = array(
+			'TeamMember.team_id' => $team_id,
+			'TeamMember.user_id' => $user_id
+		);
+
+		if ($nonEx) {
+			$conditions['TeamMember.status'] = array(self::PENDING, self::ACTIVE);
+		}
+
 		return $this->find('first', array(
-			'conditions' => array(
-				'TeamMember.team_id' => $team_id,
-				'TeamMember.user_id' => $user_id
-			)
+			'conditions' => $conditions
 		));
 	}
 
@@ -97,8 +106,7 @@ class TeamMember extends TournamentAppModel {
 	public function getRoster($team_id) {
 		return $this->find('all', array(
 			'conditions' => array(
-				'TeamMember.team_id' => $team_id,
-				'TeamMember.status !=' => self::PENDING
+				'TeamMember.team_id' => $team_id
 			),
 			'contain' => array('Player', 'User'),
 			'order' => array(
@@ -172,7 +180,22 @@ class TeamMember extends TournamentAppModel {
 	}
 
 	/**
-	 * Check if the user is already a member of a team.
+	 * Check if a user is an active or pending member of a team.
+	 *
+	 * @param int $user_id
+	 * @return array
+	 */
+	public function inTeam($user_id) {
+		return $this->find('count', array(
+			'conditions' => array(
+				'TeamMember.user_id' => $user_id,
+				'TeamMember.status' => array(self::PENDING, self::ACTIVE)
+			)
+		));
+	}
+
+	/**
+	 * Check if a player is already a member of a team.
 	 *
 	 * @param int $team_id
 	 * @param int $player_id
@@ -201,19 +224,6 @@ class TeamMember extends TournamentAppModel {
 			'role' => $role,
 			'promotedOn' => date('Y-m-d H:i:s')
 		), false);
-	}
-
-	/**
-	 * Change a members status.
-	 *
-	 * @param int $id
-	 * @param int $status
-	 * @return mixed
-	 */
-	public function updateStatus($id, $status) {
-		$this->id = $id;
-
-		return $this->saveField('status', $status);
 	}
 
 }
