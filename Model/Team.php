@@ -67,6 +67,56 @@ class Team extends TournamentAppModel {
 	);
 
 	/**
+	 * Configure Uploader manually.
+	 *
+	 * @param bool|int $id
+	 * @param string $table
+	 * @param string $ds
+	 */
+	public function __construct($id = false, $table = null, $ds = null) {
+		$config = Configure::read('Tournament.uploads');
+		$transport = $config['transport'];
+
+		if ($transport) {
+			$transport['folder'] = 'tournament/teams/';
+		}
+
+		$this->actsAs['Uploader.Attachment'] = array(
+			'logo' => array(
+				'nameCallback' => 'formatLogo',
+				'uploadDir' => WWW_ROOT . 'files/tournament/teams/',
+				'finalPath' => 'files/tournament/teams/',
+				'dbColumn' => 'logo',
+				'overwrite' => true,
+				'stopSave' => true,
+				'allowEmpty' => false,
+				'transport' => $transport,
+				'transforms' => array(
+					'logo' => array(
+						'method' => 'crop',
+						'width' => $config['teamLogo'][0],
+						'height' => $config['teamLogo'][1],
+						'self' => true,
+						'overwrite' => true
+					)
+				)
+			)
+		);
+
+		$this->actsAs['Uploader.FileValidation'] = array(
+			'logo' => array(
+				'minWidth' => $config['teamLogo'][0],
+				'minHeight' => $config['teamLogo'][1],
+				'extension' => array('gif', 'jpg', 'jpeg', 'png'),
+				'type' => array('image/gif', 'image/jpg', 'image/jpeg', 'image/png'),
+				'required' => true
+			)
+		);
+
+		parent::__construct($id, $table, $ds);
+	}
+
+	/**
 	 * Disband a team.
 	 *
 	 * @param int $id
@@ -91,6 +141,23 @@ class Team extends TournamentAppModel {
 			'name' => sprintf('%s (%s)', $team['Team']['name'], __d('tournament', 'Disbanded')),
 			'status' => self::DISBANDED
 		), false);
+	}
+
+	/**
+	 * Use team slug as logo name.
+	 *
+	 * @param string $name
+	 * @param \Transit\File $file
+	 * @return string
+	 */
+	public function formatLogo($name, $file) {
+		if ($this->id) {
+			if ($team = $this->getById($this->id)) {
+				return $team['Team']['slug'];
+			}
+		}
+
+		return md5($name);
 	}
 
 }
