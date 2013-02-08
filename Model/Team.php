@@ -4,6 +4,8 @@ App::uses('TournamentAppModel', 'Tournament.Model');
 
 class Team extends TournamentAppModel {
 
+	const DISBANDED = 3;
+
 	/**
 	 * Belongs to.
 	 *
@@ -51,18 +53,44 @@ class Team extends TournamentAppModel {
 	);
 
 	/**
+	 * Enum mapping.
+	 *
+	 * @var array
+	 */
+	public $enum = array(
+		'status' => array(
+			self::PENDING => 'PENDING',
+			self::ACTIVE => 'ACTIVE',
+			self::DISABLED => 'DISABLED',
+			self::DISBANDED => 'DISBANDED'
+		)
+	);
+
+	/**
 	 * Disband a team.
 	 *
 	 * @param int $id
 	 * @return mixed
 	 */
 	public function disband($id) {
+		$team = $this->getById($id);
+
+		if (!$team) {
+			return true;
+		}
+
 		$this->TeamMember->updateAll(
 			array('TeamMember.status' => TeamMember::DISBANDED),
 			array('TeamMember.team_id' => $id)
 		);
 
-		return $this->updateStatus($id, self::DELETED);
+		$this->id = $id;
+		$this->deleteFiles($id); // uploader
+
+		return $this->save(array(
+			'name' => sprintf('%s (%s)', $team['Team']['name'], __d('tournament', 'Disbanded')),
+			'status' => self::DISBANDED
+		), false);
 	}
 
 }

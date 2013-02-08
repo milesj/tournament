@@ -16,7 +16,6 @@ class TournamentAppModel extends AppModel {
 	const PENDING = 0;
 	const ACTIVE = 1;
 	const DISABLED = 2;
-	const DELETED = 3;
 
 	/**
 	 * Table prefix.

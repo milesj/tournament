@@ -12,8 +12,6 @@ class TeamMember extends TournamentAppModel {
 	const SUB = 4;
 
 	// Status
-	const PENDING = 0;
-	const ACTIVE = 1;
 	const REMOVED = 2; // Removed by leader
 	const QUIT = 3; // Left team personally
 	const DISBANDED = 4;
