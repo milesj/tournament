@@ -131,7 +131,10 @@ class Team extends TournamentAppModel {
 
 		$this->TeamMember->updateAll(
 			array('TeamMember.status' => TeamMember::DISBANDED),
-			array('TeamMember.team_id' => $id)
+			array(
+				'TeamMember.team_id' => $id,
+				'TeamMember.status <=' => TeamMember::ACTIVE
+			)
 		);
 
 		$this->id = $id;
@@ -158,6 +161,18 @@ class Team extends TournamentAppModel {
 		}
 
 		return md5($name);
+	}
+
+	/**
+	 * Set required for both create and update.
+	 *
+	 * @param array $options
+	 * @return bool
+	 */
+	public function beforeValidate($options = array()) {
+		unset($this->validate['logo']['required']['on']);
+
+		return true;
 	}
 
 }

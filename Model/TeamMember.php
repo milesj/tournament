@@ -24,7 +24,8 @@ class TeamMember extends TournamentAppModel {
 	public $belongsTo = array(
 		'Team' => array(
 			'className' => 'Tournament.Team',
-			'counterCache' => true
+			'counterCache' => true,
+			'counterScope' => array('TeamMember.status' => self::ACTIVE)
 		),
 		'Player' => array(
 			'className' => 'Tournament.Player'

@@ -6,6 +6,7 @@ App::uses('Team', 'Tournament.Model');
 /**
  * @property Team $Team
  * @property TeamMember $TeamMember
+ * @property Player $Player
  */
 class TeamsController extends TournamentAppController {
 
@@ -14,7 +15,7 @@ class TeamsController extends TournamentAppController {
 	 *
 	 * @var array
 	 */
-	public $uses = array('Tournament.Team', 'Tournament.TeamMember');
+	public $uses = array('Tournament.Team', 'Tournament.TeamMember', 'Tournament.Player');
 
 	/**
 	 * Pagination.
@@ -60,10 +61,12 @@ class TeamsController extends TournamentAppController {
 			}
 
 			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'user_id', 'status'))) {
+				$player = $this->Player->getPlayerProfile($user_id);
+
 				$this->TeamMember->join(
 					$this->Team->id,
-					$this->Auth->user('TournamentPlayer.id'),
-					$this->Auth->user('id'),
+					$player['Player']['id'],
+					$user_id,
 					TeamMember::LEADER,
 					TeamMember::ACTIVE
 				);
@@ -101,23 +104,22 @@ class TeamsController extends TournamentAppController {
 	/**
 	 * Attempt to join a team.
 	 *
-	 * - If password is filled out
-	 * 		- Verify password and set member as active
-	 * 		- Else throw error and don't save record
-	 * - If no password
-	 * 		- Save record as pending
-	 *
 	 * @param string $slug
 	 * @throws NotFoundException
+	 * @throws UnauthorizedException
 	 */
 	public function join($slug) {
 		$team = $this->Team->getBySlug($slug);
 
 		if (!$team) {
 			throw new NotFoundException();
+
+		} else if ($team['Team']['status'] != Team::ACTIVE) {
+			throw new UnauthorizedException();
 		}
 
-		$member = $this->TeamMember->getByUserId($team['Team']['id'], $this->Auth->user('id'));
+		$user_id = $this->Auth->user('id');
+		$member = $this->TeamMember->getByUserId($team['Team']['id'], $user_id);
 
 		// If a record already exists, redirect
 		if ($member) {
@@ -137,7 +139,7 @@ class TeamsController extends TournamentAppController {
 
 			// If password is set, attempt to verify
 			if (!empty($this->request->data['Team']['password'])) {
-				if (AuthComponent::password($this->request->data['Team']['password']) !== $team['Team']['password']) {
+				if ($this->request->data['Team']['password'] !== $team['Team']['password']) {
 					$this->Team->invalidate('password', __d('tournament', 'Invalid password'));
 					$continue = false;
 				} else {
@@ -145,11 +147,13 @@ class TeamsController extends TournamentAppController {
 				}
 			}
 
+			$player = $this->Player->getPlayerProfile($user_id);
+
 			// Attempt to join
 			if ($continue && $this->TeamMember->join(
 				$team['Team']['id'],
-				$this->Auth->user('TournamentPlayer.id'),
-				$this->Auth->user('id'),
+				$player['Player']['id'],
+				$user_id,
 				TeamMember::MEMBER,
 				$status
 			)) {
@@ -172,12 +176,16 @@ class TeamsController extends TournamentAppController {
 	 *
 	 * @param string $slug
 	 * @throws NotFoundException
+	 * @throws UnauthorizedException
 	 */
 	public function leave($slug) {
 		$team = $this->Team->getBySlug($slug);
 
 		if (!$team) {
 			throw new NotFoundException();
+
+		} else if ($team['Team']['status'] != Team::ACTIVE) {
+			throw new UnauthorizedException();
 		}
 
 		$member = $this->TeamMember->getByUserId($team['Team']['id'], $this->Auth->user('id'));
@@ -215,7 +223,6 @@ class TeamsController extends TournamentAppController {
 
 		} else if ($team['Team']['status'] != Team::ACTIVE) {
 			throw new UnauthorizedException();
-
 		}
 
 		if ($this->request->is('put')) {
