@@ -95,7 +95,7 @@ class LeaguesController extends TournamentAppController {
 	 * @param string $event
 	 * @throws NotFoundException
 	 */
-	public function matches($league, $event) {
+	public function bracket($league, $event) {
 		$event = $this->Event->getBySlug($event);
 
 		if (!$event) {

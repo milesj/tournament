@@ -33,16 +33,8 @@ Router::connect('/tournament/team/:slug/*',
 /**
  * Leagues.
  */
-/*Router::connect('/tournament/league/:league/:event/teams/*',
-	array('plugin' => 'tournament', 'controller' => 'leagues', 'action' => 'teams'),
-	array('pass' => array('league', 'event'), 'league' => '[-_a-zA-Z0-9]+', 'event' => '[-_a-zA-Z0-9]+'));
-
-Router::connect('/tournament/league/:league/:event/players/*',
-	array('plugin' => 'tournament', 'controller' => 'leagues', 'action' => 'players'),
-	array('pass' => array('league', 'event'), 'league' => '[-_a-zA-Z0-9]+', 'event' => '[-_a-zA-Z0-9]+'));
-
-Router::connect('/tournament/league/:league/:event/matches/*',
-	array('plugin' => 'tournament', 'controller' => 'leagues', 'action' => 'matches'),
+Router::connect('/tournament/league/:league/:event/:action/*',
+	array('plugin' => 'tournament', 'controller' => 'leagues'),
 	array('pass' => array('league', 'event'), 'league' => '[-_a-zA-Z0-9]+', 'event' => '[-_a-zA-Z0-9]+'));
 
 Router::connect('/tournament/league/:league/:event/*',
@@ -51,4 +43,4 @@ Router::connect('/tournament/league/:league/:event/*',
 
 Router::connect('/tournament/league/:league/*',
 	array('plugin' => 'tournament', 'controller' => 'leagues', 'action' => 'index'),
-	array('pass' => array('league'), 'league' => '[-_a-zA-Z0-9]+'));*/
+	array('pass' => array('league'), 'league' => '[-_a-zA-Z0-9]+'));
