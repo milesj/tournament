@@ -92,7 +92,7 @@ class Access extends Aro {
 				return false;
 			}
 
-			$user = ClassRegistry::init('Tournament.Player')->getPlayerProfile($data['foreign_key']);
+			$user = ClassRegistry::init('Tournament.Player')->getPlayer($data['foreign_key']);
 
 			$this->create();
 			$this->save(array(

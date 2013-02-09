@@ -32,6 +32,19 @@ class Team extends TournamentAppModel {
 	);
 
 	/**
+	 * Has and belongs to many.
+	 *
+	 * @var array
+	 */
+	public $hasAndBelongsToMany = array(
+		'Event' => array(
+			'className' => 'Tournament.Event',
+			'with' => 'Tournament.EventParticipant',
+			'order' => array('EventParticipant.created' => 'DESC')
+		)
+	);
+
+	/**
 	 * Behaviors.
 	 *
 	 * @var array
@@ -144,6 +157,24 @@ class Team extends TournamentAppModel {
 			'name' => sprintf('%s (%s)', $team['Team']['name'], __d('tournament', 'Disbanded')),
 			'status' => self::DISBANDED
 		), false);
+	}
+
+	/**
+	 * Get a team profile and related data.
+	 *
+	 * @param string $slug
+	 * @return array
+	 */
+	public function getTeamProfile($slug) {
+		return $this->find('first', array(
+			'conditions' => array('Team.slug' => $slug),
+			'contain' => array(
+				'Leader',
+				'TeamMember' => array('Player', 'User'),
+				'Event' => array('Game', 'League', 'Division')
+			),
+			'cache' => array(__METHOD__, $slug)
+		));
 	}
 
 	/**

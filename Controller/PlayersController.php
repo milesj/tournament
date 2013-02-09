@@ -43,7 +43,7 @@ class PlayersController extends TournamentAppController {
 	 * @throws NotFoundException
 	 */
 	public function profile($user_id) {
-		$player = $this->Player->getPlayerProfile($user_id, array('User', 'Team'));
+		$player = $this->Player->getPlayerProfile($user_id);
 
 		if (!$player) {
 			throw new NotFoundException();

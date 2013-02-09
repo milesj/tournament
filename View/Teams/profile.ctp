@@ -1,6 +1,5 @@
 <?php
 debug($team);
-debug($roster);
 
 if ($user && $team['Team']['status'] == Team::ACTIVE) {
 	if ($member) {

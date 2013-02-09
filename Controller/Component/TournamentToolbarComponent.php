@@ -53,7 +53,7 @@ class TournamentToolbarComponent extends Component {
 		$permissions = array(); // @todo
 
 		if ($user_id && !$banned) {
-			$player = ClassRegistry::init('Tournament.Player')->getPlayerProfile($user_id);
+			$player = ClassRegistry::init('Tournament.Player')->getPlayer($user_id);
 
 			// @todo ACL
 

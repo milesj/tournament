@@ -61,7 +61,7 @@ class TeamsController extends TournamentAppController {
 			}
 
 			if ($this->Team->save($this->request->data, true, array('name', 'password', 'slug', 'description', 'user_id', 'status'))) {
-				$player = $this->Player->getPlayerProfile($user_id);
+				$player = $this->Player->getPlayer($user_id);
 
 				$this->TeamMember->join(
 					$this->Team->id,
@@ -90,14 +90,13 @@ class TeamsController extends TournamentAppController {
 	 * @throws NotFoundException
 	 */
 	public function profile($slug) {
-		$team = $this->Team->getBySlug($slug);
+		$team = $this->Team->getTeamProfile($slug);
 
 		if (!$team) {
 			throw new NotFoundException();
 		}
 
 		$this->set('team', $team);
-		$this->set('roster', $this->TeamMember->getRoster($team['Team']['id']));
 		$this->set('member', $this->TeamMember->getByUserId($team['Team']['id'], $this->Auth->user('id'), true));
 	}
 
@@ -147,7 +146,7 @@ class TeamsController extends TournamentAppController {
 				}
 			}
 
-			$player = $this->Player->getPlayerProfile($user_id);
+			$player = $this->Player->getPlayer($user_id);
 
 			// Attempt to join
 			if ($continue && $this->TeamMember->join(
