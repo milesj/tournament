@@ -16,6 +16,18 @@ class Player extends TournamentAppModel {
 	);
 
 	/**
+	 * Has and belongs to many.
+	 *
+	 * @var array
+	 */
+	public $hasAndBelongsToMany = array(
+		'Team' => array(
+			'className' => 'Tournament.Team',
+			'with' => 'Tournament.TeamMember'
+		)
+	);
+
+	/**
 	 * Grab the users player profile. If it doesn't exist, create it!
 	 *
 	 * @param int $user_id
