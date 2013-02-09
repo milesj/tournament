@@ -14,6 +14,10 @@ class Event extends TournamentAppModel {
 	const TEAM = 0;
 	const PLAYER = 1;
 
+	// Seed
+	const RANDOM = 0;
+	const POINTS = 1;
+
 	/**
 	 * Belongs to.
 	 *
@@ -75,6 +79,10 @@ class Event extends TournamentAppModel {
 		'for' => array(
 			self::TEAM => 'TEAM',
 			self::PLAYER => 'PLAYER'
+		),
+		'seed' => array(
+			self::RANDOM => 'RANDOM',
+			self::POINTS => 'POINTS'
 		)
 	);
 

@@ -62,7 +62,7 @@ class LeaguesController extends TournamentAppController {
 	public function teams($league, $event) {
 		$event = $this->Event->getBySlug($event);
 
-		if (!$event) {
+		if (!$event || $event['Event']['for'] == Event::PLAYER) {
 			throw new NotFoundException();
 		}
 
@@ -80,7 +80,7 @@ class LeaguesController extends TournamentAppController {
 	public function players($league, $event) {
 		$event = $this->Event->getBySlug($event);
 
-		if (!$event) {
+		if (!$event || $event['Event']['for'] == Event::TEAM) {
 			throw new NotFoundException();
 		}
 

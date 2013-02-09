@@ -8,6 +8,7 @@ CREATE TABLE `{prefix}events` (
 	`division_id` int(11) NOT NULL,
 	`type` smallint(6) NOT NULL DEFAULT '0',
 	`for` smallint(6) NOT NULL DEFAULT '0',
+	`seed` smallint(6) NOT NULL DEFAULT '0',
 	`name` varchar(50) NOT NULL,
 	`slug` varchar(50) NOT NULL,
 	`start` datetime DEFAULT NULL,
