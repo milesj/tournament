@@ -1,10 +1,21 @@
 <?php
 
-class SingleElim {
+App::uses('Tournament', 'Tournament.Lib');
 
-	public function generatePlayerBrackets($players) {
-		$players = Hash::sort($players, '{n}.Player.score', 'desc', 'numeric');
-		$total = count($players);
+class SingleElim extends Tournament {
+
+	/**
+	 * Fetch event information.
+	 *
+	 * @param int $id
+	 * @throws Exception
+	 */
+	public function __construct($id) {
+		parent::__construct($id);
+
+		if ($this->_event['Event']['type'] != Event::SINGLE_ELIM) {
+			throw new Exception('Event is not Single Elimination');
+		}
 	}
 
 }

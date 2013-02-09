@@ -18,6 +18,12 @@ class TournamentAppModel extends AppModel {
 	const DISABLED = 2;
 
 	/**
+	 * Setup types.
+	 */
+	const TEAM = 0;
+	const PLAYER = 1;
+
+	/**
 	 * Table prefix.
 	 *
 	 * @var string

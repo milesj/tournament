@@ -4,15 +4,12 @@ App::uses('TournamentAppModel', 'Tournament.Model');
 
 class Match extends TournamentAppModel {
 
-	// Type
-	const TEAM = 0;
-	const PLAYER = 1;
-
 	// Outcome
 	const PENDING = 0;
 	const WIN = 1;
 	const LOSS = 2;
 	const TIE = 3;
+	const BYE = 4;
 
 	/**
 	 * Belongs to.
@@ -46,6 +43,32 @@ class Match extends TournamentAppModel {
 			'className' => 'Tournament.Player',
 			'foreignKey' => 'away_id',
 			'conditions' => array('Match.type' => self::PLAYER)
+		)
+	);
+
+	/**
+	 * Enum mappings.
+	 *
+	 * @var array
+	 */
+	public $enum = array(
+		'type' => array(
+			self::TEAM => 'TEAM',
+			self::PLAYER => 'PLAYER'
+		),
+		'homeOutcome' => array(
+			self::PENDING => 'PENDING',
+			self::WIN => 'WIN',
+			self::LOSS => 'LOSS',
+			self::TIE => 'TIE',
+			self::BYE => 'BYE'
+		),
+		'awayOutcome' => array(
+			self::PENDING => 'PENDING',
+			self::WIN => 'WIN',
+			self::LOSS => 'LOSS',
+			self::TIE => 'TIE',
+			self::BYE => 'BYE'
 		)
 	);
 

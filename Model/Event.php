@@ -10,10 +10,6 @@ class Event extends TournamentAppModel {
 	const ROUND_ROBIN = 2;
 	const SWISS = 3;
 
-	// For
-	const TEAM = 0;
-	const PLAYER = 1;
-
 	// Seed
 	const RANDOM = 0;
 	const POINTS = 1;

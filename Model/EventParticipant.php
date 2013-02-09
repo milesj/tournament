@@ -30,8 +30,8 @@ class EventParticipant extends TournamentAppModel {
 	 * @param int $type
 	 * @return array
 	 */
-	public function getParticipantsByType($event_id, $type = Event::TEAM) {
-		if ($type == Event::TEAM) {
+	public function getParticipantsByType($event_id, $type = self::TEAM) {
+		if ($type == self::TEAM) {
 			$contain = array('Team' => array('Leader'));
 		} else {
 			$contain = array('Player' => array('User'));
