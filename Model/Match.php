@@ -8,6 +8,10 @@ class Match extends TournamentAppModel {
 	const HOME = 1;
 	const AWAY = 2;
 
+	// Bracket
+	const WINNERS = 0;
+	const LOSERS = 1;
+
 	// Outcome
 	const WIN = 1;
 	const LOSS = 2;
@@ -58,6 +62,10 @@ class Match extends TournamentAppModel {
 		'type' => array(
 			self::TEAM => 'TEAM',
 			self::PLAYER => 'PLAYER'
+		),
+		'bracket' => array(
+			self::WINNERS => 'WINNERS',
+			self::LOSERS => 'LOSERS'
 		),
 		'winner' => array(
 			self::PENDING => 'PENDING',

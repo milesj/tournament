@@ -8,6 +8,7 @@ CREATE TABLE `{prefix}matches` (
 	`home_id` int(11) NOT NULL,
 	`away_id` int(11) NOT NULL,
 	`type` smallint(6) NOT NULL DEFAULT '0',
+	`bracket` smallint(6) NOT NULL DEFAULT '0',
 	`winner` smallint(6) NOT NULL DEFAULT '0',
 	`round` smallint(6) DEFAULT NULL,
 	`pool` smallint(6) DEFAULT NULL,
