@@ -8,11 +8,11 @@ class RoundRobin extends Tournament {
 	/**
 	 * Fetch event information.
 	 *
-	 * @param int $id
+	 * @param array $event
 	 * @throws Exception
 	 */
-	public function __construct($id) {
-		parent::__construct($id);
+	public function __construct($event) {
+		parent::__construct($event);
 
 		if ($this->_event['Event']['type'] != Event::ROUND_ROBIN) {
 			throw new Exception('Event is not Round Robin');

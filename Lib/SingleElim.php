@@ -7,11 +7,11 @@ class SingleElim extends Tournament {
 	/**
 	 * Fetch event information.
 	 *
-	 * @param int $id
+	 * @param array $event
 	 * @throws Exception
 	 */
-	public function __construct($id) {
-		parent::__construct($id);
+	public function __construct($event) {
+		parent::__construct($event);
 
 		if ($this->_event['Event']['type'] != Event::SINGLE_ELIM) {
 			throw new Exception('Event is not Single Elimination');
