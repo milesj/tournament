@@ -13,7 +13,7 @@ class Swiss extends Tournament {
 	public function __construct($event) {
 		parent::__construct($event);
 
-		if ($this->_event['Event']['type'] != Event::SWISS) {
+		if ($this->_event['type'] != Event::SWISS) {
 			throw new Exception('Event is not Swiss');
 		}
 	}

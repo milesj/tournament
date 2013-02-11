@@ -13,7 +13,7 @@ class SingleElim extends Tournament {
 	public function __construct($event) {
 		parent::__construct($event);
 
-		if ($this->_event['Event']['type'] != Event::SINGLE_ELIM) {
+		if ($this->_event['type'] != Event::SINGLE_ELIM) {
 			throw new Exception('Event is not Single Elimination');
 		}
 	}

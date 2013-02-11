@@ -2,11 +2,17 @@
 
 App::uses('Event', 'Tournament.Model');
 App::uses('EventParticipant', 'Tournament.Model');
+App::uses('Match', 'Tournament.Model');
 App::uses('DoubleElim', 'Tournament.Lib');
 App::uses('SingleElim', 'Tournament.Lib');
 App::uses('RoundRobin', 'Tournament.Lib');
 App::uses('Swiss', 'Tournament.Lib');
 
+/**
+ * @property Event $Event
+ * @property EventParticipant $EventParticipant
+ * @property Match $Match
+ */
 abstract class Tournament {
 
 	/**
@@ -30,6 +36,10 @@ abstract class Tournament {
 	 * @throws Exception
 	 */
 	public function __construct($event) {
+		$this->Event = ClassRegistry::init('Tournament.Event');
+		$this->EventParticipant = ClassRegistry::init('Tournament.EventParticipant');
+		$this->Match = ClassRegistry::init('Tournament.Match');
+
 		if (!$event) {
 			throw new Exception('Invalid event');
 
@@ -41,7 +51,7 @@ abstract class Tournament {
 		}
 
 		$this->_id = $event['Event']['id'];
-		$this->_event = $event;
+		$this->_event = $event['Event'];
 	}
 
 	/**
@@ -84,16 +94,17 @@ abstract class Tournament {
 	 * Get all ready participants for an event. Take into account the event seeding order.
 	 *
 	 * @return array
+	 * @throws Exception
 	 */
 	public function getParticipants() {
-		$for = ($this->_event['Event']['for'] == Event::TEAM) ? 'Team' : 'Player';
+		$for = ($this->_event['for'] == Event::TEAM) ? 'Team' : 'Player';
 		$order = 'RAND()';
 
-		if ($this->_event['Event']['seed'] == Event::POINTS) {
+		if ($this->_event['seed'] == Event::POINTS) {
 			$order = array($for . '.points' => 'ASC');
 		}
 
-		return ClassRegistry::init('Tournament.EventParticipant')->find('all', array(
+		$participants = $this->EventParticipant->find('all', array(
 			'conditions' => array(
 				'EventParticipant.event_id' => $this->_id,
 				'EventParticipant.isReady' => EventParticipant::YES
@@ -101,6 +112,12 @@ abstract class Tournament {
 			'contain' => array($for),
 			'order' => $order
 		));
+
+		if (!$participants) {
+			throw new Exception('There are no participants for this event');
+		}
+
+		return $participants;
 	}
 
 }

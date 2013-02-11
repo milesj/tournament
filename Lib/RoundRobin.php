@@ -14,7 +14,7 @@ class RoundRobin extends Tournament {
 	public function __construct($event) {
 		parent::__construct($event);
 
-		if ($this->_event['Event']['type'] != Event::ROUND_ROBIN) {
+		if ($this->_event['type'] != Event::ROUND_ROBIN) {
 			throw new Exception('Event is not Round Robin');
 		}
 	}
@@ -29,25 +29,16 @@ class RoundRobin extends Tournament {
 	 * @throws Exception
 	 */
 	public function generateBrackets() {
-		$event = $this->_event;
 		$participants = $this->getParticipants();
-
-		if (!$participants) {
-			throw new Exception('There are no participants for this event');
-		}
-
-		// Generate a list of IDs
 		$participant_ids = array();
-		$for = ($event['Event']['for'] == Event::TEAM) ? 'Team' : 'Player';
+		$for = ($this->_event['for'] == Event::TEAM) ? 'Team' : 'Player';
 
 		foreach ($participants as $participant) {
 			$participant_ids[] = $participant[$for]['id'];
 		}
 
 		// Cycle through all the IDs and generate match pairs
-		$Match = ClassRegistry::init('Tournament.Match');
-
-		if ($poolSize = $event['Event']['poolSize']) {
+		if ($poolSize = $this->_event['poolSize']) {
 			$pools = array_chunk($participant_ids, $poolSize);
 		} else {
 			$pools = array($participant_ids);
@@ -65,16 +56,15 @@ class RoundRobin extends Tournament {
 					}
 
 					// Create the match pairs
-					$Match->create();
-					$Match->save(array(
-						'league_id' => $event['Event']['league_id'],
+					$this->Match->create();
+					$this->Match->save(array(
+						'league_id' => $this->_event['league_id'],
 						'event_id' => $this->_id,
 						'home_id' => $home_id,
 						'away_id' => $away_id,
-						'type' => $event['Event']['for'],
+						'type' => $this->_event['for'],
 						'round' => $round,
-						'pool' => ($index + 1),
-						//'playOn' => null @TODO
+						'pool' => ($index + 1)
 					));
 
 					$round++;
@@ -85,9 +75,8 @@ class RoundRobin extends Tournament {
 		}
 
 		// Update event status
-		$Event = ClassRegistry::init('Tournament.Event');
-		$Event->id = $this->_id;
-		$Event->save(array(
+		$this->Event->id = $this->_id;
+		$this->Event->save(array(
 			'isGenerated' => Event::YES
 		), false);
 	}
