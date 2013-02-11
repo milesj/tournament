@@ -45,13 +45,47 @@ abstract class Tournament {
 
 		} else if ($event['Event']['isRunning'] || $event['Event']['isFinished']) {
 			throw new Exception('Event has already started');
-
-		} else if ($event['Event']['isGenerated']) {
-			throw new Exception('Matches have already been generated for this event');
 		}
 
 		$this->_id = $event['Event']['id'];
 		$this->_event = $event['Event'];
+	}
+
+	/**
+	 * Create a match. Check for missing players and supply a bye.
+	 *
+	 * @param int $home_id
+	 * @param int $away_id
+	 * @param int $round
+	 * @param int $pool
+	 * @return mixed
+	 */
+	public function createMatch($home_id, $away_id, $round = null, $pool = null) {
+		$query = array(
+			'league_id' => $this->_event['league_id'],
+			'event_id' => $this->_id,
+			'home_id' => $home_id,
+			'away_id' => $away_id,
+			'type' => $this->_event['for'],
+			'round' => $round,
+			'pool' => $pool,
+			'playOn' => null // @TODO
+		);
+
+		// If away is null, give home a bye
+		if (!$away_id) {
+			$query = $query + array(
+				'winner' => Match::HOME,
+				'homeOutcome' => Match::BYE,
+				'homeScore' => 0,
+				'awayOutcome' => Match::BYE,
+				'awayScore' => 0
+			);
+		}
+
+		$this->Match->create();
+
+		return $this->Match->save($query);
 	}
 
 	/**

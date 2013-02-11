@@ -1,8 +1,8 @@
 <?php
 
-App::uses('Tournament', 'Tournament.Lib');
+App::uses('SingleElim', 'Tournament.Lib');
 
-class DoubleElim extends Tournament {
+class DoubleElim extends SingleElim {
 
 	/**
 	 * Fetch event information.

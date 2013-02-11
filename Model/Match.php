@@ -4,8 +4,11 @@ App::uses('TournamentAppModel', 'Tournament.Model');
 
 class Match extends TournamentAppModel {
 
+	// Winner
+	const HOME = 1;
+	const AWAY = 2;
+
 	// Outcome
-	const PENDING = 0;
 	const WIN = 1;
 	const LOSS = 2;
 	const TIE = 3;
@@ -55,6 +58,11 @@ class Match extends TournamentAppModel {
 		'type' => array(
 			self::TEAM => 'TEAM',
 			self::PLAYER => 'PLAYER'
+		),
+		'winner' => array(
+			self::PENDING => 'PENDING',
+			self::HOME => 'HOME',
+			self::AWAY => 'AWAY'
 		),
 		'homeOutcome' => array(
 			self::PENDING => 'PENDING',

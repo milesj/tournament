@@ -16,6 +16,9 @@ class RoundRobin extends Tournament {
 
 		if ($this->_event['type'] != Event::ROUND_ROBIN) {
 			throw new Exception('Event is not Round Robin');
+
+		} else if ($event['Event']['isGenerated']) {
+			throw new Exception('Matches have already been generated for this event');
 		}
 	}
 
@@ -49,17 +52,7 @@ class RoundRobin extends Tournament {
 						continue;
 					}
 
-					// Create the match pairs
-					$this->Match->create();
-					$this->Match->save(array(
-						'league_id' => $this->_event['league_id'],
-						'event_id' => $this->_id,
-						'home_id' => $home_id,
-						'away_id' => $away_id,
-						'type' => $this->_event['for'],
-						'round' => $round,
-						'pool' => ($index + 1)
-					));
+					$this->createMatch($home_id, $away_id, $round, ($index + 1));
 
 					$round++;
 				}
