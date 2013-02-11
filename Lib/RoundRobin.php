@@ -30,18 +30,12 @@ class RoundRobin extends Tournament {
 	 */
 	public function generateBrackets() {
 		$participants = $this->getParticipants();
-		$participant_ids = array();
-		$for = ($this->_event['for'] == Event::TEAM) ? 'Team' : 'Player';
-
-		foreach ($participants as $participant) {
-			$participant_ids[] = $participant[$for]['id'];
-		}
 
 		// Cycle through all the IDs and generate match pairs
 		if ($poolSize = $this->_event['poolSize']) {
-			$pools = array_chunk($participant_ids, $poolSize);
+			$pools = array_chunk($participants, $poolSize);
 		} else {
-			$pools = array($participant_ids);
+			$pools = array($participants);
 		}
 
 		foreach ($pools as $index => $pool) {
@@ -50,7 +44,7 @@ class RoundRobin extends Tournament {
 			foreach ($pool as $home_id) {
 				$round = 1;
 
-				foreach ($participant_ids as $away_id) {
+				foreach ($participants as $away_id) {
 					if (in_array($away_id, $exclude) || $home_id == $away_id) {
 						continue;
 					}

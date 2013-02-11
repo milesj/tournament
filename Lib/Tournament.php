@@ -91,7 +91,7 @@ abstract class Tournament {
 	abstract public function generateBrackets();
 
 	/**
-	 * Get all ready participants for an event. Take into account the event seeding order.
+	 * Get all ready participant IDs for an event. Take into account the event seeding order.
 	 *
 	 * @return array
 	 * @throws Exception
@@ -117,7 +117,13 @@ abstract class Tournament {
 			throw new Exception('There are no participants for this event');
 		}
 
-		return $participants;
+		$participant_ids = array();
+
+		foreach ($participants as $participant) {
+			$participant_ids[] = $participant[$for]['id'];
+		}
+
+		return $participant_ids;
 	}
 
 }
