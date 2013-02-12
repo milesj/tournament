@@ -54,8 +54,7 @@ class SingleElim extends Tournament {
 	 */
 	public function generateFirstRound($round) {
 		$participants = $this->getParticipants();
-		$count = count($participants);
-		$half = ceil($count / 2);
+		$half = ceil(count($participants) / 2);
 
 		for ($i = 0; $i < $half; $i++) {
 			$home_id = array_shift($participants);
@@ -74,8 +73,7 @@ class SingleElim extends Tournament {
 	 */
 	public function generateRound($round) {
 		$participants = $this->getWinners();
-		$count = count($participants);
-		$half = ceil($count / 2);
+		$half = ceil(count($participants) / 2);
 
 		for ($i = 0; $i < $half; $i++) {
 			$home_id = array_shift($participants);

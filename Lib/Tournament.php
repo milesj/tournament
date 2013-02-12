@@ -127,10 +127,11 @@ abstract class Tournament {
 	/**
 	 * Get all ready participant IDs for an event. Take into account the event seeding order.
 	 *
+	 * @param array $query
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getParticipants() {
+	public function getParticipants(array $query = array()) {
 		$for = ($this->_event['for'] == Event::TEAM) ? 'Team' : 'Player';
 		$order = 'RAND()';
 
@@ -138,14 +139,16 @@ abstract class Tournament {
 			$order = array($for . '.points' => 'ASC');
 		}
 
-		$participants = $this->EventParticipant->find('all', array(
+		$query = Hash::merge(array(
 			'conditions' => array(
 				'EventParticipant.event_id' => $this->_id,
 				'EventParticipant.isReady' => EventParticipant::YES
 			),
 			'contain' => array($for),
 			'order' => $order
-		));
+		), $query);
+
+		$participants = $this->EventParticipant->find('all', $query);
 
 		if (!$participants) {
 			throw new Exception('There are no participants for this event');
