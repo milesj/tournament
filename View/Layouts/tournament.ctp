@@ -5,6 +5,8 @@ echo $this->OpenGraph->html(array('xmlns' => 'http://www.w3.org/1999/xhtml')); ?
 	<?php echo $this->Html->charset(); ?>
 	<title><?php echo $this->Breadcrumb->pageTitle($settings['name'], array('separator' => $settings['titleSeparator'])); ?></title>
 	<?php
+	echo $this->Html->css('Tournament.normalize');
+	echo $this->Html->css('Tournament.style');
 	$this->OpenGraph->name($settings['name']);
 
 	echo $this->OpenGraph->fetch();
@@ -14,8 +16,18 @@ echo $this->OpenGraph->html(array('xmlns' => 'http://www.w3.org/1999/xhtml')); ?
 
 <body>
 	<div class="wrapper">
-		<?php echo $this->Session->flash(); ?>
-		<?php echo $this->fetch('content'); ?>
+		<div class="head">
+			Head
+		</div>
+
+		<div class="body">
+			<?php echo $this->Session->flash(); ?>
+			<?php echo $this->fetch('content'); ?>
+		</div>
+
+		<div class="foot">
+			Foot
+		</div>
 	</div>
 
 	<?php if (!CakePlugin::loaded('DebugKit')) {

@@ -22,7 +22,7 @@ class EventsController extends TournamentAppController {
 	 */
 	public $paginate = array(
 		'Event' => array(
-			'contain' => array('League', 'Division'),
+			'contain' => array('League', 'Division', 'Game'),
 			'limit' => 25
 		)
 	);

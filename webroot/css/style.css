@@ -1,0 +1,32 @@
+
+
+.body { padding: 25px; }
+
+.align-center { text-align: center; }
+.align-right { text-align: right; }
+
+/*------------ Container ------------*/
+
+.container {
+	margin-bottom: 25px;
+	background: #F7F5F0;
+	border: 1px solid #E6E0D8; }
+
+.container-head {
+	background: #171717;
+	color: #F7F5F0;
+	padding: 10px; }
+
+/*------------ Table ------------*/
+
+.table { }
+
+.table table {
+	width: 100%;
+	border-spacing: 1px;
+	border-collapse: collapse; }
+
+.table thead th,
+.table tbody td {
+	border: 1px solid #E6E0D8;
+	padding: 10px; }

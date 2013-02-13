@@ -16,6 +16,18 @@ class Player extends TournamentAppModel {
 	);
 
 	/**
+	 * Has one.
+	 *
+	 * @var array
+	 */
+	public $hasOne = array(
+		'CurrentTeam' => array(
+			'className' => 'Tournament.TeamMember',
+			'conditions' => array('CurrentTeam.status' => self::ACTIVE)
+		)
+	);
+
+	/**
 	 * Has and belongs to many.
 	 *
 	 * @var array

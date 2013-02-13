@@ -21,7 +21,7 @@ CREATE TABLE `{prefix}events` (
 	`isGenerated` tinyint(4) NOT NULL DEFAULT '0',
 	`requiredMembers` int(11) NOT NULL,
 	`maxParticipants` int(11) NOT NULL,
-	`maxRounds` int(11) NOT NULL,
+	`maxRounds` int(11) DEFAULT NULL,
 	`poolSize` int(11) DEFAULT NULL,
 	`pointsForWin` tinyint(4) NOT NULL DEFAULT '0',
 	`pointsForLoss` tinyint(4) NOT NULL DEFAULT '0',

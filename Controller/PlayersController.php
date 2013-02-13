@@ -22,7 +22,7 @@ class PlayersController extends TournamentAppController {
 	 */
 	public $paginate = array(
 		'Player' => array(
-			'contain' => array('User'),
+			'contain' => array('User', 'CurrentTeam' => array('Team')),
 			'limit' => 25
 		)
 	);
