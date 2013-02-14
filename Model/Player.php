@@ -36,6 +36,7 @@ class Player extends TournamentAppModel {
 		'Team' => array(
 			'className' => 'Tournament.Team',
 			'with' => 'Tournament.TeamMember',
+			'conditions' => array('TeamMember.status !=' => self::PENDING),
 			'order' => array('Team.status' => 'ASC', 'TeamMember.created' => 'DESC')
 		),
 		'Event' => array(
@@ -85,7 +86,7 @@ class Player extends TournamentAppModel {
 			'contain' => array(
 				'User',
 				'Team',
-				'Event' => array('Game', 'League', 'Division')
+				'Event' => array('League', 'Division')
 			),
 			'cache' => array(__METHOD__, $user_id)
 		));

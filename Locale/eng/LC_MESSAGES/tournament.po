@@ -18,6 +18,8 @@ msgstr "Administrator"
 msgid "aro.superModerator"
 msgstr "Super Moderator"
 
+# Statuses
+
 msgid "status.pending"
 msgstr "Pending"
 
@@ -33,20 +35,33 @@ msgstr "Removed"
 msgid "status.quit"
 msgstr "Quit"
 
-msgid "team.role.leader"
+msgid "status.disbanded"
+msgstr "Disbanded"
+
+# Team, TeamMember
+
+msgid "teammember.role.leader"
 msgstr "Leader"
 
-msgid "team.role.co_leader"
+msgid "teammember.role.co_leader"
 msgstr "Co-Leader"
 
-msgid "team.role.manager"
+msgid "teammember.role.manager"
 msgstr "Manager"
 
-msgid "team.role.member"
+msgid "teammember.role.member"
 msgstr "Member"
 
-msgid "team.role.sub"
+msgid "teammember.role.sub"
 msgstr "Substitute"
+
+# Event
+
+msgid "event.seed.random"
+msgstr "Random"
+
+msgid "event.seed.points"
+msgstr "Points"
 
 msgid "event.type.double_elim"
 msgstr "Double Elimination"
@@ -59,6 +74,8 @@ msgstr "Round Robin"
 
 msgid "event.type.swiss"
 msgstr "Swiss"
+
+# Misc
 
 msgid "Not Found"
 msgstr ""
