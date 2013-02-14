@@ -1,17 +1,18 @@
 
-<div class="container">
-	<div class="container-head">
-		<h2><?php echo __d('tournament', 'Players'); ?></h2>
-	</div>
+<div class="page-title">
+	<h2><?php echo __d('tournament', 'Players'); ?></h2>
+</div>
 
+<div class="container">
 	<div class="container-body">
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'top')); ?>
 
 		<div class="table">
 			<table>
 				<thead>
 					<tr>
-						<th colspan="2"><?php echo $this->Paginator->sort('User.' . $config['userMap']['username'], __d('tournament', 'Player')); ?></th>
+						<th style="width: 25px"> </th>
+						<th><?php echo $this->Paginator->sort('User.' . $config['userMap']['username'], __d('tournament', 'Player')); ?></th>
 						<th><?php echo $this->Paginator->sort('CurrentTeam.team_id', __d('tournament', 'Team')); ?></th>
 						<th><?php echo $this->Paginator->sort('Player.points', __d('tournament', 'Points')); ?></th>
 						<th><?php echo $this->Paginator->sort('Player.wins', __d('tournament', 'Wins')); ?></th>
@@ -26,16 +27,16 @@
 					<tr>
 						<td>
 							<?php if ($logo = $player['User'][$config['userMap']['avatar']]) {
-								echo $this->Html->image($logo, array('url' => array('action' => 'profile', 'id' => $player['User']['id'])));
+								echo $this->Html->image($logo, array('url' => array('action' => 'profile', 'id' => $player['User']['id']), 'width' => 25, 'height' => 25));
 							} ?>
 						</td>
 						<td>
-							<h3><?php echo $this->Html->link($player['User'][$config['userMap']['username']], array('action' => 'profile', 'id' => $player['User']['id'])); ?></h3>
+							<b><?php echo $this->Html->link($player['User'][$config['userMap']['username']], array('action' => 'profile', 'id' => $player['User']['id'])); ?></b>
 						</td>
 						<td>
-							<?php if (!empty($player['CurrentTeam']['Team'])) { ?>
-								<h3><?php echo $this->Html->link($player['CurrentTeam']['Team']['name'], array('controller' => 'teams', 'action' => 'profile', 'slug' => $player['CurrentTeam']['Team']['slug'])); ?></h3>
-							<?php } ?>
+							<?php if (!empty($player['CurrentTeam']['Team'])) {
+								echo $this->Html->link($player['CurrentTeam']['Team']['name'], array('controller' => 'teams', 'action' => 'profile', 'slug' => $player['CurrentTeam']['Team']['slug']), array('class' => 'alt'));
+							} ?>
 						</td>
 						<td class="align-center"><?php echo $player['Player']['points']; ?></td>
 						<td class="align-center"><?php echo $player['Player']['wins']; ?></td>
@@ -57,6 +58,6 @@
 			</table>
 		</div>
 
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'bottom')); ?>
 	</div>
 </div>

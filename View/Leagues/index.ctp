@@ -1,17 +1,18 @@
 
-<div class="container">
-	<div class="container-head">
-		<h2><?php echo __d('tournament', 'Leagues'); ?></h2>
-	</div>
+<div class="page-title">
+	<h2><?php echo __d('tournament', 'Leagues'); ?></h2>
+</div>
 
+<div class="container">
 	<div class="container-body">
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'top')); ?>
 
 		<div class="table">
 			<table>
 				<thead>
 					<tr>
-						<th colspan="2"><?php echo $this->Paginator->sort('League.name', __d('tournament', 'League')); ?></th>
+						<th> </th>
+						<th><?php echo $this->Paginator->sort('League.name', __d('tournament', 'League')); ?></th>
 						<th><?php echo $this->Paginator->sort('Game.name', __d('tournament', 'Game')); ?></th>
 						<th><?php echo $this->Paginator->sort('Region.name', __d('tournament', 'Region')); ?></th>
 					</tr>
@@ -27,7 +28,7 @@
 							} ?>
 						</td>
 						<td>
-							<h3><?php echo $this->Html->link($league['League']['name'], array('action' => 'view', 'league' => $league['League']['slug'])); ?></h3>
+							<b><?php echo $this->Html->link($league['League']['name'], array('action' => 'view', 'league' => $league['League']['slug'])); ?></b>
 							<?php echo $league['League']['description']; ?>
 						</td>
 						<td><?php echo $league['Game']['name']; ?></td>
@@ -48,6 +49,6 @@
 			</table>
 		</div>
 
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'bottom')); ?>
 	</div>
 </div>

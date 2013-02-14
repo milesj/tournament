@@ -37,7 +37,9 @@ Configure::write('Tournament.userMap', array(
 	'password'	=> 'password',
 	'email'		=> 'email',
 	'status'	=> 'status',
-	'avatar'	=> 'avatar'
+	'avatar'	=> 'avatar',
+	'locale'	=> 'locale',
+	'timezone'	=> 'timezone'
 ));
 
 /**
@@ -86,7 +88,11 @@ Configure::write('Tournament.settings', array(
 	'autoApproveTeams' => false,
 	'maxTeamsToJoin' => 1,
 	'showRemovedTeamMembers' => true,
-	'showQuitTeamMembers' => true
+	'showQuitTeamMembers' => true,
+
+	// Misc
+	'defaultLocale' => 'eng',
+	'defaultTimezone' => -8
 ));
 
 /**

@@ -1,11 +1,11 @@
 
-<div class="container">
-	<div class="container-head">
-		<h2><?php echo __d('tournament', 'Events'); ?></h2>
-	</div>
+<div class="page-title">
+	<h2><?php echo __d('tournament', 'Events'); ?></h2>
+</div>
 
+<div class="container">
 	<div class="container-body">
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'top')); ?>
 
 		<div class="table">
 			<table>
@@ -25,22 +25,22 @@
 
 					<tr>
 						<td>
-							<h3><?php echo $this->Html->link($event['Event']['name'], array('action' => 'view', 'league' => $event['League']['slug'], 'event' => $event['Event']['slug'])); ?></h3>
+							<b><?php echo $this->Html->link($event['Event']['name'], array('action' => 'view', 'league' => $event['League']['slug'], 'event' => $event['Event']['slug'])); ?></b>
 						</td>
 						<td><?php echo $event['Game']['name']; ?></td>
 						<td>
-							<?php echo $this->Html->link($event['League']['name'], array('controller' => 'leagues', 'action' => 'view', 'league' => $event['League']['slug'])); ?>
+							<?php echo $this->Html->link($event['League']['name'], array('controller' => 'leagues', 'action' => 'view', 'league' => $event['League']['slug']), array('class' => 'alt')); ?>
 						</td>
-						<td><?php echo $event['Division']['name']; ?></td>
-						<td><?php echo $event['Event']['type_enum']; ?></td>
-						<td><?php echo $event['Event']['for_enum']; ?></td>
+						<td class="align-center"><?php echo $event['Division']['name']; ?></td>
+						<td class="align-center"><?php echo $this->Tournament->eventType($event['Event']['type_enum']); ?></td>
+						<td class="align-center"><?php echo $this->Tournament->setupFor($event['Event']['for']); ?></td>
 					</tr>
 
 						<?php }
 					} else { ?>
 
 					<tr>
-						<td colspan="4" class="no-results">
+						<td colspan="6" class="no-results">
 							<?php echo __d('tournament', 'There are no results to display'); ?>
 						</td>
 					</tr>
@@ -50,6 +50,6 @@
 			</table>
 		</div>
 
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'bottom')); ?>
 	</div>
 </div>

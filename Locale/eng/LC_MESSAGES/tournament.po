@@ -1,13 +1,22 @@
-Custom strings that won't be generated through the shell.
-Will have to manually be added later on.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tournament v1.0.0\n"
+"POT-Creation-Date: 2013-02-01 01:06+0000\n"
+"PO-Revision-Date: 2013-01-31 17:15-0800\n"
+"Last-Translator: Miles Johnson <mileswjohnson@gmail.com>\n"
+"Language-Team: Miles Johnson <mileswjohnson@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "aro.administrator"
 msgstr "Administrator"
 
 msgid "aro.superModerator"
 msgstr "Super Moderator"
-
-# Statuses
 
 msgid "status.pending"
 msgstr "Pending"
@@ -24,8 +33,6 @@ msgstr "Removed"
 msgid "status.quit"
 msgstr "Quit"
 
-# Team
-
 msgid "team.role.leader"
 msgstr "Leader"
 
@@ -41,8 +48,6 @@ msgstr "Member"
 msgid "team.role.sub"
 msgstr "Substitute"
 
-# Event
-
 msgid "event.type.double_elim"
 msgstr "Double Elimination"
 
@@ -54,8 +59,6 @@ msgstr "Round Robin"
 
 msgid "event.type.swiss"
 msgstr "Swiss"
-
-# Misc
 
 msgid "Not Found"
 msgstr ""

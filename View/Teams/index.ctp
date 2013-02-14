@@ -1,17 +1,23 @@
+<div class="page-title">
+	<?php if ($user) { ?>
+		<div class="buttons">
+			<?php echo $this->Html->link(__d('tournament', 'Create Team'), array('action' => 'create'), array('class' => 'button')); ?>
+		</div>
+	<?php } ?>
+
+	<h2><?php echo __d('tournament', 'Teams'); ?></h2>
+</div>
 
 <div class="container">
-	<div class="container-head">
-		<h2><?php echo __d('tournament', 'Teams'); ?></h2>
-	</div>
-
 	<div class="container-body">
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'top')); ?>
 
 		<div class="table">
 			<table>
 				<thead>
 					<tr>
-						<th colspan="2"><?php echo $this->Paginator->sort('Team.name', __d('tournament', 'Team')); ?></th>
+						<th> </th>
+						<th><?php echo $this->Paginator->sort('Team.name', __d('tournament', 'Team')); ?></th>
 						<th><?php echo $this->Paginator->sort('Leader.' . $config['userMap']['username'], __d('tournament', 'Leader')); ?></th>
 						<th><?php echo $this->Paginator->sort('Team.team_member_count', __d('tournament', 'Members')); ?></th>
 						<th><?php echo $this->Paginator->sort('Team.points', __d('tournament', 'Points')); ?></th>
@@ -31,12 +37,12 @@
 							} ?>
 						</td>
 						<td>
-							<h3><?php echo $this->Html->link($team['Team']['name'], array('action' => 'profile', 'slug' => $team['Team']['slug'])); ?></h3>
+							<b><?php echo $this->Html->link($team['Team']['name'], array('action' => 'profile', 'slug' => $team['Team']['slug'])); ?></b>
 						</td>
 						<td>
-							<?php if (!empty($team['Leader']['id'])) { ?>
-								<h3><?php echo $this->Html->link($team['Leader'][$config['userMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $team['Leader']['id'])); ?></h3>
-							<?php } ?>
+							<?php if (!empty($team['Leader']['id'])) {
+								echo $this->Html->link($team['Leader'][$config['userMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $team['Leader']['id']), array('class' => 'alt'));
+							} ?>
 						</td>
 						<td class="align-center"><?php echo $team['Team']['team_member_count']; ?></td>
 						<td class="align-center"><?php echo $team['Team']['points']; ?></td>
@@ -59,6 +65,6 @@
 			</table>
 		</div>
 
-		<?php echo $this->element('pagination'); ?>
+		<?php echo $this->element('pagination', array('class' => 'bottom')); ?>
 	</div>
 </div>
