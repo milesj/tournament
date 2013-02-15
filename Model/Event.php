@@ -56,7 +56,8 @@ class Event extends TournamentAppModel {
 	 */
 	public $actsAs = array(
 		'Utility.Sluggable' => array(
-			'field' => 'name'
+			'field' => 'name',
+			'unique' => false
 		)
 	);
 

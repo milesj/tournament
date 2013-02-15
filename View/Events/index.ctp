@@ -32,8 +32,8 @@
 							<?php echo $this->Html->link($event['League']['name'], array('controller' => 'leagues', 'action' => 'view', 'league' => $event['League']['slug']), array('class' => 'alt')); ?>
 						</td>
 						<td class="align-center"><?php echo $event['Division']['name']; ?></td>
-						<td class="align-center"><?php echo $this->Tournament->eventType($event['Event']['type_enum']); ?></td>
-						<td class="align-center"><?php echo $this->Tournament->setupFor($event['Event']['for']); ?></td>
+						<td class="align-center"><?php echo $this->Tournament->options('Event.type', $event['Event']['type']); ?></td>
+						<td class="align-center"><?php echo $this->Tournament->options('Event.for', $event['Event']['for']); ?></td>
 					</tr>
 
 						<?php }
