@@ -234,7 +234,7 @@ class GenerateDataShell extends AppShell {
 	 * Generate 10 events.
 	 */
 	public function generateEvents() {
-		$this->out('Generating events');
+		$this->out('Generating events and participants');
 
 		for ($i = 0; $i < 10; $i++) {
 			$type = rand(0, 3);
@@ -274,6 +274,24 @@ class GenerateDataShell extends AppShell {
 			$this->events[] = array(
 				'id' => $this->Event->id
 			);
+
+			// Create $max participants per event
+			for ($p = 0; $p < $max; $p++) {
+				$query = array(
+					'event_id' => $this->Event->id,
+					'status' => EventParticipant::ACTIVE,
+					'isReady' => rand(0, 1)
+				);
+
+				if ($for == Event::TEAM) {
+					$query['team_id'] = $this->teams[$p]['id'];
+				} else {
+					$query['player_id'] = $this->users[($i + 1) * $p]['player_id'];
+				}
+
+				$this->EventParticipant->create();
+				$this->EventParticipant->save($query);
+			}
 		}
 	}
 
