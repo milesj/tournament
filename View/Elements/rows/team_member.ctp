@@ -1,19 +1,28 @@
+<?php
+$settings = Configure::read('Tournament.settings');
+
+if (!$settings['showRemovedTeamMembers'] && $member['status'] == TeamMember::REMOVED) {
+	return;
+} else if (!$settings['showQuitTeamMembers'] && $member['status'] == TeamMember::QUIT) {
+	return;
+} ?>
+
 <tr>
-	<td>
-		<?php if ($logo = $team['logo']) {
-			echo $this->Html->image($logo, array('url' => array('controller' => 'teams', 'action' => 'profile', 'slug' => $team['slug'])));
+	<td class="col-avatar">
+		<?php if ($avatar = $member['User'][$config['userMap']['avatar']]) {
+			echo $this->Html->image($avatar, array('url' => array('controller' => 'players', 'action' => 'profile', 'id' => $member['User']['id'])));
 		} ?>
 	</td>
 	<td>
-		<b><?php echo $this->Html->link($team['name'], array('controller' => 'teams', 'action' => 'profile', 'slug' => $team['slug'])); ?></b>
+		<b><?php echo $this->Html->link($member['User'][$config['userMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $member['User']['id'])); ?></b>
 	</td>
-	<td><?php echo $this->Tournament->options('TeamMember.status', $team['TeamMember']['status']); ?></td>
-	<td><?php echo $this->Tournament->options('TeamMember.role', $team['TeamMember']['role']); ?></td>
-	<td class="align-center">
-		<?php if ($team['TeamMember']['status'] == TeamMember::QUIT || $team['TeamMember']['status'] == TeamMember::REMOVED) {
-			echo $this->Time->nice($team['TeamMember']['modified'], $this->Tournament->timezone());
+	<td class="align-center"><?php echo $this->Tournament->options('TeamMember.status', $member['status']); ?></td>
+	<td class="align-center"><?php echo $this->Tournament->options('TeamMember.role', $member['role']); ?></td>
+	<td class="align-right">
+		<?php if ($member['status'] == TeamMember::QUIT || $member['status'] == TeamMember::REMOVED) {
+			echo $this->Time->nice($member['modified'], $this->Tournament->timezone());
 		} else {
-			echo $this->Time->nice($team['TeamMember']['created'], $this->Tournament->timezone());
+			echo $this->Time->nice($member['created'], $this->Tournament->timezone());
 		} ?>
 	</td>
 </tr>

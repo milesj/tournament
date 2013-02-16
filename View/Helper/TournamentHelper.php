@@ -17,8 +17,8 @@ class TournamentHelper extends AppHelper {
 	 * @param array $event
 	 * @return string
 	 */
-	public function eventRegistration($event) {
-		if (empty($event['Event']['signupEnd']) || empty($event['Event']['signupEnd'])) {
+	public function eventSignupDates($event) {
+		if (empty($event['Event']['signupStart']) || empty($event['Event']['signupEnd'])) {
 			return false;
 		}
 
@@ -30,13 +30,52 @@ class TournamentHelper extends AppHelper {
 			return __d('tournament', 'Closed');
 
 		} else if ($now < $start) {
-			return __d('tournament', 'Opens %s', array(
-				$this->Time->niceShort($start, $this->timezone())
-			));
+			$time = $start;
+			$message = 'Opens in %s';
+
+		} else {
+			$time = $end;
+			$message = 'Open for %s';
 		}
 
-		return __d('tournament', 'Open until %s', array(
-			$this->Time->niceShort($end, $this->timezone())
+		return __d('tournament', $message, array(
+			$this->Time->timeAgoInWords($time, array(
+				'timezone' => $this->timezone()
+			))
+		));
+	}
+
+	/**
+	 * Determine the state of an event play time date.
+	 *
+	 * @param array $event
+	 * @return string
+	 */
+	public function eventPlayDates($event) {
+		if (empty($event['Event']['start']) || empty($event['Event']['end'])) {
+			return false;
+		}
+
+		$now = time();
+		$start = strtotime($event['Event']['start']);
+		$end = strtotime($event['Event']['end']);
+
+		if ($now > $end || $event['Event']['isFinished']) {
+			return __d('tournament', 'Finished');
+
+		} else if ($now < $start) {
+			$time = $start;
+			$message = 'Starts in %s';
+
+		} else {
+			$time = $end;
+			$message = 'Ends in %s';
+		}
+
+		return __d('tournament', $message, array(
+			$this->Time->timeAgoInWords($time, array(
+				'timezone' => $this->timezone()
+			))
 		));
 	}
 
@@ -52,12 +91,19 @@ class TournamentHelper extends AppHelper {
 
 		if ($field === 'status') {
 			$key = 'status';
-
-		} else if ($field === 'for') {
-			return __d('tournament', $value ? 'Player' : 'Team');
 		}
 
-		return __d('tournament', strtolower($key . '.' . ClassRegistry::init('Tournament.' . $model)->enum($field, $value)));
+		switch ($key) {
+			case 'Event.for':
+				return __d('tournament', $value ? 'Solo' : 'Team');
+			break;
+			case 'EventParticipant.isReady':
+				return __d('tournament', $value ? 'Yes' : 'No');
+			break;
+			default:
+				return __d('tournament', strtolower($key . '.' . ClassRegistry::init('Tournament.' . $model)->enum($field, $value)));
+			break;
+		}
 	}
 
 	/**

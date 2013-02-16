@@ -46,11 +46,6 @@ class League extends TournamentAppModel {
 	 * @var array
 	 */
 	public $hasMany = array(
-		'Division' => array(
-			'className' => 'Tournament.Division',
-			'dependent' => true,
-			'exclusive' => true
-		),
 		'Event' => array(
 			'className' => 'Tournament.Event',
 			'dependent' => true,
@@ -78,7 +73,7 @@ class League extends TournamentAppModel {
 	public function getById($id) {
 		return $this->find('first', array(
 			'conditions' => array('League.id' => $id),
-			'contain' => array('Game', 'Region', 'Division', 'CurrentEvent', 'UpcomingEvent'),
+			'contain' => array('Game', 'Region', 'CurrentEvent', 'UpcomingEvent'),
 			'cache' => array(__METHOD__, $id)
 		));
 	}
@@ -92,7 +87,7 @@ class League extends TournamentAppModel {
 	public function getBySlug($slug) {
 		return $this->find('first', array(
 			'conditions' => array('League.slug' => $slug),
-			'contain' => array('Game', 'Region', 'Division', 'CurrentEvent', 'UpcomingEvent'),
+			'contain' => array('Game', 'Region', 'CurrentEvent', 'UpcomingEvent'),
 			'cache' => array(__METHOD__, $slug)
 		));
 	}

@@ -137,7 +137,7 @@ class TeamMember extends TournamentAppModel {
 		if ($results) {
 			foreach ($results as $result) {
 				$list[$result['User']['id']] = sprintf('%s - %s',
-					__d('tournament', 'team.role.' . strtolower($result['TeamMember']['role_enum'])),
+					__d('tournament', 'teammember.role.' . strtolower($result['TeamMember']['role_enum'])),
 					$result['User'][Configure::read('Tournament.userMap.username')]);
 			}
 		}

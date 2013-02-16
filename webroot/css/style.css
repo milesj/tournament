@@ -1,22 +1,31 @@
 body {
 	font: normal 14px Verdana, Arial, sans-serif;
-	background: #A7DBD8; }
-
-.body {
-	background: #fff;
-	padding: 25px; }
-
-.align-center { text-align: center; }
-.align-right { text-align: right; }
+	background: #69D2E7; }
 
 a { color: #F38630; text-decoration: none; }
 a:hover { color: #FA6900; }
 a.alt { color: #69D2E7; }
 a.alt:hover { color: #A7DBD8; }
 
-h1, h2, h3, h4, h5, h6 {
-	font-weight: normal;
-}
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+p { margin-bottom: 15px; }
+
+.clear {
+	clear: both;
+	display: block; }
+
+.align-center { text-align: center; }
+.align-right { text-align: right; }
+
+/*------------ Layout ------------*/
+
+.body {
+	background: #fff;
+	padding: 25px; }
+
+.foot {
+	text-align: center;
+	padding: 25px; }
 
 /*------------ Page ------------*/
 
@@ -77,6 +86,10 @@ h1, h2, h3, h4, h5, h6 {
 	color: #171717;
 	background: #FA6900; }
 
+.button.large {
+	padding: 12px 19px;
+	font-size: 16px; }
+
 /*------------ Table ------------*/
 
 .table {
@@ -112,6 +125,15 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 50px !important;
 	text-align: center; }
 
+.col-logo,
+.col-avatar { padding: 0 !important; }
+.col-logo { width: 80px; }
+.col-avatar { width: 40px; }
+.col-logo img,
+.col-avatar img { display: block; }
+.col-logo img { width: 80px; height: 40px; }
+.col-avatar img { width: 40px; height: 40px; }
+
 /*------------ Pagination ------------*/
 
 .pagination {
@@ -143,3 +165,50 @@ h1, h2, h3, h4, h5, h6 {
 .pagination li.current {
 	font-weight: bold;
 	padding: 2px 8px; }
+
+/*------------ Tabs ------------*/
+
+.tabs nav ul {
+	list-style: none;
+	margin-bottom: 25px; }
+
+.tabs nav li {
+	display: inline-block;
+	margin-right: 3px; }
+
+.tabs nav a.active {
+	outline: none;
+	background: #f2f2f2; }
+
+/*------------ Form ------------*/
+
+form {
+	display: inline-block;
+	width: auto; }
+
+.input { margin-bottom: 15px; }
+
+.input.text input,
+.input.password input,
+.input select,
+.input textarea {
+	padding: 5px;
+	border-radius: 2px;
+	border: 1px solid #A7DBD8; }
+
+.input.text input:focus,
+.input.password input:focus,
+.input select:focus,
+.input textarea:focus { border-color: #69D2E7; }
+
+.input select { padding: 4px; }
+.input.checkbox input { margin-right: 5px; }
+
+.input:not(.checkbox) label {
+	vertical-align: top;
+	width: 150px;
+	padding-top: 3px;
+	display: inline-block; }
+
+.submit { text-align: center; }
+.error-message { color: red; margin-top: 5px; }

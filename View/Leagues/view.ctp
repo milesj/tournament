@@ -1,19 +1,8 @@
-<?php
-$divisions = array();
-
-if (!empty($league['Division'])) {
-	foreach ($league['Division'] as $division) {
-		$divisions[] = $division['name'];
-	}
-} ?>
 
 <div class="page-title">
 	<h2><?php echo $league['League']['name']; ?></h2>
 	<b><?php echo __d('tournament', 'Game'); ?>:</b> <?php echo $league['Game']['name']; ?><br>
-	<b><?php echo __d('tournament', 'Region'); ?>:</b> <?php echo $league['Region']['name']; ?><br>
-	<?php if ($divisions) { ?>
-		<b><?php echo __d('tournament', 'Divisions'); ?>:</b> <?php echo implode(', ', $divisions); ?>
-	<?php } ?>
+	<b><?php echo __d('tournament', 'Region'); ?>:</b> <?php echo $league['Region']['name']; ?>
 </div>
 
 <div class="container">

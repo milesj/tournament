@@ -11,7 +11,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th style="width: 25px"> </th>
+						<th> </th>
 						<th><?php echo $this->Paginator->sort('User.' . $config['userMap']['username'], __d('tournament', 'Player')); ?></th>
 						<th><?php echo $this->Paginator->sort('CurrentTeam.team_id', __d('tournament', 'Team')); ?></th>
 						<th><?php echo $this->Paginator->sort('Player.points', __d('tournament', 'Points')); ?></th>
@@ -25,9 +25,9 @@
 						foreach ($players as $player) { ?>
 
 					<tr>
-						<td>
-							<?php if ($logo = $player['User'][$config['userMap']['avatar']]) {
-								echo $this->Html->image($logo, array('url' => array('action' => 'profile', 'id' => $player['User']['id']), 'width' => 25, 'height' => 25));
+						<td class="col-avatar">
+							<?php if ($avatar = $player['User'][$config['userMap']['avatar']]) {
+								echo $this->Html->image($avatar, array('url' => array('action' => 'profile', 'id' => $player['User']['id'])));
 							} ?>
 						</td>
 						<td>

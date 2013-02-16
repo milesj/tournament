@@ -7,6 +7,9 @@ echo $this->OpenGraph->html(array('xmlns' => 'http://www.w3.org/1999/xhtml')); ?
 	<?php
 	echo $this->Html->css('Tournament.normalize');
 	echo $this->Html->css('Tournament.style');
+	echo $this->Html->script('//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js');
+	echo $this->Html->script('Tournament.mootools-more-1.4.0.1');
+	echo $this->Html->script('Tournament.titon-1.0.0-rc1.min');
 	$this->OpenGraph->name($settings['name']);
 
 	echo $this->OpenGraph->fetch();
@@ -26,7 +29,7 @@ echo $this->OpenGraph->html(array('xmlns' => 'http://www.w3.org/1999/xhtml')); ?
 		</div>
 
 		<div class="foot">
-			Foot
+			<?php echo $this->element('copyright'); ?>
 		</div>
 	</div>
 

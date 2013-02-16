@@ -86,7 +86,7 @@ class Player extends TournamentAppModel {
 			'contain' => array(
 				'User',
 				'Team',
-				'Event' => array('League', 'Division')
+				'Event' => array('League', 'Game', 'Division')
 			),
 			'cache' => array(__METHOD__, $user_id)
 		));

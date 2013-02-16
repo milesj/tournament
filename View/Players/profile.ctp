@@ -3,7 +3,7 @@
 	<b><?php echo __d('tournament', 'Points'); ?>:</b> <?php echo $player['Player']['points']; ?><br>
 	<b><?php echo __d('tournament', 'Wins'); ?>:</b> <?php echo $player['Player']['wins']; ?><br>
 	<b><?php echo __d('tournament', 'Losses'); ?>:</b> <?php echo $player['Player']['losses']; ?><br>
-	<b><?php echo __d('tournament', 'Ties'); ?>:</b> <?php echo $player['Player']['ties']; ?><br>
+	<b><?php echo __d('tournament', 'Ties'); ?>:</b> <?php echo $player['Player']['ties']; ?>
 </div>
 
 <?php if (!empty($player['Team'])) { ?>
@@ -26,7 +26,7 @@
 					</thead>
 					<tbody>
 						<?php foreach ($player['Team'] as $team) {
-							echo $this->element('rows/team_member', array(
+							echo $this->element('rows/team_member_for', array(
 								'team' => $team
 							));
 						} ?>
@@ -49,6 +49,7 @@
 					<thead>
 						<tr>
 							<th><?php echo __d('tournament', 'Event'); ?></th>
+							<th><?php echo __d('tournament', 'Game'); ?></th>
 							<th><?php echo __d('tournament', 'League'); ?></th>
 							<th><?php echo __d('tournament', 'Division'); ?></th>
 							<th><?php echo __d('tournament', 'Points'); ?></th>
@@ -60,7 +61,7 @@
 					</thead>
 					<tbody>
 						<?php foreach ($player['Event'] as $event) {
-							echo $this->element('rows/event_participant', array(
+							echo $this->element('rows/event_participant_for', array(
 								'event' => $event
 							));
 						} ?>

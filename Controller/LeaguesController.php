@@ -13,7 +13,7 @@ class LeaguesController extends TournamentAppController {
 	 *
 	 * @var array
 	 */
-	public $uses = array('Tournament.League', 'Tournament.Event');
+	public $uses = array('Tournament.League', 'Tournament.Event', 'Tournament.Division');
 
 	/**
 	 * Pagination.

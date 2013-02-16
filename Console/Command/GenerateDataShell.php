@@ -78,18 +78,20 @@ class GenerateDataShell extends AppShell {
 	 * Truncate tables before testing.
 	 */
 	public function cleanup() {
+		$this->out('Truncating tables');
+
 		$this->User->deleteAll(array(
 			'User.' . Configure::read('Tournament.userMap.username') . ' LIKE' => 'User #%'
 		));
 
-		$this->Player->getDataSource()->truncate($this->Player->tablePrefix . $this->Player->useTable);
-		$this->Team->getDataSource()->truncate($this->Team->tablePrefix . $this->Team->useTable);
-		$this->TeamMember->getDataSource()->truncate($this->TeamMember->tablePrefix . $this->TeamMember->useTable);
-		$this->Division->getDataSource()->truncate($this->Division->tablePrefix . $this->Division->useTable);
-		$this->Game->getDataSource()->truncate($this->Game->tablePrefix . $this->Game->useTable);
-		$this->League->getDataSource()->truncate($this->League->tablePrefix . $this->League->useTable);
-		$this->Event->getDataSource()->truncate($this->Event->tablePrefix . $this->Event->useTable);
-		$this->EventParticipant->getDataSource()->truncate($this->EventParticipant->tablePrefix . $this->EventParticipant->useTable);
+		$models = array(
+			$this->Player, $this->Team, $this->TeamMember, $this->Division,
+			$this->Game, $this->League, $this->Event, $this->EventParticipant
+		);
+
+		foreach ($models as $model) {
+			$model->getDataSource()->truncate($model->tablePrefix . $model->useTable);
+		}
 	}
 
 	/**
@@ -250,7 +252,7 @@ class GenerateDataShell extends AppShell {
 				$pool = 10;
 			}
 
-			if ($type == Event::TEAM) {
+			if ($for == Event::TEAM) {
 				$max = $max / 2;
 			}
 
@@ -286,7 +288,7 @@ class GenerateDataShell extends AppShell {
 				if ($for == Event::TEAM) {
 					$query['team_id'] = $this->teams[$p]['id'];
 				} else {
-					$query['player_id'] = $this->users[($i + 1) * $p]['player_id'];
+					$query['player_id'] = $this->users[rand(0, count($this->users) - 1)]['player_id'];
 				}
 
 				$this->EventParticipant->create();

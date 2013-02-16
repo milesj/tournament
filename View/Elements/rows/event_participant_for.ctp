@@ -2,6 +2,7 @@
 	<td>
 		<b><?php echo $this->Html->link($event['name'], array('controller' => 'events', 'action' => 'view', 'league' => $event['League']['slug'], 'event' => $event['slug'])); ?></b>
 	</td>
+	<td><?php echo $event['Game']['name']; ?></td>
 	<td>
 		<?php echo $this->Html->link($event['League']['name'], array('controller' => 'leagues', 'action' => 'view', 'league' => $event['League']['slug']), array('class' => 'alt')); ?>
 	</td>

@@ -31,7 +31,7 @@
 						foreach ($teams as $team) { ?>
 
 					<tr>
-						<td>
+						<td class="col-logo">
 							<?php if ($logo = $team['Team']['logo']) {
 								echo $this->Html->image($logo, array('url' => array('action' => 'profile', 'slug' => $team['Team']['slug'])));
 							} ?>

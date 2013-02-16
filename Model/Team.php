@@ -27,7 +27,9 @@ class Team extends TournamentAppModel {
 		'TeamMember' => array(
 			'className' => 'Tournament.TeamMember',
 			'dependent' => true,
-			'exclusive' => true
+			'exclusive' => true,
+			'conditions' => array('TeamMember.status >' => self::PENDING),
+			'order' => array('TeamMember.status' => 'ASC', 'TeamMember.role' => 'ASC')
 		)
 	);
 

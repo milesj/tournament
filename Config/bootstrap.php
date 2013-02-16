@@ -99,6 +99,7 @@ Configure::write('Tournament.settings', array(
  * File dimensions and settings for uploads.
  */
 Configure::write('Tournament.uploads', array(
+	'leagueLogo' => array(250, 125),
 	'teamLogo' => array(250, 125),
 	'transport' => array()
 ));
