@@ -28,8 +28,9 @@ class Swiss extends Tournament {
 	 */
 	public function generateBrackets() {
 		$nextRound = (int) $this->_event['round'] + 1;
+		$maxRounds = $this->_event['maxRounds'];
 
-		if ($nextRound > $this->_event['maxRounds']) {
+		if ($maxRounds && $nextRound > $maxRounds) {
 			throw new Exception('Max rounds reached for this event');
 		}
 

@@ -96,14 +96,14 @@ abstract class Tournament {
 	 * @throws Exception
 	 */
 	public static function factory($id) {
-		$event = ClassRegistry::init('Tournament.Event')->getById($id);
+		$event = ClassRegistry::init('Tournament.Event')->findById($id);
 
 		switch ($event['Event']['type']) {
-			case Event::DOUBLE_ELIM:
-				return new DoubleElim($event);
-			break;
 			case Event::SINGLE_ELIM:
 				return new SingleElim($event);
+			break;
+			case Event::DOUBLE_ELIM:
+				return new DoubleElim($event);
 			break;
 			case Event::ROUND_ROBIN:
 				return new RoundRobin($event);

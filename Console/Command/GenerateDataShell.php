@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppShell', 'Console/Command');
+App::uses('Tournament', 'Tournament.Lib');
 
 /**
  * @property User $User
@@ -12,6 +13,7 @@ App::uses('AppShell', 'Console/Command');
  * @property League $League
  * @property Event $Event
  * @property EventParticipant $EventParticipant
+ * @property Match $Match
  */
 class GenerateDataShell extends AppShell {
 
@@ -29,7 +31,8 @@ class GenerateDataShell extends AppShell {
 		'Tournament.Game',
 		'Tournament.League',
 		'Tournament.Event',
-		'Tournament.EventParticipant'
+		'Tournament.EventParticipant',
+		'Tournament.Match'
 	);
 
 	/**
@@ -64,14 +67,15 @@ class GenerateDataShell extends AppShell {
 	 * Generate fake test data.
 	 */
 	public function main() {
-		$this->cleanup();
+		/*$this->cleanup();
 		$this->generateUsers();
 		$this->generatePlayers();
 		$this->generateTeams();
 		$this->generateDivisions();
 		$this->generateGames();
 		$this->generateLeagues();
-		$this->generateEvents();
+		$this->generateEvents(); */
+		$this->generateMatches();
 	}
 
 	/**
@@ -86,7 +90,8 @@ class GenerateDataShell extends AppShell {
 
 		$models = array(
 			$this->Player, $this->Team, $this->TeamMember, $this->Division,
-			$this->Game, $this->League, $this->Event, $this->EventParticipant
+			$this->Game, $this->League, $this->Event, $this->EventParticipant,
+			$this->Match
 		);
 
 		foreach ($models as $model) {
@@ -293,6 +298,25 @@ class GenerateDataShell extends AppShell {
 
 				$this->EventParticipant->create();
 				$this->EventParticipant->save($query);
+			}
+		}
+	}
+
+	/**
+	 * Generate matches for each event.
+	 */
+	public function generateMatches() {
+		$this->out('Generating matches');
+
+		$events = $this->Event->find('list', array(
+			'fields' => array('Event.id')
+		));
+
+		foreach ($events as $event_id) {
+			try {
+				Tournament::factory($event_id)->generateBrackets();
+			} catch (Exception $e) {
+				$this->out(sprintf('Event #%s - %s', $event_id, $e->getMessage()));
 			}
 		}
 	}

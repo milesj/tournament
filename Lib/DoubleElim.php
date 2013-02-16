@@ -11,7 +11,7 @@ class DoubleElim extends SingleElim {
 	 * @throws Exception
 	 */
 	public function __construct($event) {
-		parent::__construct($event);
+		parent::__construct($event, true);
 
 		if ($this->_event['type'] != Event::DOUBLE_ELIM) {
 			throw new Exception('Event is not Double Elimination');
