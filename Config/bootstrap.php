@@ -90,6 +90,11 @@ Configure::write('Tournament.settings', array(
 	'showRemovedTeamMembers' => true,
 	'showQuitTeamMembers' => true,
 
+	// Events
+	'defaultWinPoints' => 3,
+	'defaultLossPoints' => 0,
+	'defaultTiePoints' => 1,
+
 	// Misc
 	'defaultLocale' => 'eng',
 	'defaultTimezone' => -8

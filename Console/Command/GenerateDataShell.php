@@ -67,14 +67,14 @@ class GenerateDataShell extends AppShell {
 	 * Generate fake test data.
 	 */
 	public function main() {
-		/*$this->cleanup();
+		$this->cleanup();
 		$this->generateUsers();
 		$this->generatePlayers();
 		$this->generateTeams();
 		$this->generateDivisions();
 		$this->generateGames();
 		$this->generateLeagues();
-		$this->generateEvents(); */
+		$this->generateEvents();
 		$this->generateMatches();
 	}
 
@@ -242,6 +242,7 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generateEvents() {
 		$this->out('Generating events and participants');
+		$settings = Configure::read('Tournament.settings');
 
 		for ($i = 0; $i < 10; $i++) {
 			$type = rand(0, 3);
@@ -275,7 +276,10 @@ class GenerateDataShell extends AppShell {
 				'start' => date('Y-m-d H:i:s', strtotime('+1 week')),
 				'end' => date('Y-m-d H:i:s', strtotime('+5 weeks')),
 				'signupStart' => date('Y-m-d H:i:s', strtotime('-4 weeks')),
-				'signupEnd' => date('Y-m-d H:i:s')
+				'signupEnd' => date('Y-m-d H:i:s'),
+				'pointsForWin' => $settings['defaultWinPoints'],
+				'pointsForLoss' => $settings['defaultLossPoints'],
+				'pointsForTie' => $settings['defaultTiePoints'],
 			));
 
 			$this->events[] = array(
