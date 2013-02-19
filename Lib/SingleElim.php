@@ -6,21 +6,6 @@ App::uses('Match', 'Tournament.Model');
 class SingleElim extends Tournament {
 
 	/**
-	 * Fetch event information.
-	 *
-	 * @param array $event
-	 * @param boolean $ignore
-	 * @throws Exception
-	 */
-	public function __construct($event, $ignore = false) {
-		parent::__construct($event);
-
-		if (!$ignore && $this->_event['type'] != Event::SINGLE_ELIM) {
-			throw new Exception('Event is not Single Elimination');
-		}
-	}
-
-	/**
 	 * Generate matches for a single elimination event.
 	 *
 	 * 	- Top event participant will play bottom in the 1st round
@@ -115,6 +100,15 @@ class SingleElim extends Tournament {
 		}
 
 		return $participant_ids;
+	}
+
+	/**
+	 * Validate the event is the correct type for the class.
+	 */
+	public function validate() {
+		if ($this->_event['type'] != Event::SINGLE_ELIM) {
+			throw new Exception('Event is not Single Elimination');
+		}
 	}
 
 }

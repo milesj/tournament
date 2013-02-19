@@ -5,20 +5,6 @@ App::uses('Tournament', 'Tournament.Lib');
 class Swiss extends Tournament {
 
 	/**
-	 * Fetch event information.
-	 *
-	 * @param array $event
-	 * @throws Exception
-	 */
-	public function __construct($event) {
-		parent::__construct($event);
-
-		if ($this->_event['type'] != Event::SWISS) {
-			throw new Exception('Event is not Swiss');
-		}
-	}
-
-	/**
 	 * Generate matches for a swiss event.
 	 *
 	 * 	- Event participants will be paired each round with opponents of similar point score
@@ -65,6 +51,15 @@ class Swiss extends Tournament {
 			'isGenerated' => Event::YES,
 			'round' => $nextRound
 		), false);
+	}
+
+	/**
+	 * Validate the event is the correct type for the class.
+	 */
+	public function validate() {
+		if ($this->_event['type'] != Event::SWISS) {
+			throw new Exception('Event is not Swiss');
+		}
 	}
 
 }

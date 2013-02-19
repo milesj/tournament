@@ -5,14 +5,9 @@ App::uses('SingleElim', 'Tournament.Lib');
 class DoubleElim extends SingleElim {
 
 	/**
-	 * Fetch event information.
-	 *
-	 * @param array $event
-	 * @throws Exception
+	 * Validate the event is the correct type for the class.
 	 */
-	public function __construct($event) {
-		parent::__construct($event, true);
-
+	public function validate() {
 		if ($this->_event['type'] != Event::DOUBLE_ELIM) {
 			throw new Exception('Event is not Double Elimination');
 		}

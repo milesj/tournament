@@ -6,23 +6,6 @@ App::uses('Event', 'Tournament.Model');
 class RoundRobin extends Tournament {
 
 	/**
-	 * Fetch event information.
-	 *
-	 * @param array $event
-	 * @throws Exception
-	 */
-	public function __construct($event) {
-		parent::__construct($event);
-
-		if ($this->_event['type'] != Event::ROUND_ROBIN) {
-			throw new Exception('Event is not Round Robin');
-
-		} else if ($event['Event']['isGenerated']) {
-			throw new Exception('Matches have already been generated for this event');
-		}
-	}
-
-	/**
 	 * Generate matches for a round robin event.
 	 *
 	 * 	- Every participant will play every other participant within their pool (or no pool = all)
@@ -66,6 +49,18 @@ class RoundRobin extends Tournament {
 		$this->Event->save(array(
 			'isGenerated' => Event::YES
 		), false);
+	}
+
+	/**
+	 * Validate the event is the correct type for the class.
+	 */
+	public function validate() {
+		if ($this->_event['type'] != Event::ROUND_ROBIN) {
+			throw new Exception('Event is not Round Robin');
+
+		} else if ($this->_event['isGenerated']) {
+			throw new Exception('Matches have already been generated for this event');
+		}
 	}
 
 }

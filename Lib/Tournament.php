@@ -34,8 +34,9 @@ abstract class Tournament {
 	 *
 	 * @param array $event
 	 * @throws Exception
+	 * @final
 	 */
-	public function __construct($event) {
+	final public function __construct($event) {
 		$this->Event = ClassRegistry::init('Tournament.Event');
 		$this->EventParticipant = ClassRegistry::init('Tournament.EventParticipant');
 		$this->Match = ClassRegistry::init('Tournament.Match');
@@ -49,6 +50,8 @@ abstract class Tournament {
 
 		$this->_id = $event['Event']['id'];
 		$this->_event = $event['Event'];
+
+		$this->validate();
 	}
 
 	/**
@@ -162,5 +165,10 @@ abstract class Tournament {
 
 		return $participant_ids;
 	}
+
+	/**
+	 * Validate the event is the correct type for the class.
+	 */
+	abstract public function validate();
 
 }
