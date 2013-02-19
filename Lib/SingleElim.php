@@ -14,7 +14,7 @@ class SingleElim extends Tournament {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function generateBrackets() {
+	public function generateMatches() {
 		$nextRound = (int) $this->_event['round'] + 1;
 
 		if ($nextRound == 1) {
@@ -100,6 +100,16 @@ class SingleElim extends Tournament {
 		}
 
 		return $participant_ids;
+	}
+
+	/**
+	 * Organize a list of matches into the correct match order for brackets.
+	 *
+	 * @param array $matches
+	 * @return array
+	 */
+	public function organizeBrackets($matches) {
+		return $matches;
 	}
 
 	/**

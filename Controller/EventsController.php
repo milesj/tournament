@@ -16,6 +16,13 @@ class EventsController extends TournamentAppController {
 	public $uses = array('Tournament.Event', 'Tournament.Match');
 
 	/**
+	 * Helpers.
+	 *
+	 * @var array
+	 */
+	public $helpers = array('Tournament.Bracket');
+
+	/**
 	 * Pagination.
 	 *
 	 * @var array
@@ -49,7 +56,7 @@ class EventsController extends TournamentAppController {
 		}
 
 		$this->set('event', $event);
-		$this->set('bracket', $this->Match->getBrackets($event['Event']['id'], $event['Event']['for']));
+		$this->set('bracket', $this->Match->getBrackets($event));
 	}
 
 	/**
@@ -103,7 +110,7 @@ class EventsController extends TournamentAppController {
 		}
 
 		$this->set('event', $event);
-		$this->set('bracket', $this->Match->getBrackets($event['Event']['id'], $event['Event']['for']));
+		$this->set('bracket', $this->Match->getBrackets($event));
 	}
 
 	/**

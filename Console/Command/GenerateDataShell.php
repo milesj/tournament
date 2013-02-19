@@ -67,7 +67,6 @@ class GenerateDataShell extends AppShell {
 	 * Generate fake test data.
 	 */
 	public function main() {
-		$this->cleanup();
 		$this->generateUsers();
 		$this->generatePlayers();
 		$this->generateTeams();
@@ -79,31 +78,13 @@ class GenerateDataShell extends AppShell {
 	}
 
 	/**
-	 * Truncate tables before testing.
-	 */
-	public function cleanup() {
-		$this->out('Truncating tables');
-
-		$this->User->deleteAll(array(
-			'User.' . Configure::read('Tournament.userMap.username') . ' LIKE' => 'User #%'
-		));
-
-		$models = array(
-			$this->Player, $this->Team, $this->TeamMember, $this->Division,
-			$this->Game, $this->League, $this->Event, $this->EventParticipant,
-			$this->Match
-		);
-
-		foreach ($models as $model) {
-			$model->getDataSource()->truncate($model->tablePrefix . $model->useTable);
-		}
-	}
-
-	/**
 	 * Generate 250 users.
 	 */
 	public function generateUsers() {
 		$this->out('Generating users');
+		$this->User->deleteAll(array(
+			'User.' . Configure::read('Tournament.userMap.username') . ' LIKE' => 'User #%'
+		));
 
 		$userMap = Configure::read('Tournament.userMap');
 		$statusMap = Configure::read('Tournament.statusMap');
@@ -126,6 +107,7 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generatePlayers() {
 		$this->out('Generating players');
+		$this->Player->getDataSource()->truncate($this->Player->tablePrefix . $this->Player->useTable);
 
 		foreach ($this->users as $i => $user) {
 			$this->Player->create();
@@ -146,6 +128,8 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generateTeams() {
 		$this->out('Generating teams and members');
+		$this->Team->getDataSource()->truncate($this->Team->tablePrefix . $this->Team->useTable);
+		$this->TeamMember->getDataSource()->truncate($this->TeamMember->tablePrefix . $this->TeamMember->useTable);
 
 		$userIndex = 0;
 
@@ -189,6 +173,7 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generateDivisions() {
 		$this->out('Generating divisions');
+		$this->Division->getDataSource()->truncate($this->Division->tablePrefix . $this->Division->useTable);
 
 		foreach (array('Open', 'Pro', 'Invite') as $div) {
 			$this->Division->create();
@@ -201,6 +186,7 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generateGames() {
 		$this->out('Generating games');
+		$this->Game->getDataSource()->truncate($this->Game->tablePrefix . $this->Game->useTable);
 
 		$this->games = array(
 			array('name' => 'Team Fortress 2', 'slug' => 'tf2'),
@@ -221,6 +207,7 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generateLeagues() {
 		$this->out('Generating leagues');
+		$this->League->getDataSource()->truncate($this->League->tablePrefix . $this->League->useTable);
 
 		foreach ($this->games as $game) {
 			foreach (array('West', 'East') as $conf) {
@@ -242,7 +229,25 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generateEvents() {
 		$this->out('Generating events and participants');
+		$this->Event->getDataSource()->truncate($this->Event->tablePrefix . $this->Event->useTable);
+		$this->EventParticipant->getDataSource()->truncate($this->EventParticipant->tablePrefix . $this->EventParticipant->useTable);
+
 		$settings = Configure::read('Tournament.settings');
+		$excludeUsers = array();
+
+		// Don't allow duplicate IDs
+		$findUser = function() use (&$excludeUsers) {
+			$count = count($this->users) - 1;
+			$id = rand(0, $count);
+
+			while (isset($excludeUsers[$id])) {
+				$id = rand(0, $count);
+			}
+
+			$excludeUsers[$id] = $id;
+
+			return $id;
+		};
 
 		for ($i = 0; $i < 10; $i++) {
 			$type = rand(0, 3);
@@ -252,7 +257,7 @@ class GenerateDataShell extends AppShell {
 			if ($type == Event::SINGLE_ELIM || $type == Event::DOUBLE_ELIM) {
 				$max = 32;
 			} else if ($type == Event::ROUND_ROBIN) {
-				$max = 50;
+				$max = 25;
 			} else {
 				$max = 16;
 				$pool = 10;
@@ -291,13 +296,13 @@ class GenerateDataShell extends AppShell {
 				$query = array(
 					'event_id' => $this->Event->id,
 					'status' => EventParticipant::ACTIVE,
-					'isReady' => rand(0, 1)
+					'isReady' => EventParticipant::YES
 				);
 
 				if ($for == Event::TEAM) {
 					$query['team_id'] = $this->teams[$p]['id'];
 				} else {
-					$query['player_id'] = $this->users[rand(0, count($this->users) - 1)]['player_id'];
+					$query['player_id'] = $this->users[$findUser()]['player_id'];
 				}
 
 				$this->EventParticipant->create();
@@ -311,6 +316,7 @@ class GenerateDataShell extends AppShell {
 	 */
 	public function generateMatches() {
 		$this->out('Generating matches');
+		$this->Match->getDataSource()->truncate($this->Match->tablePrefix . $this->Match->useTable);
 
 		$events = $this->Event->find('list', array(
 			'fields' => array('Event.id')
@@ -318,7 +324,7 @@ class GenerateDataShell extends AppShell {
 
 		foreach ($events as $event_id) {
 			try {
-				Tournament::factory($event_id)->generateBrackets();
+				Tournament::factory($event_id)->generateMatches();
 			} catch (Exception $e) {
 				$this->out(sprintf('Event #%s - %s', $event_id, $e->getMessage()));
 			}

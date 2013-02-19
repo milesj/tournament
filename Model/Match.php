@@ -1,12 +1,14 @@
 <?php
 
 App::uses('TournamentAppModel', 'Tournament.Model');
+App::uses('Tournament', 'Tournament.Lib');
 
 class Match extends TournamentAppModel {
 
 	// Winner
 	const HOME = 1;
 	const AWAY = 2;
+	const NONE = 3;
 
 	// Bracket
 	const WINNERS = 0;
@@ -70,7 +72,8 @@ class Match extends TournamentAppModel {
 		'winner' => array(
 			self::PENDING => 'PENDING',
 			self::HOME => 'HOME',
-			self::AWAY => 'AWAY'
+			self::AWAY => 'AWAY',
+			self::NONE => 'NONE'
 		),
 		'homeOutcome' => array(
 			self::PENDING => 'PENDING',
@@ -89,16 +92,16 @@ class Match extends TournamentAppModel {
 	);
 
 	/**
-	 * Return all matches for an event bracket.
+	 * Return all matches for an event.
 	 *
 	 * @param int $event_id
 	 * @param int $type
 	 * @return array
 	 */
-	public function getBrackets($event_id, $type = self::TEAM) {
+	public function getMatches($event_id, $type) {
 		$query = array(
 			'conditions' => array('Match.event_id' => $event_id),
-			'order' => array('Match.bracket' => 'ASC'),
+			'order' => array('Match.id' => 'ASC'),
 			'cache' => array(__METHOD__, $event_id, $type)
 		);
 
@@ -114,5 +117,16 @@ class Match extends TournamentAppModel {
 		return $this->find('all', $query);
 	}
 
+	/**
+	 * Return all matches for an event in the correct bracket order.
+	 *
+	 * @param array $event
+	 * @return array
+	 */
+	public function getBrackets($event) {
+		$matches = $this->getMatches($event['Event']['id'], $event['Event']['for']);
+
+		return Tournament::factory($event)->organizeBrackets($matches);
+	}
 
 }

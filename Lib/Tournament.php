@@ -94,12 +94,16 @@ abstract class Tournament {
 	/**
 	 * Return the correct tournament type instance.
 	 *
-	 * @param int $id
+	 * @param int|array $data
 	 * @return DoubleElim|RoundRobin|SingleElim|Swiss
 	 * @throws Exception
 	 */
-	public static function factory($id) {
-		$event = ClassRegistry::init('Tournament.Event')->findById($id);
+	public static function factory($data) {
+		if (is_numeric($data)) {
+			$event = ClassRegistry::init('Tournament.Event')->getById($data);
+		} else {
+			$event = $data;
+		}
 
 		switch ($event['Event']['type']) {
 			case Event::SINGLE_ELIM:
@@ -121,11 +125,11 @@ abstract class Tournament {
 	}
 
 	/**
-	 * Generate brackets for the current event.
+	 * Generate matches for the current event.
 	 *
 	 * @return bool
 	 */
-	abstract public function generateBrackets();
+	abstract public function generateMatches();
 
 	/**
 	 * Get all ready participant IDs for an event. Take into account the event seeding order.
@@ -165,6 +169,14 @@ abstract class Tournament {
 
 		return $participant_ids;
 	}
+
+	/**
+	 * Organize a list of matches into the correct match order for brackets.
+	 *
+	 * @param array $matches
+	 * @return array
+	 */
+	abstract public function organizeBrackets($matches);
 
 	/**
 	 * Validate the event is the correct type for the class.
