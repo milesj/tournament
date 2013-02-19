@@ -234,20 +234,7 @@ class GenerateDataShell extends AppShell {
 
 		$settings = Configure::read('Tournament.settings');
 		$excludeUsers = array();
-
-		// Don't allow duplicate IDs
-		$findUser = function() use (&$excludeUsers) {
-			$count = count($this->users) - 1;
-			$id = rand(0, $count);
-
-			while (isset($excludeUsers[$id])) {
-				$id = rand(0, $count);
-			}
-
-			$excludeUsers[$id] = $id;
-
-			return $id;
-		};
+		$excludeTeams = array();
 
 		for ($i = 0; $i < 10; $i++) {
 			$type = rand(0, 3);
@@ -300,9 +287,9 @@ class GenerateDataShell extends AppShell {
 				);
 
 				if ($for == Event::TEAM) {
-					$query['team_id'] = $this->teams[$p]['id'];
+					$query['team_id'] = $this->teams[$this->getRandomTeam($excludeTeams)]['id'];
 				} else {
-					$query['player_id'] = $this->users[$findUser()]['player_id'];
+					$query['player_id'] = $this->users[$this->getRandomUser($excludeUsers)]['player_id'];
 				}
 
 				$this->EventParticipant->create();
@@ -329,6 +316,44 @@ class GenerateDataShell extends AppShell {
 				$this->out(sprintf('Event #%s - %s', $event_id, $e->getMessage()));
 			}
 		}
+	}
+
+	/**
+	 * Get a random team index from the list of teams while excluding duplicates.
+	 *
+	 * @param array $exclude
+	 * @return int
+	 */
+	public function getRandomTeam(array &$exclude) {
+		$count = count($this->teams) - 1;
+		$id = rand(0, $count);
+
+		while (isset($exclude[$id])) {
+			$id = rand(0, $count);
+		}
+
+		$exclude[$id] = $id;
+
+		return $id;
+	}
+
+	/**
+	 * Get a random user index from the list of users while excluding duplicates.
+	 *
+	 * @param array $exclude
+	 * @return int
+	 */
+	public function getRandomUser(array &$exclude) {
+		$count = count($this->users) - 1;
+		$id = rand(0, $count);
+
+		while (isset($exclude[$id])) {
+			$id = rand(0, $count);
+		}
+
+		$exclude[$id] = $id;
+
+		return $id;
 	}
 
 }
