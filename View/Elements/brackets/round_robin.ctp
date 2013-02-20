@@ -1,94 +1,109 @@
-<?php
-$participant_ids = array_keys($bracket['participants']); ?>
-
 <style type="text/css">
-body { width: <?php echo ($bracket['rounds'] * 150); ?>px; }
-.round-robin .table td { text-align: center; vertical-align: middle; padding: 10px; }
+body { width: <?php echo (25 * 150); ?>px; }
+.round-robin .table td { text-align: center; }
 .cell-participant,
 .cell-points { background: #fff; font-weight: bold; }
 .cell-void { background: #d7d7d7; }
-.cell-loss { background: #ffeeee; }
-.cell-win { background: #eefff1; }
-.cell-tie { background: #eef1ff; }
+.status-loss { background: #ffeeee; }
+.status-win { background: #eefff1; }
+.status-tie { background: #eef1ff; }
 </style>
 
-<div class="bracket">
-<?php foreach ($bracket['pools'] as $pool => $participants) { ?>
+<div class="bracket round-robin">
 
-<div id="pool-<?php echo $pool; ?>" class="container bracket round-robin">
-	<div class="container-head">
-		<h3><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
-	</div>
+	<?php // Loop over each pool
+	foreach ($bracket->getPools() as $pool) {
+		$participants = $bracket->getPoolParticipants($pool);
+		$participant_ids = array_keys($participants);
+		$rounds = $bracket->getTotalRounds(); ?>
 
-	<div class="container-body">
-		<div class="table no-paging">
-			<table>
-				<thead>
-					<tr>
-						<td> </td>
-						<?php foreach ($participants as $participant_id => $matches) { ?>
-							<td class="cell-participant">
-								<?php echo $this->Bracket->getParticipant($participant_id); ?>
-							</td>
-						<?php } ?>
-						<td> </td>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($participants as $participant_id => $matches) { ?>
+	<div id="pool-<?php echo $pool; ?>" class="container">
+		<div class="container-head">
+			<h3><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
+		</div>
+
+		<div class="container-body">
+			<div class="table no-paging">
+				<table>
+					<thead>
+						<tr>
+							<th><?php echo __d('tournament', 'Round'); ?></th>
+							<?php for ($i = 1; $i <= $rounds; $i++) { ?>
+								<th><?php echo $i; ?></th>
+							<?php } ?>
+							<th><?php echo __d('tournament', 'Score'); ?></th>
+							<th><?php echo __d('tournament', 'Standing'); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<?php foreach ($participants as $participant) { ?>
+								<td class="cell-participant">
+									<?php echo $this->Bracket->participantLink($participant); ?>
+								</td>
+							<?php } ?>
+							<td></td>
+							<td></td>
+						</tr>
+
+						<?php // Loop over each participant
+						foreach ($participants as $participant) {
+							$matches = array_values($bracket->getPoolMatches($pool, $participant['id'])); ?>
+
 						<tr>
 							<td class="cell-participant">
-								<?php echo $this->Bracket->getParticipant($participant_id); ?>
+								<?php echo $this->Bracket->participantLink($participant); ?>
 							</td>
 
-							<?php
+							<?php // Loop over each match for the participant
 							$round = 0;
 							$winPoints = 0;
 							$lossPoints = 0;
 
-							for ($i = 0; $i < $bracket['rounds']; $i++) {
-								if ($participant_ids[$i] == $participant_id || empty($matches[$round])) { ?>
-									<td class="cell-void">
-									</td>
+							for ($i = 0; $i < $rounds; $i++) {
+
+								// Skip if playing against your self or no match found
+								if ($participant_ids[$i] == $participant['id'] || empty($matches[$round])) { ?>
+
+								<td class="cell-void"></td>
 
 								<?php } else {
-									$match = $bracket['matches'][$matches[$round]];
+									$match = $matches[$round];
+									$score = $this->Bracket->matchScore($participant['id'], $match);
 									$round++;
 
-									if ($match['winner'] != Match::PENDING) {
-										if ($match['home_id'] == $participant_id) {
-											$winPoint = $match['homeScore'];
-											$lossPoint = $match['awayScore'];
-										} else {
-											$winPoint = $match['awayScore'];
-											$lossPoint = $match['homeScore'];
-										}
-
-										$winPoints += $winPoint;
-										$lossPoints += $lossPoint;
+									if ($score) {
+										$winPoints += $score[0];
+										$lossPoints += $score[1];
 									} ?>
 
-									<td class="cell-<?php echo $this->Bracket->getMatchStatus($participant_id, $match); ?>">
-										<?php if ($match['winner'] == Match::PENDING) {
-											echo '-';
-										} else {
-											echo $winPoint . ' - ' . $lossPoint;
-										} ?>
-									</td>
+								<td class="status-<?php echo $this->Bracket->matchStatus($participant['id'], $match); ?>">
+									<?php if ($score) {
+										echo implode(' - ', $score);
+									} ?>
+								</td>
 
-							<?php } } ?>
+								<?php }
+							} ?>
 
 							<td class="cell-points">
 								<?php echo $winPoints; ?> -
 								<?php echo $lossPoints; ?>
 							</td>
+							<td class="cell-position">
+								<?php echo $this->Bracket->standing($bracket->getPoolStanding($pool, $participant['id'])); ?>
+							</td>
 						</tr>
-					<?php } ?>
-				</tbody>
-			</table>
+
+						<?php } ?>
+
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-</div>
 
-<?php } ?>
+	<?php } ?>
+
 </div>

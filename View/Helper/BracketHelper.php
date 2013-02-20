@@ -13,34 +13,12 @@ class BracketHelper extends AppHelper {
 	public $helpers = array('Html');
 
 	/**
-	 * Bracket data.
+	 * Return a participant link based on the defined data.
 	 *
-	 * @var array
-	 */
-	public $data = array();
-
-	/**
-	 * Store the bracket data to manipulate.
-	 *
-	 * @param array $data
-	 */
-	public function setup(array $data) {
-		$this->data = $data;
-	}
-
-	/**
-	 * Return a participant link based on ID.
-	 *
-	 * @param int $id
+	 * @param array $participant
 	 * @return string
 	 */
-	public function getParticipant($id) {
-		if (empty($this->data['participants'][$id])) {
-			return null;
-		}
-
-		$participant = $this->data['participants'][$id];
-
+	public function participantLink($participant) {
 		if (isset($participant['User'])) {
 			return $this->Html->link($participant['User'][Configure::read('Tournament.userMap.username')], array(
 				'controller' => 'players',
@@ -57,13 +35,36 @@ class BracketHelper extends AppHelper {
 	}
 
 	/**
+	 * Return the points score for the match for the specific participant.
+	 *
+	 * @param int $participant_id
+	 * @param array $match
+	 * @return array
+	 */
+	public function matchScore($participant_id, $match) {
+		if ($match['winner'] == Match::PENDING) {
+			return null;
+		}
+
+		if ($match['home_id'] == $participant_id) {
+			$winPoint = $match['homeScore'];
+			$lossPoint = $match['awayScore'];
+		} else {
+			$winPoint = $match['awayScore'];
+			$lossPoint = $match['homeScore'];
+		}
+
+		return array($winPoint, $lossPoint);
+	}
+
+	/**
 	 * Return the status of the match for the specific participant.
 	 *
-	 * @param int $id
+	 * @param int $participant_id
 	 * @param array $match
 	 * @return string
 	 */
-	public function getMatchStatus($id, $match) {
+	public function matchStatus($participant_id, $match) {
 		if ($match['winner'] == Match::PENDING) {
 			return 'pending';
 
@@ -74,13 +75,38 @@ class BracketHelper extends AppHelper {
 		$status = 'loss';
 
 		if (
-			($match['home_id'] == $id && $match['winner'] == Match::HOME) ||
-			($match['away_id'] == $id && $match['winner'] == Match::AWAY)
+			($match['home_id'] == $participant_id && $match['winner'] == Match::HOME) ||
+			($match['away_id'] == $participant_id && $match['winner'] == Match::AWAY)
 		) {
 			$status = 'win';
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Display a number with its ordinal indicator.
+	 *
+	 * @param int $num
+	 * @return string
+	 */
+	public function standing($num) {
+		if (!$num) {
+			return $num;
+		}
+
+		if (!in_array(($num % 100), array(11, 12, 13))) {
+			switch ($num % 10) {
+				case 1: $message = '%sst'; break;
+				case 2: $message = '%snd'; break;
+				case 3: $message = '%srd'; break;
+				default: $message = '%sth'; break;
+			}
+
+			return __($message, $num);
+		}
+
+		return $num;
 	}
 
 }

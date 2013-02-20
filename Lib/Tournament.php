@@ -7,6 +7,7 @@ App::uses('DoubleElim', 'Tournament.Lib');
 App::uses('SingleElim', 'Tournament.Lib');
 App::uses('RoundRobin', 'Tournament.Lib');
 App::uses('Swiss', 'Tournament.Lib');
+App::uses('Bracket', 'Tournament.Lib');
 
 /**
  * @property Event $Event

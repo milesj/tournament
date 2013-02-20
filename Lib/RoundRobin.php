@@ -57,7 +57,7 @@ class RoundRobin extends Tournament {
 	 * @todo
 	 *
 	 * @param array $matches
-	 * @return array
+	 * @return Bracket
 	 */
 	public function organizeBrackets($matches) {
 		if ($this->_event['for'] == Event::TEAM) {
@@ -113,12 +113,12 @@ class RoundRobin extends Tournament {
 			}
 		}
 
-		return array(
-			'matches' => $list,
-			'participants' => $participants,
-			'pools' => $pools,
-			'rounds' => count($participants)
-		);
+		$bracket = new Bracket($this->_event['type']);
+		$bracket->setMatches($list);
+		$bracket->setParticipants($participants);
+		$bracket->setPools($pools);
+
+		return $bracket;
 	}
 
 	/**

@@ -1,7 +1,5 @@
 <?php
 
-$this->Bracket->setup($bracket);
-
 switch ($event['Event']['type']) {
 	case Event::SINGLE_ELIM:
 		echo $this->element('brackets/single_elim', array('bracket' => $bracket));
