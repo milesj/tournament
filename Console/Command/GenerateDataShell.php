@@ -243,11 +243,9 @@ class GenerateDataShell extends AppShell {
 
 			if ($type == Event::SINGLE_ELIM || $type == Event::DOUBLE_ELIM) {
 				$max = 32;
-			} else if ($type == Event::ROUND_ROBIN) {
-				$max = 25;
 			} else {
-				$max = 16;
-				$pool = 10;
+				$pool = rand(0, 10);
+				$max = ($pool * 3);
 			}
 
 			if ($for == Event::TEAM) {
