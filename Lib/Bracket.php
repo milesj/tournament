@@ -63,6 +63,97 @@ class Bracket {
 	}
 
 	/**
+	 * Loop through a list of match IDs and calculate the current point scores.
+	 *
+	 * @param array $match_ids
+	 * @return array
+	 */
+	public function calculateScores(array $match_ids) {
+		$scores = array();
+
+		foreach ($match_ids as $match_id) {
+			$match = $this->getMatch($match_id);
+			$home_id = $match['home_id'];
+			$away_id = $match['away_id'];
+
+			if (empty($scores[$home_id])) {
+				$scores[$home_id] = 0;
+			}
+
+			if (empty($scores[$away_id])) {
+				$scores[$away_id] = 0;
+			}
+
+			if ($match['winner'] == Match::PENDING) {
+				continue;
+			}
+
+			$scores[$home_id] += $match['homeScore'];
+			$scores[$away_id] += $match['awayScore'];
+		}
+
+		return $scores;
+	}
+
+	/**
+	 * Loop through a list of match IDs and calculate the current participant standings.
+	 *
+	 * @param array $match_ids
+	 * @return array
+	 */
+	public function calculateStandings(array $match_ids) {
+		$match_ids = array_unique($match_ids);
+		$scores = array();
+
+		foreach ($match_ids as $match_id) {
+			$match = $this->getMatch($match_id);
+			$home_id = $match['home_id'];
+			$away_id = $match['away_id'];
+
+			if (empty($scores[$home_id])) {
+				$scores[$home_id] = null;
+			}
+
+			if (empty($scores[$away_id])) {
+				$scores[$away_id] = null;
+			}
+
+			if ($match['winner'] == Match::PENDING) {
+				continue;
+			}
+
+			if ($match['homeOutcome'] == Match::WIN) {
+				$scores[$home_id] += 2;
+			} else if ($match['homeOutcome'] == Match::LOSS) {
+				$scores[$home_id] += -1;
+			}
+
+			if ($match['awayOutcome'] == Match::WIN) {
+				$scores[$away_id] += 2;
+			} else if ($match['awayOutcome'] == Match::LOSS) {
+				$scores[$away_id] += -1;
+			}
+		}
+
+		$standings = array();
+
+		foreach ($scores as $participant_id => $score) {
+			if ($score === null) {
+				continue;
+			} else if (isset($standings[$score])) {
+				$standings[$score][] = $participant_id;
+			} else {
+				$standings[$score] = array($participant_id);
+			}
+		}
+
+		ksort($standings);
+		$standings = array_values(array_reverse($standings, true));
+
+		return $standings;
+	}
+
+	/**
 	 * Return a single match by ID.
 	 *
 	 * @param int $id
@@ -143,11 +234,12 @@ class Bracket {
 	 * @throws Exception
 	 */
 	public function getPoolMatches($pool_id, $participant_id) {
+		$matches = array();
+
 		if (empty($this->_pools[$pool_id][$participant_id])) {
-			throw new Exception(sprintf('Invalid participant %s in pool %s', $participant_id, $pool_id));
+			return $matches;
 		}
 
-		$matches = array();
 		$ids = $this->_pools[$pool_id][$participant_id];
 
 		foreach ($ids as $match_id) {
@@ -183,7 +275,7 @@ class Bracket {
 	 * @throws Exception
 	 */
 	public function getPoolStanding($pool_id, $participant_id) {
-		if (empty($this->_standings[$pool_id])) {
+		if (!isset($this->_standings[$pool_id])) {
 			throw new Exception(sprintf('Invalid pool %s', $pool_id));
 		}
 
@@ -194,6 +286,38 @@ class Bracket {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Return all rounds.
+	 *
+	 * @return array
+	 */
+	public function getRounds() {
+		return array_keys($this->_rounds);
+	}
+
+	/**
+	 * Return all matches for a specific round.
+	 *
+	 * @param int $round_id
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getRoundMatches($round_id) {
+		$matches = array();
+
+		if (empty($this->_rounds[$round_id])) {
+			return $matches;
+		}
+
+		$ids = $this->_rounds[$round_id];
+
+		foreach ($ids as $match_id) {
+			$matches[$match_id] = $this->getMatch($match_id);
+		}
+
+		return $matches;
 	}
 
 	/**
@@ -212,7 +336,9 @@ class Bracket {
 	 */
 	public function getTotalRounds() {
 		if ($this->_type == Event::ROUND_ROBIN) {
-			return count($this->_participants);
+			$pools = array_values($this->_pools);
+
+			return count($pools[0]);
 		}
 
 		return count($this->_rounds);
@@ -260,50 +386,14 @@ class Bracket {
 
 		// Cache and tally the current scores
 		foreach ($pools as $pool_id => $participants) {
-			$scores = array();
+			$match_ids = array();
 
 			foreach ($participants as $participant_id => $matches) {
-				foreach ($matches as $match_id) {
-					$match = $this->getMatch($match_id);
-					$home_id = $match['home_id'];
-					$away_id = $match['away_id'];
-
-					if (empty($scores[$home_id])) {
-						$scores[$home_id] = 0;
-					}
-
-					if (empty($scores[$away_id])) {
-						$scores[$away_id] = 0;
-					}
-
-					if ($match['winner'] == Match::PENDING) {
-						continue;
-					}
-
-					$scores[$home_id] += $match['homeScore'];
-					$scores[$away_id] += $match['awayScore'];
-				}
+				$match_ids = array_merge($match_ids, $matches);
 			}
 
-			$this->_scores[$pool_id] = $scores;
-
-			// Now generate the standings
-			$standings = array();
-
-			foreach ($scores as $participant_id => $score) {
-				if ($score <= 0) {
-					continue;
-				} else if (isset($standings[$score])) {
-					$standings[$score][] = $participant_id;
-				} else {
-					$standings[$score] = array($participant_id);
-				}
-			}
-
-			ksort($standings);
-			$standings = array_values(array_reverse($standings, true));
-
-			$this->_standings[$pool_id] = $standings;
+			$this->_scores[$pool_id] = $this->calculateScores($match_ids);
+			$this->_standings[$pool_id] = $this->calculateStandings($match_ids);
 		}
 
 		return $this;

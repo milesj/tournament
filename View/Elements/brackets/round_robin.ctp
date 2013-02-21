@@ -1,13 +1,3 @@
-<style type="text/css">
-body { width: <?php echo (25 * 150); ?>px; }
-.round-robin .table td { text-align: center; }
-.cell-participant,
-.cell-points { background: #fff; font-weight: bold; }
-.cell-void { background: #d7d7d7; }
-.status-loss { background: #ffeeee; }
-.status-win { background: #eefff1; }
-.status-tie { background: #eef1ff; }
-</style>
 
 <div class="bracket round-robin">
 
@@ -39,7 +29,8 @@ body { width: <?php echo (25 * 150); ?>px; }
 						<tr>
 							<td></td>
 							<?php foreach ($participants as $participant) { ?>
-								<td class="cell-participant">
+								<td class="participant">
+									<?php echo $this->Bracket->participantIcon($participant); ?>
 									<?php echo $this->Bracket->participantLink($participant); ?>
 								</td>
 							<?php } ?>
@@ -52,7 +43,8 @@ body { width: <?php echo (25 * 150); ?>px; }
 							$matches = array_values($bracket->getPoolMatches($pool, $participant['id'])); ?>
 
 						<tr>
-							<td class="cell-participant">
+							<td class="participant">
+								<?php echo $this->Bracket->participantIcon($participant); ?>
 								<?php echo $this->Bracket->participantLink($participant); ?>
 							</td>
 
@@ -66,7 +58,7 @@ body { width: <?php echo (25 * 150); ?>px; }
 								// Skip if playing against your self or no match found
 								if ($participant_ids[$i] == $participant['id'] || empty($matches[$round])) { ?>
 
-								<td class="cell-void"></td>
+								<td class="void"></td>
 
 								<?php } else {
 									$match = $matches[$round];
@@ -87,11 +79,11 @@ body { width: <?php echo (25 * 150); ?>px; }
 								<?php }
 							} ?>
 
-							<td class="cell-points">
+							<td class="score">
 								<?php echo $winPoints; ?> -
 								<?php echo $lossPoints; ?>
 							</td>
-							<td class="cell-position">
+							<td class="standing">
 								<?php echo $this->Bracket->standing($bracket->getPoolStanding($pool, $participant['id'])); ?>
 							</td>
 						</tr>

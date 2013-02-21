@@ -13,6 +13,27 @@ class BracketHelper extends AppHelper {
 	public $helpers = array('Html');
 
 	/**
+	 * Return a participant icon based on the defined data.
+	 *
+	 * @param array $participant
+	 * @return string
+	 */
+	public function participantIcon($participant) {
+		if (isset($participant['User'])) {
+			$avatar = Configure::read('Tournament.userMap.avatar');
+			$icon = isset($participant['User'][$avatar]) ? $participant['User'][$avatar] : null;
+		} else {
+			$icon = $participant['logo'];
+		}
+
+		if (empty($icon)) {
+			return null;
+		}
+
+		return $this->Html->image($icon);
+	}
+
+	/**
 	 * Return a participant link based on the defined data.
 	 *
 	 * @param array $participant

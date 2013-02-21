@@ -3,6 +3,8 @@
 App::uses('AppShell', 'Console/Command');
 App::uses('Tournament', 'Tournament.Lib');
 
+Configure::write('debug', 2);
+
 /**
  * @property User $User
  * @property Player $Player
@@ -67,6 +69,13 @@ class GenerateDataShell extends AppShell {
 	 * Generate fake test data.
 	 */
 	public function main() {
+		$this->out($this->OptionParser->help());
+	}
+
+	/**
+	 * Generate data in all tables.
+	 */
+	public function generate() {
 		$this->generateUsers();
 		$this->generatePlayers();
 		$this->generateTeams();
@@ -240,12 +249,16 @@ class GenerateDataShell extends AppShell {
 			$type = rand(0, 3);
 			$for = rand(0, 1);
 			$pool = null;
+			$rounds = null;
 
 			if ($type == Event::SINGLE_ELIM || $type == Event::DOUBLE_ELIM) {
 				$max = 32;
-			} else {
+			} else if ($type == Event::ROUND_ROBIN) {
 				$pool = rand(0, 10);
-				$max = ($pool * 3);
+				$max = ($pool * 3) + 10;
+			} else {
+				$max = 16;
+				$rounds = 10;
 			}
 
 			if ($for == Event::TEAM) {
@@ -262,6 +275,7 @@ class GenerateDataShell extends AppShell {
 				'seed' => rand(0, 1),
 				'name' => 'Event #' . $i,
 				'maxParticipants' => $max,
+				'maxRounds' => $rounds,
 				'poolSize' => $pool,
 				'start' => date('Y-m-d H:i:s', strtotime('+1 week')),
 				'end' => date('Y-m-d H:i:s', strtotime('+5 weeks')),
@@ -352,6 +366,101 @@ class GenerateDataShell extends AppShell {
 		$exclude[$id] = $id;
 
 		return $id;
+	}
+
+	/**
+	 * Loop through pending matches and declare a winner and award points.
+	 */
+	public function advance() {
+		$event_id = $this->args[0];
+		$event = $this->Event->getById($event_id);
+		$settings = Configure::read('Tournament.settings');
+
+		if (!$event) {
+			$this->err('Invalid event');
+		}
+
+		// Update matches with fake data
+		$this->out('Advancing current round matches');
+
+		if ($matches = $this->Match->getPendingMatches($event_id)) {
+			foreach ($matches as $match) {
+				$home_id = $match['Match']['home_id'];
+				$away_id = $match['Match']['away_id'];
+				$winner = rand(1, 3);
+				$query = array(
+					'winner' => $winner
+				);
+
+				if ($winner == Match::HOME) {
+					$query['homeOutcome'] = Match::WIN;
+					$query['awayOutcome'] = Match::LOSS;
+					$query['homeScore'] = $settings['defaultWinPoints'];
+					$query['awayScore'] = $settings['defaultLossPoints'];
+
+					$this->EventParticipant->updateStatistics($event_id, $home_id, array('wins' => 1, 'points' => $query['homeScore']));
+					$this->EventParticipant->updateStatistics($event_id, $away_id, array('losses' => 1, 'points' => $query['awayScore']));
+
+				} else if ($winner == Match::AWAY) {
+					$query['homeOutcome'] = Match::LOSS;
+					$query['awayOutcome'] = Match::WIN;
+					$query['homeScore'] = $settings['defaultLossPoints'];
+					$query['awayScore'] = $settings['defaultWinPoints'];
+
+					$this->EventParticipant->updateStatistics($event_id, $home_id, array('losses' => 1, 'points' => $query['homeScore']));
+					$this->EventParticipant->updateStatistics($event_id, $away_id, array('wins' => 1, 'points' => $query['awayScore']));
+
+				} else {
+					$query['homeOutcome'] = Match::TIE;
+					$query['awayOutcome'] = Match::TIE;
+					$query['homeScore'] = $settings['defaultTiePoints'];
+					$query['awayScore'] = $settings['defaultTiePoints'];
+
+					$this->EventParticipant->updateStatistics($event_id, $home_id, array('ties' => 1, 'points' => $query['homeScore']));
+					$this->EventParticipant->updateStatistics($event_id, $away_id, array('ties' => 1, 'points' => $query['awayScore']));
+				}
+
+				$this->Match->id = $match['Match']['id'];
+				$this->Match->save($query, false);
+			}
+		}
+
+		// Generate the next round
+		$this->out('Generating next round matches');
+
+		try {
+			Tournament::factory($event)->generateMatches();
+		} catch (Exception $e) {
+			$this->out($e->getMessage());
+		}
+	}
+
+	/**
+	 * Add sub-commands.
+	 *
+	 * @return ConsoleOptionParser
+	 */
+	public function getOptionParser() {
+		$parser = parent::getOptionParser();
+
+		$parser->addSubcommand('generate', array(
+			'help' => 'Generate fake data',
+			'parser' => array(
+				'description' => 'This command will truncate all tables and generate new test data.'
+			)
+		));
+
+		$parser->addSubcommand('advance', array(
+			'help' => 'Advance an event round',
+			'parser' => array(
+				'description' => 'This command will advance the current event round to the next round by flagging current matches as a win, loss or tie.',
+				'arguments' => array(
+					'event_id' => array('help' => 'Event to advance', 'required' => true)
+				)
+			)
+		));
+
+		return $parser;
 	}
 
 }

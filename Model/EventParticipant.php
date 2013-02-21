@@ -45,4 +45,22 @@ class EventParticipant extends TournamentAppModel {
 		));
 	}
 
+	public function updateStatistics($event_id, $participant_id, array $stats) {
+		$event = $this->Event->getById($event_id);
+		$conditions = array('EventParticipant.event_id' => $event_id);
+		$query = array();
+
+		if ($event['Event']['for'] == self::TEAM) {
+			$conditions['EventParticipant.team_id'] = $participant_id;
+		} else {
+			$conditions['EventParticipant.player_id'] = $participant_id;
+		}
+
+		foreach ($stats as $key => $value) {
+			$query['EventParticipant.' . $key] = 'EventParticipant.' . $key . ' + ' . (int) $value;
+		}
+
+		return $this->updateAll($query, $conditions);
+	}
+
 }

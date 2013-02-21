@@ -54,7 +54,8 @@ class RoundRobin extends Tournament {
 	/**
 	 * Organize a list of matches into the correct match order for brackets.
 	 *
-	 * @todo
+	 * 	- Save a mapping of matches and participants for easy lookup
+	 * 	- Group all matches into an index of participants per pool
 	 *
 	 * @param array $matches
 	 * @return Bracket
@@ -106,7 +107,7 @@ class RoundRobin extends Tournament {
 			$pools[$pool][$away_id][] = $match['Match']['id'];
 		}
 
-		// Loop through and sort matches by round
+		// Loop through and sort matches
 		foreach ($pools as &$p) {
 			foreach ($p as &$m) {
 				sort($m, SORT_NUMERIC);

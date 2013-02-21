@@ -118,6 +118,21 @@ class Match extends TournamentAppModel {
 	}
 
 	/**
+	 * Return all matches that haven't been played yet.
+	 *
+	 * @param int $event_id
+	 * @return array
+	 */
+	public function getPendingMatches($event_id) {
+		return $this->find('all', array(
+			'conditions' => array(
+				'Match.event_id' => $event_id,
+				'Match.winner' => self::PENDING
+			)
+		));
+	}
+
+	/**
 	 * Return all matches for an event in the correct bracket order.
 	 *
 	 * @param array $event
