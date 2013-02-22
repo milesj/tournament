@@ -54,61 +54,6 @@ class Swiss extends Tournament {
 	}
 
 	/**
-	 * Organize a list of matches into the correct match order for brackets.
-	 *
-	 * @param array $matches
-	 * @return array
-	 */
-	public function organizeBrackets($matches) {
-		if ($this->_event['for'] == Event::TEAM) {
-			$homeIndex = 'HomeTeam';
-			$awayIndex = 'AwayTeam';
-		} else {
-			$homeIndex = 'HomePlayer';
-			$awayIndex = 'AwayPlayer';
-		}
-
-		$participants = array();
-		$rounds = array();
-		$list = array();
-
-		foreach ($matches as $match) {
-			$home_id = $match['Match']['home_id'];
-			$away_id = $match['Match']['away_id'];
-			$round = (int) $match['Match']['round'];
-
-			// Store participant info
-			if (empty($participants[$home_id])) {
-				$participants[$home_id] = $match[$homeIndex];
-			}
-
-			if (empty($participants[$away_id])) {
-				$participants[$away_id] = $match[$awayIndex];
-			}
-
-			// Store match IDs into rounds
-			if (empty($rounds[$round])) {
-				$rounds[$round] = array();
-			}
-
-			$rounds[$round][] = $match['Match']['id'];
-			$list[$match['Match']['id']] = $match['Match'];
-		}
-
-		// Loop through and sort matches
-		foreach ($rounds as &$m) {
-			sort($m, SORT_NUMERIC);
-		}
-
-		$bracket = new Bracket($this->_event['type']);
-		$bracket->setMatches($list);
-		$bracket->setParticipants($participants);
-		$bracket->setRounds($rounds);
-
-		return $bracket;
-	}
-
-	/**
 	 * Validate the event is the correct type for the class.
 	 */
 	public function validate() {

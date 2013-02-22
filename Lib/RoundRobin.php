@@ -114,7 +114,7 @@ class RoundRobin extends Tournament {
 			}
 		}
 
-		$bracket = new Bracket($this->_event['type']);
+		$bracket = new Bracket($this->_event);
 		$bracket->setMatches($list);
 		$bracket->setParticipants($participants);
 		$bracket->setPools($pools);

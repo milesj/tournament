@@ -56,9 +56,15 @@ class SingleElim extends Tournament {
 	 *
 	 * @param int $round
 	 * @return void
+	 * @throws Exception
 	 */
 	public function generateRound($round) {
 		$participants = $this->getWinners();
+
+		if (count($participants) == 1) {
+			throw new Exception('Winner has been reached');
+		}
+
 		$half = ceil(count($participants) / 2);
 
 		for ($i = 0; $i < $half; $i++) {
@@ -81,7 +87,7 @@ class SingleElim extends Tournament {
 				'Match.event_id' => $this->_id,
 				'Match.round' => $this->_event['round']
 			),
-			'order' => array('Match.created' => 'ASC')
+			'order' => array('Match.id' => 'ASC')
 		));
 
 		if (!$matches) {
@@ -100,16 +106,6 @@ class SingleElim extends Tournament {
 		}
 
 		return $participant_ids;
-	}
-
-	/**
-	 * Organize a list of matches into the correct match order for brackets.
-	 *
-	 * @param array $matches
-	 * @return array
-	 */
-	public function organizeBrackets($matches) {
-		return $matches;
 	}
 
 	/**

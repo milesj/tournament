@@ -5,11 +5,11 @@ App::uses('Event', 'Tournament.Model');
 class Bracket {
 
 	/**
-	 * Type of bracket.
+	 * Event information.
 	 *
-	 * @var int
+	 * @var array
 	 */
-	protected $_type;
+	protected $_event;
 
 	/**
 	 * List of matches.
@@ -54,12 +54,12 @@ class Bracket {
 	protected $_standings = array();
 
 	/**
-	 * Store the event bracket type.
+	 * Store the event.
 	 *
-	 * @param int $type
+	 * @param array $event
 	 */
-	public function __construct($type) {
-		$this->_type = $type;
+	public function __construct($event) {
+		$this->_event = $event;
 	}
 
 	/**
@@ -158,6 +158,15 @@ class Bracket {
 	}
 
 	/**
+	 * Return the count of how many rounds have been completed.
+	 *
+	 * @return int
+	 */
+	public function getCompletedRounds() {
+		return count($this->_rounds);
+	}
+
+	/**
 	 * Return a single match by ID.
 	 *
 	 * @param int $id
@@ -179,6 +188,28 @@ class Bracket {
 	 */
 	public function getMatches() {
 		return $this->_matches;
+	}
+
+	/**
+	 * Return the max amount of pools that will be played.
+	 *
+	 * @return int
+	 */
+	public function getMaxPools() {
+		return count($this->getPools());
+	}
+
+	/**
+	 * Return the max amount of rounds that will be played.
+	 *
+	 * @return int
+	 */
+	public function getMaxRounds() {
+		if (!empty($this->_event['maxRounds'])) {
+			return (int) $this->_event['maxRounds'];
+		}
+
+		return count($this->getRounds());
 	}
 
 	/**
@@ -293,11 +324,26 @@ class Bracket {
 	}
 
 	/**
-	 * Return all rounds.
+	 * Return all rounds. The output will change depending on the round type.
 	 *
 	 * @return array
 	 */
 	public function getRounds() {
+		switch ($this->_event['type']) {
+			case Event::SINGLE_ELIM:
+			case Event::DOUBLE_ELIM:
+				$participantCount = count($this->_rounds[1]);
+				$rounds = array(1 => $participantCount);
+
+				while ($participantCount != 1) {
+					$participantCount = ceil($participantCount / 2);
+					$rounds[] = $participantCount;
+				}
+
+				return $rounds;
+			break;
+		}
+
 		return array_keys($this->_rounds);
 	}
 
@@ -339,7 +385,7 @@ class Bracket {
 	 * @return int
 	 */
 	public function getTotalRounds() {
-		if ($this->_type == Event::ROUND_ROBIN) {
+		if ($this->_event['type'] == Event::ROUND_ROBIN) {
 			$pools = array_values($this->_pools);
 
 			return count($pools[0]);

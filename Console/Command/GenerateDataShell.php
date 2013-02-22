@@ -387,7 +387,13 @@ class GenerateDataShell extends AppShell {
 			foreach ($matches as $match) {
 				$home_id = $match['Match']['home_id'];
 				$away_id = $match['Match']['away_id'];
-				$winner = rand(1, 3);
+
+				if ($event['Event']['type'] == Event::SINGLE_ELIM || $event['Event']['type'] == Event::DOUBLE_ELIM) {
+					$winner = rand(1, 2);
+				} else {
+					$winner = rand(1, 3);
+				}
+
 				$query = array(
 					'winner' => $winner
 				);

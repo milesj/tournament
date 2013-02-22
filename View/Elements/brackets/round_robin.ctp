@@ -5,7 +5,7 @@
 	foreach ($bracket->getPools() as $pool) {
 		$participants = $bracket->getPoolParticipants($pool);
 		$participant_ids = array_keys($participants);
-		$rounds = $bracket->getTotalRounds(); ?>
+		$rounds = count($participants); ?>
 
 	<div id="pool-<?php echo $pool; ?>" class="container">
 		<div class="container-head">

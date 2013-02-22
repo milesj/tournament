@@ -4,9 +4,9 @@
 .bracket a { color: #6f6f6f; }
 .bracket a:hover { color: #4a4a4a; }
 
-.bracket-column { float: left; width: 275px; margin: 0 25px 0 0;  }
+.bracket-column { float: left; width: 275px; margin: 0 5px 0 0;  }
 .bracket-column ul { list-style: none;}
-.bracket-column li { margin-bottom: 5px; }
+.bracket-column li { margin-bottom: 7px; }
 .bracket-column li:last-child { margin-bottom: 0; }
 
 .match { background: #f6f6f6; border-radius: 2px; padding: 1px; overflow: hidden; color: #171717; }
@@ -25,6 +25,15 @@
 .status-win { background: #eefff1 !important; }
 .status-tie { background: #eef1ff !important; }
 
+.round-2 li { margin-top: 97px; }
+.round-2 li:first-child { margin-top: 45px; }
+.round-3 li { margin-top: 277px; }
+.round-3 li:first-child { margin-top: 135px; }
+.round-4 li { margin-top: 637px; }
+.round-4 li:first-child { margin-top: 315px; }
+.round-5 li { margin-top: 637px; }
+.round-5 li:first-child { margin-top: 675px; }
+
 /*-------------------- Round Robin --------------------*/
 
 .round-robin .table td { text-align: center; }
@@ -33,3 +42,5 @@
 .round-robin .void { background: #d7d7d7; }
 
 /*-------------------- Swiss --------------------*/
+
+.swiss .bracket-column { margin: 0 25px 0 0;  }
