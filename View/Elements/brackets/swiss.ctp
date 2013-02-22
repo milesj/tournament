@@ -4,7 +4,7 @@ $maxRounds = (int) $event['Event']['maxRounds'];
 $totalRounds = count($rounds); ?>
 
 <style>
-body { width: <?php echo ($totalRounds * 325); ?>px;  }
+body { width: <?php echo ($totalRounds * 325); ?>px; min-width: 100%; }
 </style>
 
 <div class="bracket swiss">

@@ -123,15 +123,19 @@ class Bracket {
 			}
 
 			if ($match['homeOutcome'] == Match::WIN) {
-				$scores[$home_id] += 2;
+				$scores[$home_id] += 3;
 			} else if ($match['homeOutcome'] == Match::LOSS) {
-				$scores[$home_id] += -1;
+				$scores[$home_id] += -3;
+			} else if ($match['homeOutcome'] == Match::TIE) {
+				$scores[$home_id] += 1;
 			}
 
 			if ($match['awayOutcome'] == Match::WIN) {
-				$scores[$away_id] += 2;
+				$scores[$away_id] += 3;
 			} else if ($match['awayOutcome'] == Match::LOSS) {
-				$scores[$away_id] += -1;
+				$scores[$away_id] += -3;
+			} else if ($match['awayOutcome'] == Match::TIE) {
+				$scores[$away_id] += 1;
 			}
 		}
 
@@ -405,9 +409,20 @@ class Bracket {
 	 *
 	 * @param array $rounds
 	 * @return Bracket
+	 * @throws Exception
 	 */
 	public function setRounds(array $rounds) {
 		$this->_rounds = $rounds;
+
+		if (empty($this->_matches)) {
+			throw new Exception('Matches must be set before pools');
+		}
+
+		// Cache and tally the current scores
+		foreach ($rounds as $round_id => $match_ids) {
+			$this->_scores[$round_id] = $this->calculateScores($match_ids);
+			$this->_standings[$round_id] = $this->calculateStandings($match_ids);
+		}
 
 		return $this;
 	}
