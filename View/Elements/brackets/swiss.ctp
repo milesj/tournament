@@ -1,23 +1,25 @@
 <?php
-$rounds = (int) $event['Event']['maxRounds']; ?>
+$rounds = $bracket->getRounds();
+$maxRounds = (int) $event['Event']['maxRounds'];
+$totalRounds = count($rounds); ?>
 
 <style>
-body { width: <?php echo ($rounds * 325); ?>px;  }
+body { width: <?php echo ($totalRounds * 325); ?>px;  }
 </style>
 
 <div class="bracket swiss">
 	<div class="container">
+		<div class="container-head">
+			<h3><?php echo __d('tournament', 'Rounds %s of %s', $totalRounds, $maxRounds); ?></h3>
+		</div>
+
 		<div class="container-body">
 
-			<?php // Loop over all the rounds
-			for ($i = 1; $i <= $rounds; $i++) { ?>
+			<?php foreach ($rounds as $round) { ?>
 
 				<div class="bracket-column">
-					<div class="container-head">
-						<h3><?php echo __d('tournament', 'Round %s', $i); ?></h3>
-					</div>
+					<?php if ($matches = $bracket->getRoundMatches($round)) { ?>
 
-					<?php if ($matches = $bracket->getRoundMatches($i)) { ?>
 						<ul>
 							<?php foreach ($matches as $match) { ?>
 
@@ -31,6 +33,7 @@ body { width: <?php echo ($rounds * 325); ?>px;  }
 
 							<?php } ?>
 						</ul>
+
 					<?php } ?>
 				</div>
 
