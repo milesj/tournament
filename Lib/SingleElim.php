@@ -62,7 +62,9 @@ class SingleElim extends Tournament {
 		$participants = $this->getWinners();
 
 		if (count($participants) == 1) {
-			throw new Exception('Winner has been reached');
+			$this->flagWinner($participants[0]);
+
+			throw new Exception('Winner declared');
 		}
 
 		$half = ceil(count($participants) / 2);

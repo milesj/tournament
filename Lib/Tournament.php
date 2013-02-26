@@ -126,6 +126,26 @@ abstract class Tournament {
 	}
 
 	/**
+	 * Flag a participant as the winner.
+	 *
+	 * @param int $participant_id
+	 */
+	public function flagWinner($participant_id) {
+		$participant = $this->EventParticipant->find('first', array(
+			'conditions' => array(
+				'EventParticipant.event_id' => $this->_event['id'],
+				'EventParticipant.' . ($this->_event['for'] == Event::TEAM ? 'team_id' : 'player_id') => $participant_id
+			)
+		));
+
+		$this->EventParticipant->id = $participant['EventParticipant']['id'];
+		$this->EventParticipant->save(array(
+			'isWinner' => EventParticipant::YES,
+			'wonOn' => date('Y-m-d H:i:s')
+		));
+	}
+
+	/**
 	 * Generate matches for the current event.
 	 *
 	 * @return bool

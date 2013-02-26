@@ -27,6 +27,11 @@ p { margin-bottom: 15px; }
 	text-align: center;
 	padding: 25px; }
 
+.logo { display: inline-block; }
+.logo img { display: block; }
+.logo-team img { height: 40px; }
+.logo-player img { height: 40px; }
+
 /*------------ Page ------------*/
 
 .page-title { margin-bottom: 25px; }
@@ -124,15 +129,6 @@ p { margin-bottom: 15px; }
 .no-results {
 	padding: 50px !important;
 	text-align: center; }
-
-.col-logo,
-.col-avatar { padding: 0 !important; }
-.col-logo { width: 80px; }
-.col-avatar { width: 40px; }
-.col-logo img,
-.col-avatar img { display: block; }
-.col-logo img { width: 80px; height: 40px; }
-.col-avatar img { width: 40px; height: 40px; }
 
 /*------------ Pagination ------------*/
 

@@ -13,45 +13,68 @@ class BracketHelper extends AppHelper {
 	public $helpers = array('Html');
 
 	/**
-	 * Return a participant icon based on the defined data.
+	 * Return a formatted piece of data about a participant.
 	 *
 	 * @param array $participant
+	 * @param string $return
 	 * @return string
 	 */
-	public function participantIcon($participant) {
-		if (isset($participant['User'])) {
-			$avatar = Configure::read('Tournament.userMap.avatar');
-			$icon = isset($participant['User'][$avatar]) ? $participant['User'][$avatar] : null;
-		} else {
-			$icon = $participant['logo'];
+	public function participant($participant, $return = 'both') {
+		if (isset($participant['Player'])) {
+			$participant = $participant['Player'];
+		} else if (isset($participant['Team'])) {
+			$participant = $participant['Team'];
 		}
 
-		if (empty($icon)) {
-			return null;
-		}
+		$userMap = Configure::read('Tournament.userMap');
 
-		return $this->Html->image($icon);
-	}
-
-	/**
-	 * Return a participant link based on the defined data.
-	 *
-	 * @param array $participant
-	 * @return string
-	 */
-	public function participantLink($participant) {
 		if (isset($participant['User'])) {
-			return $this->Html->link($participant['User'][Configure::read('Tournament.userMap.username')], array(
+			$type = 'player';
+			$name = isset($participant['User'][$userMap['username']]) ? $participant['User'][$userMap['username']] : null;
+			$path = isset($participant['User'][$userMap['avatar']]) ? $participant['User'][$userMap['avatar']] : null;
+			$url = array(
 				'controller' => 'players',
 				'action' => 'profile',
 				'id' => $participant['user_id']
-			));
+			);
+
+		} else {
+			$type = 'team';
+			$name = $participant['name'];
+			$path = $participant['logo'];
+			$url = array(
+				'controller' => 'teams',
+				'action' => 'profile',
+				'slug' => $participant['slug']
+			);
 		}
 
-		return $this->Html->link($participant['name'], array(
-			'controller' => 'teams',
-			'action' => 'profile',
-			'slug' => $participant['slug']
+		switch ($return) {
+			case 'url':
+				return $url;
+			break;
+			case 'logo':
+				if (!$path) {
+					return null;
+				}
+
+				return $this->Html->tag('span', $this->Html->image($path), 'logo logo-' . $type);
+			break;
+			case 'link':
+				return $this->Html->link($name, $url);
+			break;
+		}
+
+		// Combine both
+		$output = $name;
+
+		if ($path) {
+			$output = $this->participant($participant, 'logo') . $output;
+		}
+
+		return $this->Html->link($output, $url, array(
+			'escape' => false,
+			'class' => 'participant-link ' . ($path ? 'has-logo' : 'no-logo')
 		));
 	}
 

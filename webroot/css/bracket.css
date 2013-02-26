@@ -1,6 +1,15 @@
 
 /*-------------------- Brackets --------------------*/
 
+.participant-link { height: 40px; line-height: 40px; font-weight: bold; display: block; font-size: 12px; }
+.participant-link .logo { float: left; margin-right: 5px; }
+.participant-link.no-logo { padding-left: 5px; }
+
+.cell-score,
+.cell-seed { width: 40px; background: rgba(255, 255, 255, .50); text-align: center; }
+.cell-void { background: #d7d7d7; }
+.cell-icon { padding: 0 !important; width: 1px; }
+
 .bracket a { color: #6f6f6f; }
 .bracket a:hover { color: #4a4a4a; }
 
@@ -9,37 +18,35 @@
 .bracket-column li { margin-bottom: 7px; }
 .bracket-column li:last-child { margin-bottom: 0; }
 
-.match { background: #f6f6f6; border-radius: 2px; padding: 1px; overflow: hidden; color: #171717; }
-.match .participant { background: #ededed; }
-.match .participant-away { background: #f2f2f2; border-top: 1px solid #f6f6f6; }
-.match .participant .name,
-.match .participant .score,
-.match .participant .icon { float: left; display: inline-block; height: 40px; vertical-align: middle; line-height: 40px; }
-.match .participant .name { padding: 0 5px; width: 170px; overflow: hidden; }
-.match .participant .name a { font-weight: bold; font-size: 12px; display: block; }
-.match .participant .score { float: right; background: rgba(255, 255, 255, .50); width: 40px; border-left: 1px solid #f6f6f6; text-align: center; }
-.match .participant .icon { background: #f2f2f2; }
-.match .participant .icon img { display: block; height: 40px; border-radius: 2px; }
+.match { height: 83px; color: #535353; background: #ededed; border-radius: 2px; overflow: hidden; }
+.match table { background: #ededed; width: 100%; border-spacing: 1px; border-collapse: collapse; }
+.match table td { border: 1px solid #f6f6f6; height: 40px; vertical-align: middle; }
+.match .logo img { border-radius: 2px; }
+.match .participant-away { background: #f2f2f2; }
+.match .participant-winner .logo img { height: 81px; }
+.match .participant-winner .cell-name { padding: 10px; background: #fff; height: 60px; }
+.match .participant-winner .cell-name a { font-size: 18px; }
+.match .participant-winner .cell-name .stat { font-weight: bold; font-size: 12px; }
 
 .status-loss { background: #ffeeee !important; }
 .status-win { background: #eefff1 !important; }
 .status-tie { background: #eef1ff !important; }
 
+/* margin-top = prevRound + (180 * (prevRound - 1)) */
 .round-2 li { margin-top: 97px; }
 .round-2 li:first-child { margin-top: 45px; }
 .round-3 li { margin-top: 277px; }
 .round-3 li:first-child { margin-top: 135px; }
 .round-4 li { margin-top: 637px; }
 .round-4 li:first-child { margin-top: 315px; }
-.round-5 li { margin-top: 637px; }
+.round-5 li { margin-top: 1177px; }
 .round-5 li:first-child { margin-top: 675px; }
 
 /*-------------------- Round Robin --------------------*/
 
-.round-robin .table td { text-align: center; }
-.round-robin .participant,
-.round-robin .score { background: #fff; font-weight: bold; }
-.round-robin .void { background: #d7d7d7; }
+.round-robin { text-align: center; }
+.round-robin .cell-score { font-weight: bold; width: auto; }
+.round-robin .cell-participant { background: #fff; text-align: left; padding: 0; }
 
 /*-------------------- Swiss --------------------*/
 

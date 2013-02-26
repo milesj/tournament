@@ -64,7 +64,7 @@ class EventParticipant extends TournamentAppModel {
 		return $this->find('first', array(
 			'conditions' => array(
 				'EventParticipant.event_id' => $event_id,
-				'EventParticipant.winner' => self::YES
+				'EventParticipant.isWinner' => self::YES
 			),
 			'contain' => $contain,
 			'cache' => array(__METHOD__, $event_id)

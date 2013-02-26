@@ -1,49 +1,52 @@
 
 <div class="match"<?php if (!empty($match)) { ?> id="match-<?php echo $match['id']; ?>"<?php } ?>>
+	<table>
+	<tbody>
 
-	<?php if (!empty($home)) { ?>
-		<div class="participant participant-home status-<?php echo $this->Bracket->matchStatus($home['id'], $match); ?>">
-			<span class="score">
-				<?php if ($match['winner'] != Match::PENDING) {
-					echo $match['homeScore'];
-				} ?>
-			</span>
+		<?php if (!empty($home)) { ?>
 
-			<?php if ($icon = $this->Bracket->participantIcon($home)) { ?>
-				<span class="icon"><?php echo $icon; ?></span>
-			<?php } ?>
+			<tr class="participant-home status-<?php echo $this->Bracket->matchStatus($home['id'], $match); ?>">
+				<td class="cell-name">
+					<?php echo $this->Bracket->participant($home); ?>
+				</td>
+				<td class="cell-score">
+					<?php if ($match['winner'] != Match::PENDING) {
+						echo $match['homeScore'];
+					} ?>
+				</td>
+			</tr>
 
-			<span class="name"><?php echo $this->Bracket->participantLink($home); ?></span>
-			<span class="clear"></span>
-		</div>
+		<?php } else { ?>
 
-	<?php } else { ?>
-		<div class="participant participant-home">
-			<span class="score"></span>
-			<span class="clear"></span>
-		</div>
-	<?php } ?>
+			<tr class="participant-home">
+				<td></td>
+				<td class="score"></td>
+			</tr>
 
-	<?php if (!empty($away)) { ?>
-		<div class="participant participant-away status-<?php echo $this->Bracket->matchStatus($away['id'], $match); ?>">
-			<span class="score">
-				<?php if ($match['winner'] != Match::PENDING) {
-					echo $match['awayScore'];
-				} ?>
-			</span>
+		<?php } ?>
 
-			<?php if ($icon = $this->Bracket->participantIcon($away)) { ?>
-				<span class="icon"><?php echo $icon; ?></span>
-			<?php } ?>
+		<?php if (!empty($away)) { ?>
 
-			<span class="name"><?php echo $this->Bracket->participantLink($away); ?></span>
-			<span class="clear"></span>
-		</div>
+			<tr class="participant-away status-<?php echo $this->Bracket->matchStatus($away['id'], $match); ?>">
+				<td class="cell-name">
+					<?php echo $this->Bracket->participant($away); ?>
+				</td>
+				<td class="cell-score">
+					<?php if ($match['winner'] != Match::PENDING) {
+						echo $match['awayScore'];
+					} ?>
+				</td>
+			</tr>
 
-	<?php } else { ?>
-		<div class="participant participant-away">
-			<span class="score"></span>
-			<span class="clear"></span>
-		</div>
-	<?php } ?>
+		<?php } else { ?>
+
+			<tr class="participant-away">
+				<td></td>
+				<td class="cell-score"></td>
+			</tr>
+
+		<?php } ?>
+
+	</tbody>
+	</table>
 </div>

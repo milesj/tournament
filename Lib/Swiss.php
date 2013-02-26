@@ -16,10 +16,6 @@ class Swiss extends Tournament {
 		$nextRound = (int) $this->_event['round'] + 1;
 		$maxRounds = $this->_event['maxRounds'];
 
-		if ($maxRounds && $nextRound > $maxRounds) {
-			throw new Exception('Max rounds reached for this event');
-		}
-
 		// First round order by seed
 		if ($nextRound == 1) {
 			$participants = $this->getParticipants();
@@ -33,6 +29,12 @@ class Swiss extends Tournament {
 					'EventParticipant.ties' => 'DESC'
 				)
 			));
+		}
+
+		if ($maxRounds && $nextRound > $maxRounds) {
+			$this->flagWinner($participants[0]);
+
+			throw new Exception('Winner declared; Max rounds reached for this event');
 		}
 
 		// Create matches
