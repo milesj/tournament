@@ -12,6 +12,7 @@ CREATE TABLE `{prefix}event_participants` (
 	`ties` int(11) NOT NULL DEFAULT '0',
 	`points` int(11) NOT NULL DEFAULT '0',
 	`isReady` tinyint(4) NOT NULL DEFAULT '0',
+	`isWinner` tinyint(4) NOT NULL DEFAULT '0',
 	`wonOn` datetime DEFAULT NULL,
 	`defeatedOn` datetime DEFAULT NULL,
 	`created` datetime DEFAULT NULL,

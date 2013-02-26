@@ -74,7 +74,7 @@ class EventsController extends TournamentAppController {
 		}
 
 		$this->set('event', $event);
-		$this->set('participants', $this->Event->EventParticipant->getParticipantsByType($event['Event']['id'], Event::TEAM));
+		$this->set('participants', $this->Event->EventParticipant->getParticipants($event['Event']['id']));
 	}
 
 	/**
@@ -92,7 +92,7 @@ class EventsController extends TournamentAppController {
 		}
 
 		$this->set('event', $event);
-		$this->set('participants', $this->Event->EventParticipant->getParticipantsByType($event['Event']['id'], Event::PLAYER));
+		$this->set('participants', $this->Event->EventParticipant->getParticipants($event['Event']['id']));
 	}
 
 	/**
@@ -111,6 +111,7 @@ class EventsController extends TournamentAppController {
 
 		$this->set('event', $event);
 		$this->set('bracket', $this->Match->getBrackets($event));
+		$this->set('winner', $this->Event->EventParticipant->getWinner($event['Event']['id']));
 	}
 
 	/**

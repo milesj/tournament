@@ -19,7 +19,6 @@ body { width: <?php echo ($bracket->getMaxRounds() * 305); ?>px; min-width: 100%
 
 					<?php // Give the final rounds a special class
 					switch ($matchesToShow) {
-						case 0:	$class = 'winner'; break;
 						case 1:	$class = 'finals'; break;
 						case 2:	$class = 'semi-finals'; break;
 						case 4:	$class = 'quarter-finals'; break;
@@ -53,6 +52,17 @@ body { width: <?php echo ($bracket->getMaxRounds() * 305); ?>px; min-width: 100%
 						<?php $matchesDisplayed++;
 					} } ?>
 
+					</ul>
+				</div>
+
+			<?php }
+
+			// Display winners column
+			if ($winner) { ?>
+
+				<div class="bracket-column round-<?php echo $bracket->getMaxRounds(); ?>">
+					<ul class="winner">
+						<li><?php echo $this->element('brackets/winner'); ?></li>
 					</ul>
 				</div>
 

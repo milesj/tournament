@@ -27,11 +27,12 @@ class EventParticipant extends TournamentAppModel {
 	 * Only contain relations based on that type.
 	 *
 	 * @param int $event_id
-	 * @param int $type
 	 * @return array
 	 */
-	public function getParticipantsByType($event_id, $type = self::TEAM) {
-		if ($type == self::TEAM) {
+	public function getParticipants($event_id) {
+		$event = $this->Event->getById($event_id);
+
+		if ($event['Event']['for'] == self::TEAM) {
 			$contain = array('Team' => array('Leader'));
 		} else {
 			$contain = array('Player' => array('User'));
@@ -41,10 +42,43 @@ class EventParticipant extends TournamentAppModel {
 			'conditions' => array('EventParticipant.event_id' => $event_id),
 			'order' => array('EventParticipant.isReady' => 'DESC', 'EventParticipant.created' => 'ASC'),
 			'contain' => $contain,
-			'cache' => array(__METHOD__, $event_id, $type)
+			'cache' => array(__METHOD__, $event_id)
 		));
 	}
 
+	/**
+	 * Return the winning participant.
+	 *
+	 * @param int $event_id
+	 * @return array
+	 */
+	public function getWinner($event_id) {
+		$event = $this->Event->getById($event_id);
+
+		if ($event['Event']['for'] == self::TEAM) {
+			$contain = array('Team' => array('Leader'));
+		} else {
+			$contain = array('Player' => array('User'));
+		}
+
+		return $this->find('first', array(
+			'conditions' => array(
+				'EventParticipant.event_id' => $event_id,
+				'EventParticipant.winner' => self::YES
+			),
+			'contain' => $contain,
+			'cache' => array(__METHOD__, $event_id)
+		));
+	}
+
+	/**
+	 * Update a participant by increasing or decreasing stats (wins, losses, etc).
+	 *
+	 * @param int $event_id
+	 * @param int $participant_id
+	 * @param array $stats
+	 * @return bool
+	 */
 	public function updateStatistics($event_id, $participant_id, array $stats) {
 		$event = $this->Event->getById($event_id);
 		$conditions = array('EventParticipant.event_id' => $event_id);
