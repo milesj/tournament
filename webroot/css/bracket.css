@@ -11,10 +11,14 @@
 
 .bracket a { color: #6f6f6f; }
 .bracket a:hover { color: #4a4a4a; }
-.bracket-column { float: left; width: 275px; margin: 0 5px 0 0;  }
-.bracket-column ul { list-style: none;}
-.bracket-column li { margin-bottom: 7px; }
+.bracket-column { float: left; width: 275px; margin: 0 25px 0 0;  }
+.bracket-column ul { list-style: none; }
+.bracket-column li { margin-bottom: 7px; position: relative; }
 .bracket-column li:last-child { margin-bottom: 0; }
+.bracket-line { position: absolute; left: -25px; top: -50%; border: 3px solid #636363; border-left: 0; width: 11px; }
+.bracket-line div,
+.bracket-line-horizontal { position: absolute; width: 11px; height: 3px; background: #636363; top: 50%; right: -14px; margin-top: -1.5px; }
+.bracket-line-horizontal { width: 25px; left: -25px; }
 
 .match { height: 83px; color: #535353; position: relative; }
 .match table { width: 100%; border-spacing: 1px; border-collapse: collapse; border-radius: 10px; }
@@ -27,7 +31,7 @@
 .match .participant-winner .cell-name a { font-size: 18px; }
 .match .participant-winner .cell-name .stat { font-weight: bold; font-size: 12px; }
 
-.standing { position: absolute; right: -12px; background: #F38630; color: #fff; font-weight: bold; z-index: 10; padding: 3px 7px; border-radius: 10px; }
+.standing { position: absolute; right: -12px; background: #69D2E7; color: #fff; font-weight: bold; box-shadow: 0 0 3px #000; line-height: 100%; z-index: 10; padding: 4px 7px; border-radius: 10px; }
 .participant-home .standing { top: -12px; }
 .participant-away .standing { bottom: -12px; }
 
@@ -35,15 +39,34 @@
 .status-win { background: #eefff1 !important; }
 .status-tie { background: #eef1ff !important; }
 
-/* margin-top = prevRound + (180 * (prevRound - 1)) */
+.round-1 li .bracket-line { display: none; }
 .round-2 li { margin-top: 97px; }
 .round-2 li:first-child { margin-top: 45px; }
+.round-2 li .bracket-line { height: 87px; top: -5px; }
 .round-3 li { margin-top: 277px; }
 .round-3 li:first-child { margin-top: 135px; }
+.round-3 li .bracket-line { height: 177px; top: -50px; }
 .round-4 li { margin-top: 637px; }
 .round-4 li:first-child { margin-top: 315px; }
-.round-5 li { margin-top: 1177px; }
+.round-4 li .bracket-line { height: 357px; top: -140px; }
+.round-5 li { margin-top: 1357px; }
 .round-5 li:first-child { margin-top: 675px; }
+.round-5 li .bracket-line { height: 717px; top: -320px; }
+.round-6 li { margin-top: 2797px; }
+.round-6 li:first-child { margin-top: 1395px; }
+.round-6 li .bracket-line { height: 1437px; top: -680px; }
+.round-7 li { margin-top: 5677px; }
+.round-7 li:first-child { margin-top: 2835px; }
+.round-7 li .bracket-line { height: 2877px; top: -1400px; }
+.round-8 li { margin-top: 11437px; }
+.round-8 li:first-child { margin-top: 5715px; }
+.round-8 li .bracket-line { height: 5757px; top: -2840px; }
+.round-9 li { margin-top: 22957px; }
+.round-9 li:first-child { margin-top: 11475px; }
+.round-9 li .bracket-line { height: 11517px; top: -5720px; }
+.round-10 li { margin-top: 45997px; }
+.round-10 li:first-child { margin-top: 22995px; }
+.round-10 li .bracket-line { height: 23037px; top: -11480px; }
 
 /*-------------------- Round Robin --------------------*/
 
@@ -52,5 +75,3 @@
 .round-robin .cell-participant { background: #fff; text-align: left; padding: 0; }
 
 /*-------------------- Swiss --------------------*/
-
-.swiss .bracket-column { margin: 0 25px 0 0;  }

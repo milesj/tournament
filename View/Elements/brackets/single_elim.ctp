@@ -1,6 +1,6 @@
 
 <style>
-body { width: <?php echo ($bracket->getMaxRounds() * 305); ?>px; min-width: 100%; }
+body { width: <?php echo ($bracket->getMaxRounds() * 335); ?>px; min-width: 100%; }
 </style>
 
 <div class="container">
@@ -12,18 +12,18 @@ body { width: <?php echo ($bracket->getMaxRounds() * 305); ?>px; min-width: 100%
 
 		<?php // Loop over each round
 		foreach ($bracket->getRounds() as $round => $matchesToShow) {
-			$matchesDisplayed = 0; ?>
+			$matchesDisplayed = 0;
+			$class = '';
 
-			<div class="bracket-column round-<?php echo $round; ?>">
+			// Give the final rounds a special class
+			switch ($matchesToShow) {
+				case 1:	$class = 'finals'; break;
+				case 2:	$class = 'semi-finals'; break;
+				case 4:	$class = 'quarter-finals'; break;
+			} ?>
 
-				<?php // Give the final rounds a special class
-				switch ($matchesToShow) {
-					case 1:	$class = 'finals'; break;
-					case 2:	$class = 'semi-finals'; break;
-					case 4:	$class = 'quarter-finals'; break;
-				} ?>
-
-				<ul<?php if (isset($class)) { echo ' class="' . $class . '"'; } ?>>
+			<div class="bracket-column round-<?php echo $round; ?> <?php echo $class; ?>">
+				<ul>
 
 				<?php // Loop over official matches
 				if ($matches = $bracket->getRoundMatches($round)) {
@@ -60,8 +60,8 @@ body { width: <?php echo ($bracket->getMaxRounds() * 305); ?>px; min-width: 100%
 		// Display winners column
 		if ($winner) { ?>
 
-			<div class="bracket-column round-<?php echo $bracket->getMaxRounds(); ?>">
-				<ul class="winner">
+			<div class="bracket-column round-<?php echo $bracket->getMaxRounds(); ?> winner">
+				<ul>
 					<li><?php echo $this->element('brackets/winner'); ?></li>
 				</ul>
 			</div>

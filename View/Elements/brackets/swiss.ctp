@@ -22,7 +22,8 @@ body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width
 								<?php echo $this->element('brackets/match', array(
 									'match' => $match,
 									'home' => $bracket->getParticipant($match['home_id']),
-									'away' => $bracket->getParticipant($match['away_id'])
+									'away' => $bracket->getParticipant($match['away_id']),
+									'currentRound' => $round
 								)) ?>
 							</li>
 
@@ -37,8 +38,8 @@ body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width
 		// Display winners column
 		if ($winner) { ?>
 
-			<div class="bracket-column">
-				<ul class="winner">
+			<div class="bracket-column winner">
+				<ul>
 					<li><?php echo $this->element('brackets/winner'); ?></li>
 				</ul>
 			</div>

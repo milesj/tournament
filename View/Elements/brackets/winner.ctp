@@ -1,4 +1,6 @@
 
+<div class="bracket-line-horizontal"></div>
+
 <div class="match">
 	<table>
 	<tbody>

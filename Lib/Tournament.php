@@ -46,10 +46,10 @@ abstract class Tournament {
 			throw new Exception('Invalid event');
 
 		} else if ($event['Event']['isRunning']) {
-			throw new Exception('Event has already started');
+			//throw new Exception('Event has already started');
 
 		} else if ($event['Event']['isFinished']) {
-			throw new Exception('Event has already finished');
+			//throw new Exception('Event has already finished');
 		}
 
 		$this->_id = $event['Event']['id'];

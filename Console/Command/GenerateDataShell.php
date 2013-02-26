@@ -87,6 +87,33 @@ class GenerateDataShell extends AppShell {
 	}
 
 	/**
+	 * Generate CSS to use for bracket positioning.
+	 */
+	public function css() {
+		$boxMargin = $this->params['boxMargin'];
+		$boxInnerHeight = $this->params['boxHeight'];
+		$boxOuterHeight = ($boxInnerHeight + $boxMargin);
+		$boxHalfHeight = round($boxOuterHeight / 2);
+		$lineBorderWidth = $this->params['lineWidth'];
+		$maxRounds = 10;
+		$multiplier = 0;
+
+		for ($i = 2; $i <= $maxRounds; $i++) {
+			$multiplier = ($multiplier * 2) + 1;
+
+			$topMargin = ($multiplier * $boxOuterHeight) + $boxMargin;
+			$topMarginFirst = ($multiplier * $boxHalfHeight);
+
+			$lineHeight = floor(($multiplier + 1) * $boxOuterHeight / 2) - $lineBorderWidth;
+			$lineTop = round($lineHeight / 2) - $boxHalfHeight + ($lineBorderWidth * 2);
+
+			$this->out(sprintf('.round-%s li { margin-top: %spx; }', $i, $topMargin));
+			$this->out(sprintf('.round-%s li:first-child { margin-top: %spx; }', $i, $topMarginFirst));
+			$this->out(sprintf('.round-%s li .bracket-line { height: %spx; top: -%spx; }', $i, $lineHeight, $lineTop));
+		}
+	}
+
+	/**
 	 * Generate 250 users.
 	 */
 	public function generateUsers() {
@@ -252,7 +279,7 @@ class GenerateDataShell extends AppShell {
 			$rounds = null;
 
 			if ($type == Event::SINGLE_ELIM || $type == Event::DOUBLE_ELIM) {
-				$max = 32;
+				$max = rand(30, 36);
 			} else if ($type == Event::ROUND_ROBIN) {
 				$pool = rand(0, 10);
 				$max = ($pool * 3) + 10;
@@ -462,6 +489,30 @@ class GenerateDataShell extends AppShell {
 				'description' => 'This command will advance the current event round to the next round by flagging current matches as a win, loss or tie.',
 				'arguments' => array(
 					'event_id' => array('help' => 'Event to advance', 'required' => true)
+				)
+			)
+		));
+
+		$parser->addSubcommand('css', array(
+			'help' => 'Generate bracket CSS',
+			'parser' => array(
+				'description' => 'This command will generate the correct CSS for the bracket tree, lines and grid.',
+				'options' => array(
+					'boxMargin' => array(
+						'short' => 'm',
+						'help' => 'Box margin bottom',
+						'default' => 7
+					),
+					'boxHeight' => array(
+						'short' => 'h',
+						'help' => 'Box height excluding margin',
+						'default' => 83
+					),
+					'lineWidth' => array(
+						'short' => 'l',
+						'help' => 'Box connecting line width',
+						'default' => 3
+					)
 				)
 			)
 		));
