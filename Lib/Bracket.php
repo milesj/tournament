@@ -371,6 +371,22 @@ class Bracket {
 	}
 
 	/**
+	 * Return the participants standing in the bracket.
+	 *
+	 * @param int $participant_id
+	 * @return int
+	 */
+	public function getStanding($participant_id) {
+		foreach ($this->_standings as $i => $participants) {
+			if (in_array($participant_id, $participants)) {
+				return ($i + 1);
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Return the total pool count.
 	 *
 	 * @return int
@@ -465,10 +481,14 @@ class Bracket {
 		}
 
 		// Cache and tally the current scores
-		foreach ($rounds as $round_id => $match_ids) {
-			$this->_scores[$round_id] = $this->calculateScores($match_ids);
-			$this->_standings[$round_id] = $this->calculateStandings($match_ids);
+		$match_ids = array();
+
+		foreach ($rounds as $matches) {
+			$match_ids = array_merge($match_ids, $matches);
 		}
+
+		$this->_scores = $this->calculateScores($match_ids);
+		$this->_standings = $this->calculateStandings($match_ids);
 
 		return $this;
 	}

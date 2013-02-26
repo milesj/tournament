@@ -12,6 +12,12 @@
 				<td class="cell-score">
 					<?php if ($match['winner'] != Match::PENDING) {
 						echo $match['homeScore'];
+					}
+
+					if (($bracket->getMaxRounds() - $bracket->getCompletedRounds()) <= 3) {
+						if ($standing = $bracket->getStanding($home['id'])) { ?>
+							<div class="standing"><?php echo $standing; ?></div>
+						<?php }
 					} ?>
 				</td>
 			</tr>
@@ -34,6 +40,12 @@
 				<td class="cell-score">
 					<?php if ($match['winner'] != Match::PENDING) {
 						echo $match['awayScore'];
+					}
+
+					if (($bracket->getMaxRounds() - $bracket->getCompletedRounds()) <= 3) {
+						if ($standing = $bracket->getStanding($home['id'])) { ?>
+							<div class="standing"><?php echo $standing; ?></div>
+						<?php }
 					} ?>
 				</td>
 			</tr>
