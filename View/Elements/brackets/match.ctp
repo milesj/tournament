@@ -1,11 +1,16 @@
 
-<?php if ($bracket->isElimination()) { ?>
+<?php
+$match = empty($match) ? null : $match;
+$home = empty($home) ? null : $home;
+$away = empty($away) ? null : $away;
+
+if ($bracket->isElimination()) { ?>
 	<div class="bracket-line">
 		<div></div>
 	</div>
 <?php } ?>
 
-<div class="match"<?php if (!empty($match)) { ?> id="match-<?php echo $match['id']; ?>"<?php } ?>>
+<div class="match"<?php if ($match) { ?> id="match-<?php echo $match['id']; ?>"<?php } ?>>
 	<table>
 	<tbody>
 		<?php

@@ -46,7 +46,9 @@ body { width: <?php echo ($bracket->getMaxRounds() * 335); ?>px; min-width: 100%
 					for ($i = $matchesDisplayed; $i < $matchesToShow; $i++) { ?>
 
 					<li>
-						<?php echo $this->element('brackets/match') ?>
+						<?php echo $this->element('brackets/match', array(
+							'currentRound' => $round
+						)) ?>
 					</li>
 
 					<?php $matchesDisplayed++;

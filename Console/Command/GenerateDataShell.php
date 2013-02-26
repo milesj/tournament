@@ -269,17 +269,17 @@ class GenerateDataShell extends AppShell {
 		$this->EventParticipant->getDataSource()->truncate($this->EventParticipant->tablePrefix . $this->EventParticipant->useTable);
 
 		$settings = Configure::read('Tournament.settings');
-		$excludeUsers = array();
-		$excludeTeams = array();
 
 		for ($i = 0; $i < 10; $i++) {
+			$excludeUsers = array();
+			$excludeTeams = array();
 			$type = rand(0, 3);
 			$for = rand(0, 1);
 			$pool = null;
 			$rounds = null;
 
 			if ($type == Event::SINGLE_ELIM || $type == Event::DOUBLE_ELIM) {
-				$max = rand(30, 36);
+				$max = rand(28, 32);
 			} else if ($type == Event::ROUND_ROBIN) {
 				$pool = rand(0, 10);
 				$max = ($pool * 3) + 10;
@@ -289,7 +289,7 @@ class GenerateDataShell extends AppShell {
 			}
 
 			if ($for == Event::TEAM) {
-				$max = $max / 2;
+				$max = round($max / 2);
 			}
 
 			$this->Event->create();
