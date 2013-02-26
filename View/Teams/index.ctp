@@ -31,11 +31,7 @@
 						foreach ($teams as $team) { ?>
 
 					<tr>
-						<td class="col-logo">
-							<?php if ($logo = $team['Team']['logo']) {
-								echo $this->Html->image($logo, array('url' => array('action' => 'profile', 'slug' => $team['Team']['slug'])));
-							} ?>
-						</td>
+						<td class="col-icon"><?php echo $this->Bracket->participant($team, 'logo-link'); ?></td>
 						<td>
 							<b><?php echo $this->Html->link($team['Team']['name'], array('action' => 'profile', 'slug' => $team['Team']['slug'])); ?></b>
 						</td>

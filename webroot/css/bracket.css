@@ -6,9 +6,8 @@
 .participant-link.no-logo { padding-left: 5px; }
 
 .cell-score,
-.cell-seed { width: 40px; background: rgba(255, 255, 255, .50); text-align: center; }
+.cell-seed { width: 40px; background: rgba(255, 255, 255, .50); text-align: center; position: relative; }
 .cell-void { background: #d7d7d7; }
-.cell-icon { padding: 0 !important; width: 1px; }
 
 .bracket a { color: #6f6f6f; }
 .bracket a:hover { color: #4a4a4a; }

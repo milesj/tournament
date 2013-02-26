@@ -22,7 +22,7 @@
 						foreach ($leagues as $league) { ?>
 
 					<tr>
-						<td class="col-logo">
+						<td class="col-icon">
 							<?php if ($logo = $league['League']['logo']) {
 								echo $this->Html->image($logo, array('url' => array('action' => 'view', 'league' => $league['League']['slug'])));
 							} ?>

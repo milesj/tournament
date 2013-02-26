@@ -60,6 +60,13 @@ class BracketHelper extends AppHelper {
 
 				return $this->Html->tag('span', $this->Html->image($path), 'logo logo-' . $type);
 			break;
+			case 'logo-link':
+				if (!$path) {
+					return null;
+				}
+
+				return $this->Html->link($this->participant($participant, 'logo'), $url, array('escape' => false));
+			break;
 			case 'link':
 				return $this->Html->link($name, $url);
 			break;

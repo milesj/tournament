@@ -25,11 +25,7 @@
 						foreach ($players as $player) { ?>
 
 					<tr>
-						<td class="col-avatar">
-							<?php if ($avatar = $player['User'][$config['userMap']['avatar']]) {
-								echo $this->Html->image($avatar, array('url' => array('action' => 'profile', 'id' => $player['User']['id'])));
-							} ?>
-						</td>
+						<td class="col-icon"><?php echo $this->Bracket->participant($player, 'logo-link'); ?></td>
 						<td>
 							<b><?php echo $this->Html->link($player['User'][$config['userMap']['username']], array('action' => 'profile', 'id' => $player['User']['id'])); ?></b>
 						</td>

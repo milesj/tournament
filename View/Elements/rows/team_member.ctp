@@ -8,11 +8,7 @@ if (!$settings['showRemovedTeamMembers'] && $member['status'] == TeamMember::REM
 } ?>
 
 <tr>
-	<td class="col-avatar">
-		<?php if ($avatar = $member['User'][$config['userMap']['avatar']]) {
-			echo $this->Html->image($avatar, array('url' => array('controller' => 'players', 'action' => 'profile', 'id' => $member['User']['id'])));
-		} ?>
-	</td>
+	<td class="col-icon"><?php echo $this->Bracket->participant($member, 'logo-link'); ?></td>
 	<td>
 		<b><?php echo $this->Html->link($member['User'][$config['userMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $member['User']['id'])); ?></b>
 	</td>

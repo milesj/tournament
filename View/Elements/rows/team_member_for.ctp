@@ -1,9 +1,5 @@
 <tr>
-	<td class="col-logo">
-		<?php if ($logo = $team['logo']) {
-			echo $this->Html->image($logo, array('url' => array('controller' => 'teams', 'action' => 'profile', 'slug' => $team['slug'])));
-		} ?>
-	</td>
+	<td class="col-icon"><?php echo $this->Bracket->participant($team, 'logo-link'); ?></td>
 	<td>
 		<b><?php echo $this->Html->link($team['name'], array('controller' => 'teams', 'action' => 'profile', 'slug' => $team['slug'])); ?></b>
 	</td>

@@ -130,6 +130,10 @@ p { margin-bottom: 15px; }
 	padding: 50px !important;
 	text-align: center; }
 
+.cell-icon {
+	padding: 0 !important;
+	width: 1px; }
+
 /*------------ Pagination ------------*/
 
 .pagination {
