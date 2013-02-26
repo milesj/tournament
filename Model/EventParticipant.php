@@ -47,6 +47,29 @@ class EventParticipant extends TournamentAppModel {
 	}
 
 	/**
+	 * Get an events standings as a list.
+	 *
+	 * @param int $event_id
+	 * @return array
+	 */
+	public function getStandings($event_id) {
+		$event = $this->Event->getById($event_id);
+
+		if ($event['Event']['for'] == self::TEAM) {
+			$field = 'team_id';
+		} else {
+			$field = 'player_id';
+		}
+
+		return $this->find('list', array(
+			'conditions' => array('EventParticipant.event_id' => $event_id),
+			'fields' => array('EventParticipant.' . $field, 'EventParticipant.standing'),
+			'order' => array('EventParticipant.standing' => 'ASC'),
+			'cache' => array(__METHOD__, $event_id)
+		));
+	}
+
+	/**
 	 * Return the winning participant.
 	 *
 	 * @param int $event_id

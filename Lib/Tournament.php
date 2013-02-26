@@ -45,8 +45,11 @@ abstract class Tournament {
 		if (!$event) {
 			throw new Exception('Invalid event');
 
-		} else if ($event['Event']['isRunning'] || $event['Event']['isFinished']) {
+		} else if ($event['Event']['isRunning']) {
 			throw new Exception('Event has already started');
+
+		} else if ($event['Event']['isFinished']) {
+			throw new Exception('Event has already finished');
 		}
 
 		$this->_id = $event['Event']['id'];
@@ -93,6 +96,23 @@ abstract class Tournament {
 	}
 
 	/**
+	 * End the current event.
+	 *
+	 * @throws Exception
+	 */
+	public function endEvent() {
+		$this->Event->id = $this->_id;
+		$this->Event->save(array(
+			'isRunning' => Event::NO,
+			'isFinished' => Event::YES
+		), false);
+
+		$this->flagStandings();
+
+		throw new Exception('Event finished; Generating standings and winner');
+	}
+
+	/**
 	 * Return the correct tournament type instance.
 	 *
 	 * @param int|array $data
@@ -122,6 +142,38 @@ abstract class Tournament {
 			default:
 				throw new Exception('Invalid event type');
 			break;
+		}
+	}
+
+	/**
+	 * Flag each participants standing in the database.
+	 */
+	public function flagStandings() {
+		$participants = $this->EventParticipant->find('all', array(
+			'conditions' => array('EventParticipant.event_id' => $this->_event['id']),
+			'order' => array('EventParticipant.points' => 'DESC')
+		));
+
+		$currentStanding = 0;
+		$lastPoints = 0;
+
+		foreach ($participants as $participant) {
+			$query = array();
+
+			if ($participant['EventParticipant']['points'] != $lastPoints) {
+				$currentStanding++;
+				$lastPoints = $participant['EventParticipant']['points'];
+			}
+
+			$query['standing'] = $currentStanding;
+
+			if ($currentStanding == 1) {
+				$query['isWinner'] = EventParticipant::YES;
+				$query['wonOn'] = date('Y-m-d H:i:s');
+			}
+
+			$this->EventParticipant->id = $participant['EventParticipant']['id'];
+			$this->EventParticipant->save($query, false);
 		}
 	}
 

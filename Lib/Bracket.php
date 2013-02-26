@@ -4,6 +4,10 @@ App::uses('Event', 'Tournament.Model');
 
 class Bracket {
 
+	const FINALS = 0;
+	const SEMI_FINALS = 1;
+	const QUARTER_FINALS = 2;
+
 	/**
 	 * Event information.
 	 *
@@ -372,18 +376,49 @@ class Bracket {
 
 	/**
 	 * Return the participants standing in the bracket.
+	 * If it's a bracket tree, only show the standing during a specific round.
 	 *
 	 * @param int $participant_id
+	 * @param int $round
 	 * @return int
 	 */
-	public function getStanding($participant_id) {
+	public function getStanding($participant_id, $round = null) {
+		$standing = null;
+
 		foreach ($this->_standings as $i => $participants) {
 			if (in_array($participant_id, $participants)) {
-				return ($i + 1);
+				$standing = ($i + 1);
+				break;
 			}
 		}
 
+		if (!$this->isElimination()) {
+			return $standing;
+		}
+
+		$maxRounds = $this->getMaxRounds();
+		$remainder = $maxRounds - $round;
+
+		if ($remainder == self::FINALS && $standing <= 2) {
+			return $standing;
+
+		} else if ($remainder == self::SEMI_FINALS && ($standing == 4 || $standing == 3)) {
+			return $standing;
+
+		} else if ($remainder == self::QUARTER_FINALS && ($standing >= 5 && $standing <= 8)) {
+			return $standing;
+		}
+
 		return null;
+	}
+
+	/**
+	 * Return all standings.
+	 *
+	 * @return array
+	 */
+	public function getStandings() {
+		return $this->_standings;
 	}
 
 	/**
@@ -408,6 +443,36 @@ class Bracket {
 		}
 
 		return count($this->_rounds);
+	}
+
+	/**
+	 * Is the event an elimination event?
+	 *
+	 * @return bool
+	 */
+	public function isElimination() {
+		return in_array($this->_event['type'], array(Event::SINGLE_ELIM, Event::DOUBLE_ELIM));
+	}
+
+	/**
+	 * Determine which round type it currently is.
+	 *
+	 * @param int $round
+	 * @param int $type
+	 * @return bool
+	 */
+	public function isRound($round, $type) {
+		return ($this->getMaxRounds() - $round) == $type;
+	}
+
+	/**
+	 * Determine if the current round is in a finals round.
+	 *
+	 * @param int $round
+	 * @return bool
+	 */
+	public function isInFinals($round) {
+		return ($this->getMaxRounds() - $round) <= self::QUARTER_FINALS;
 	}
 
 	/**

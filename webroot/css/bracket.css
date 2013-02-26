@@ -6,26 +6,30 @@
 .participant-link.no-logo { padding-left: 5px; }
 
 .cell-score,
-.cell-seed { width: 40px; background: rgba(255, 255, 255, .50); text-align: center; position: relative; }
+.cell-seed { width: 40px; background: rgba(255, 255, 255, .50); text-align: center; }
 .cell-void { background: #d7d7d7; }
 
 .bracket a { color: #6f6f6f; }
 .bracket a:hover { color: #4a4a4a; }
-
 .bracket-column { float: left; width: 275px; margin: 0 5px 0 0;  }
 .bracket-column ul { list-style: none;}
 .bracket-column li { margin-bottom: 7px; }
 .bracket-column li:last-child { margin-bottom: 0; }
 
-.match { height: 83px; color: #535353; background: #ededed; border-radius: 2px; overflow: hidden; }
-.match table { background: #ededed; width: 100%; border-spacing: 1px; border-collapse: collapse; }
+.match { height: 83px; color: #535353; position: relative; }
+.match table { width: 100%; border-spacing: 1px; border-collapse: collapse; border-radius: 10px; }
 .match table td { border: 1px solid #f6f6f6; height: 40px; vertical-align: middle; }
 .match .logo img { border-radius: 2px; }
+.match .participant-home { background: #ededed; }
 .match .participant-away { background: #f2f2f2; }
 .match .participant-winner .logo img { height: 81px; }
 .match .participant-winner .cell-name { padding: 10px; background: #fff; height: 60px; }
 .match .participant-winner .cell-name a { font-size: 18px; }
 .match .participant-winner .cell-name .stat { font-weight: bold; font-size: 12px; }
+
+.standing { position: absolute; right: -12px; background: #F38630; color: #fff; font-weight: bold; z-index: 10; padding: 3px 7px; border-radius: 10px; }
+.participant-home .standing { top: -12px; }
+.participant-away .standing { bottom: -12px; }
 
 .status-loss { background: #ffeeee !important; }
 .status-win { background: #eefff1 !important; }

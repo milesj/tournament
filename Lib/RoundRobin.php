@@ -16,6 +16,7 @@ class RoundRobin extends Tournament {
 	 */
 	public function generateMatches() {
 		if ($this->_event['isGenerated']) {
+			$this->endEvent();
 			throw new Exception('Matches have already been generated for this event');
 		}
 

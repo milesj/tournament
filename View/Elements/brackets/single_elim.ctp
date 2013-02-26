@@ -33,7 +33,8 @@ body { width: <?php echo ($bracket->getMaxRounds() * 305); ?>px; min-width: 100%
 						<?php echo $this->element('brackets/match', array(
 							'match' => $match,
 							'home' => $bracket->getParticipant($match['home_id']),
-							'away' => $bracket->getParticipant($match['away_id'])
+							'away' => $bracket->getParticipant($match['away_id']),
+							'currentRound' => $round
 						)) ?>
 					</li>
 

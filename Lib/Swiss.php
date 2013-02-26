@@ -32,9 +32,7 @@ class Swiss extends Tournament {
 		}
 
 		if ($maxRounds && $nextRound > $maxRounds) {
-			$this->flagWinner($participants[0]);
-
-			throw new Exception('Winner declared; Max rounds reached for this event');
+			$this->endEvent();
 		}
 
 		// Create matches

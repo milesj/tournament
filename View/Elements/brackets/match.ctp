@@ -14,11 +14,9 @@
 						echo $match['homeScore'];
 					}
 
-					if (($bracket->getMaxRounds() - $bracket->getCompletedRounds()) <= 3) {
-						if ($standing = $bracket->getStanding($home['id'])) { ?>
-							<div class="standing"><?php echo $standing; ?></div>
-						<?php }
-					} ?>
+					if ($standing = $bracket->getStanding($home['id'], $currentRound)) { ?>
+						<div class="standing"><?php echo $standing; ?></div>
+					<?php } ?>
 				</td>
 			</tr>
 
@@ -42,11 +40,9 @@
 						echo $match['awayScore'];
 					}
 
-					if (($bracket->getMaxRounds() - $bracket->getCompletedRounds()) <= 3) {
-						if ($standing = $bracket->getStanding($home['id'])) { ?>
-							<div class="standing"><?php echo $standing; ?></div>
-						<?php }
-					} ?>
+					if ($standing = $bracket->getStanding($away['id'], $currentRound)) { ?>
+						<div class="standing"><?php echo $standing; ?></div>
+					<?php } ?>
 				</td>
 			</tr>
 
