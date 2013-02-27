@@ -284,8 +284,9 @@ class GenerateDataShell extends AppShell {
 
 			} else {
 				$sizes = array(0, 5, 10, 15);
-				$pools = $sizes[rand(0, 3)];
-				$max = ($pools * 3) + 10;
+				$r = rand(0, 3);
+				$pools = $sizes[$r];
+				$max = ($pools * $r) + 10;
 
 				if ($type == Event::ROUND_ROBIN) {
 					$rounds = rand(1, 3);

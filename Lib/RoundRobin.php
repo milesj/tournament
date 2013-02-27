@@ -10,7 +10,7 @@ class RoundRobin extends Tournament {
 	 *
 	 * 	- Every participant will play every other participant within their pool (or no pool = all)
 	 *	- If there are rounds, the participants in the same pool will play a new set of matches
-	 * 	- Every match will be played in order based on round number
+	 * 	- Every match will be played in order based on seed number
 	 *
 	 * @return void
 	 * @throws Exception
@@ -48,9 +48,10 @@ class RoundRobin extends Tournament {
 
 			foreach ($participants as $participant) {
 				$p = $participant['EventParticipant'];
-				$pools[$p['EventParticipant']['pool']][$p['EventParticipant']['seed']] = $p['EventParticipant'][$this->_forField];
+				$pools[$p['pool']][$p['seed']] = $p[$this->_forField];
 			}
 
+			// Reset so pool is 0 based
 			$pools = array_values($pools);
 		}
 

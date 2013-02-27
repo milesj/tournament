@@ -188,7 +188,7 @@ abstract class Tournament {
 	 * @param int $seed
 	 * @param int $pool
 	 */
-	public function flagParticipant($participant_id, $seed = null, $poll = null) {
+	public function flagParticipant($participant_id, $seed = null, $pool = null) {
 		$participant = $this->EventParticipant->find('first', array(
 			'conditions' => array(
 				'EventParticipant.event_id' => $this->_id,
@@ -199,7 +199,7 @@ abstract class Tournament {
 		$this->EventParticipant->id = $participant['EventParticipant']['id'];
 		$this->EventParticipant->save(array(
 			'seed' => $seed,
-			'poll' => $poll
+			'pool' => $pool
 		));
 	}
 
