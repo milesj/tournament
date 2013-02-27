@@ -15,7 +15,17 @@ class SingleElim extends Tournament {
 	 * @throws Exception
 	 */
 	public function generateMatches() {
+		if ($this->_event['isFinished']) {
+			throw new Exception('Event has already finished');
+		}
+
 		$nextRound = (int) $this->_event['round'] + 1;
+		$maxRounds = (int) $this->_event['maxRounds'];
+
+		// End the event if the max rounds is reached
+		if ($maxRounds && $nextRound > $maxRounds) {
+			$this->endEvent();
+		}
 
 		if ($nextRound == 1) {
 			$this->generateFirstRound($nextRound);
@@ -40,13 +50,22 @@ class SingleElim extends Tournament {
 	 */
 	public function generateFirstRound($round) {
 		$participants = $this->getParticipants();
-		$half = ceil(count($participants) / 2);
+		$count = count($participants);
+		$half = ceil($count / 2);
+		$topSeed = 1;
+		$bottomSeed = $count;
 
 		for ($i = 0; $i < $half; $i++) {
 			$home_id = array_shift($participants);
 			$away_id = array_pop($participants);
 
 			$this->createMatch($home_id, $away_id, $round);
+
+			$this->flagParticipant($home_id, $topSeed);
+			$this->flagParticipant($away_id, $bottomSeed);
+
+			$topSeed++;
+			$bottomSeed--;
 		}
 	}
 
@@ -60,11 +79,6 @@ class SingleElim extends Tournament {
 	 */
 	public function generateRound($round) {
 		$participants = $this->getWinners();
-
-		if (count($participants) == 1) {
-			$this->endEvent();
-		}
-
 		$half = ceil(count($participants) / 2);
 
 		for ($i = 0; $i < $half; $i++) {

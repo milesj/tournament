@@ -521,7 +521,7 @@ class Bracket {
 		$this->_rounds = $rounds;
 
 		if (empty($this->_matches)) {
-			throw new Exception('Matches must be set before pools');
+			throw new Exception('Matches must be set before rounds');
 		}
 
 		if (!$calculate) {
