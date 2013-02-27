@@ -88,7 +88,7 @@ abstract class Tournament {
 			$query = $query + array(
 				'winner' => Match::HOME,
 				'homeOutcome' => Match::BYE,
-				'homeScore' => 0,
+				'homeScore' => $this->_event['pointsForTie'],
 				'awayOutcome' => Match::BYE,
 				'awayScore' => 0
 			);
@@ -213,17 +213,20 @@ abstract class Tournament {
 	/**
 	 * Get all ready participant IDs for an event. Take into account the event seeding order.
 	 *
-	 * @param array $query
+	 * @param array $order
 	 * @param bool $return
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getParticipants(array $query = array(), $return = false) {
+	public function getParticipants(array $order = array(), $return = false) {
 		$for = $this->_forModel;
-		$order = 'RAND()';
 
-		if ($this->_event['seed'] == Event::POINTS) {
-			$order = array($for . '.points' => 'ASC');
+		if (!$order) {
+			if ($this->_event['seed'] == Event::POINTS) {
+				$order = array($for . '.points' => 'ASC');
+			} else {
+				$order = 'RAND()';
+			}
 		}
 
 		if ($for == 'Player') {
@@ -232,16 +235,14 @@ abstract class Tournament {
 			$contain = array($for);
 		}
 
-		$query = Hash::merge(array(
+		$participants = $this->EventParticipant->find('all', array(
 			'conditions' => array(
 				'EventParticipant.event_id' => $this->_id,
 				'EventParticipant.isReady' => EventParticipant::YES
 			),
 			'contain' => $contain,
 			'order' => $order
-		), $query);
-
-		$participants = $this->EventParticipant->find('all', $query);
+		));
 
 		if (!$participants) {
 			throw new Exception('There are no participants for this event');
@@ -269,52 +270,26 @@ abstract class Tournament {
 	public function organizeBrackets($matches) {
 		$participants = $this->getParticipants(array(), true);
 		$rounds = array();
-		$pools = array();
 
 		foreach ($matches as $match) {
 			$round = (int) $match['Match']['round'];
-			$pool = (int) $match['Match']['pool'];
 
-			if (empty($pools[$pool][$round])) {
-				$pools[$pool][$round] = array();
-			}
-
-			$pools[$pool][$round][] = $match['Match']['id'];
-
-			/*// Store match IDs into rounds
 			if (empty($rounds[$round])) {
 				$rounds[$round] = array();
 			}
 
 			$rounds[$round][] = $match['Match']['id'];
-
-			// Store rounds into pools
-			if (empty($pools[$pool])) {
-				$pools[$pool] = array();
-			}
-
-			$pools[$pool][] = $round; */
 		}
-
-		debug($pools);
 
 		// Loop through and sort matches
-		/*foreach ($rounds as &$m) {
+		foreach ($rounds as &$m) {
 			sort($m, SORT_NUMERIC);
 		}
-
-		// Loop through and unique rounds
-		foreach ($pools as &$r) {
-			$r = array_unique($r);
-		} */
 
 		$bracket = new Bracket($this->_event);
 		$bracket->setMatches($matches);
 		$bracket->setParticipants($participants);
 		$bracket->setRounds($rounds);
-		$bracket->setPools($pools);
-
-		debug($bracket);
 
 		return $bracket;
 	}

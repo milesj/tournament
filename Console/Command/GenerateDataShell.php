@@ -128,7 +128,7 @@ class GenerateDataShell extends AppShell {
 		for ($i = 0; $i < 250; $i++) {
 			$this->User->create();
 			$this->User->save(array(
-				$userMap['username'] => 'User #' . $i,
+				$userMap['username'] => 'User #' . ($i + 1),
 				$userMap['status'] => $statusMap['active']
 			));
 
@@ -174,7 +174,7 @@ class GenerateDataShell extends AppShell {
 
 			$this->Team->create();
 			$this->Team->save(array(
-				'name' => 'Team #' . $i,
+				'name' => 'Team #' . ($i + 1),
 				'status' => Team::ACTIVE,
 				'wins' => rand(0, 100),
 				'losses' => rand(0, 100),
@@ -282,17 +282,16 @@ class GenerateDataShell extends AppShell {
 				$sizes = array(8, 16, 24, 32);
 				$max = $sizes[rand(0, 3)];
 
-			} else {
+			} else if ($type == Event::ROUND_ROBIN) {
 				$sizes = array(0, 5, 10, 15);
 				$r = rand(0, 3);
 				$pools = $sizes[$r];
 				$max = ($pools * $r) + 10;
+				$rounds = rand(1, 3);
 
-				if ($type == Event::ROUND_ROBIN) {
-					$rounds = rand(1, 3);
-				} else {
-					$rounds = rand(5, 10);
-				}
+			} else {
+				$max = rand(8, 20);
+				$rounds = rand(0, 3);
 			}
 
 			if ($for == Event::TEAM) {
@@ -307,7 +306,7 @@ class GenerateDataShell extends AppShell {
 				'type' => $type,
 				'for' => $for,
 				'seed' => rand(0, 1),
-				'name' => 'Event #' . $i,
+				'name' => 'Event #' . ($i + 1),
 				'maxParticipants' => $max,
 				'maxRounds' => $rounds,
 				'poolSize' => $pools,
@@ -412,6 +411,7 @@ class GenerateDataShell extends AppShell {
 
 		if (!$event) {
 			$this->err('Invalid event');
+			return;
 		}
 
 		// Update matches with fake data

@@ -1,8 +1,14 @@
 
 <?php
-$match = empty($match) ? null : $match;
-$home = empty($home) ? null : $home;
-$away = empty($away) ? null : $away;
+$home = null;
+$away = null;
+
+if (!empty($match)) {
+	$home = $bracket->getParticipant($match['Match']['home_id']);
+	$away = $bracket->getParticipant($match['Match']['away_id']);
+}
+
+$isBye = ($home && !$away);
 
 if ($bracket->isElimination()) { ?>
 	<div class="bracket-line">
@@ -10,23 +16,47 @@ if ($bracket->isElimination()) { ?>
 	</div>
 <?php } ?>
 
-<div class="match"<?php if ($match) { ?> id="match-<?php echo $match['id']; ?>"<?php } ?>>
+<div class="match <?php if ($isBye) echo 'match-bye'; ?>"
+	<?php if ($match) { ?> id="match-<?php echo $match['Match']['id']; ?>"<?php } ?>>
 	<table>
 	<tbody>
-		<?php
-		echo $this->element('brackets/participant', array(
-			'match' => $match,
-			'type' => 'home',
-			'participant' => $home,
-			'currentRound' => $currentRound
-		));
+		<?php if ($match && $home) {
+			echo $this->element('brackets/participant', array(
+				'match' => $match,
+				'type' => 'home',
+				'participant' => $home,
+				'currentRound' => $currentRound
+			));
+		} else {?>
 
-		echo $this->element('brackets/participant', array(
-			'match' => $match,
-			'type' => 'away',
-			'participant' => $away,
-			'currentRound' => $currentRound
-		)); ?>
+			<tr class="participant-home">
+				<td class="cell-seed"></td>
+				<td></td>
+				<td class="cell-score"></td>
+			</tr>
+
+		<?php }
+
+		if ($match && $away) {
+			echo $this->element('brackets/participant', array(
+				'match' => $match,
+				'type' => 'away',
+				'participant' => $away,
+				'currentRound' => $currentRound
+			));
+		} else { ?>
+
+			<tr class="participant-away">
+				<td class="cell-seed"></td>
+				<?php if ($isBye) { ?>
+					<td class="cell-bye"><?php echo __d('tournament', 'Bye'); ?></td>
+				<?php } else { ?>
+					<td></td>
+				<?php } ?>
+				<td class="cell-score"></td>
+			</tr>
+
+		<?php } ?>
 	</tbody>
 	</table>
 </div>

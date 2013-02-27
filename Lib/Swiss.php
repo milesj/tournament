@@ -13,26 +13,34 @@ class Swiss extends Tournament {
 	 * @throws Exception
 	 */
 	public function generateMatches() {
+		if ($this->_event['isFinished']) {
+			throw new Exception('Event has already finished');
+		}
+
 		$nextRound = (int) $this->_event['round'] + 1;
-		$maxRounds = $this->_event['maxRounds'];
+		$maxRounds = (int) $this->_event['maxRounds'];
+
+		// End the event if the max rounds is reached
+		if ($maxRounds && $nextRound > $maxRounds) {
+			$this->endEvent();
+		}
 
 		// First round order by seed
 		if ($nextRound == 1) {
 			$participants = $this->getParticipants();
 
+			// Set the seed order
+			foreach ($participants as $i => $participant_id) {
+				$this->flagParticipant($participant_id, ($i + 1));
+			}
+
 		// Other rounds order by current event points
 		} else {
 			$participants = $this->getParticipants(array(
-				'order' => array(
-					'EventParticipant.points' => 'DESC',
-					'EventParticipant.wins' => 'DESC',
-					'EventParticipant.ties' => 'DESC'
-				)
+				'EventParticipant.points' => 'DESC',
+				'EventParticipant.wins' => 'DESC',
+				'EventParticipant.ties' => 'DESC'
 			));
-		}
-
-		if ($maxRounds && $nextRound > $maxRounds) {
-			$this->endEvent();
 		}
 
 		// Create matches

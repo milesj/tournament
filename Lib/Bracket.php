@@ -186,7 +186,7 @@ class Bracket {
 			return $this->_matches[$id];
 		}
 
-		throw new Exception(sprintf('Match %s does not exist', $id));
+		return null;
 	}
 
 	/**
@@ -204,6 +204,7 @@ class Bracket {
 			$ids = $this->_rounds[$round];
 		}
 
+		// Filter down again to participant
 		if ($participant_id) {
 			$ids = $ids[$participant_id];
 		}
@@ -232,8 +233,8 @@ class Bracket {
 	 * @return int
 	 */
 	public function getMaxRounds() {
-		if (!empty($this->_event['maxRounds'])) {
-			return (int) $this->_event['maxRounds'];
+		if ($max = $this->_event['maxRounds']) {
+			return (int) $max;
 		}
 
 		return count($this->getRounds());
@@ -251,7 +252,7 @@ class Bracket {
 			return $this->_participants[$id];
 		}
 
-		throw new Exception(sprintf('Participant %s does not exist', $id));
+		return null;
 	}
 
 	/**
@@ -307,8 +308,12 @@ class Bracket {
 	 * @param int $pool_id
 	 * @return array
 	 */
-	public function getRounds($pool_id = 1) {
-		return array_keys($this->_pools[$pool_id]);
+	public function getRounds($pool_id = null) {
+		if ($pool_id) {
+			return array_keys($this->_pools[$pool_id]);
+		}
+
+		return array_keys($this->_rounds);
 
 		/*switch ($this->_event['type']) {
 			case Event::SINGLE_ELIM:
@@ -341,13 +346,9 @@ class Bracket {
 		$standing = null;
 
 		if ($pool) {
-			$standings = $this->_standings[$pool];
+			$standings = $this->_standings[$pool][$round];
 		} else {
 			$standings = $this->_standings;
-		}
-
-		if ($round) {
-			$standings = $standings[$round];
 		}
 
 		foreach ($standings as $i => $participants) {
@@ -526,15 +527,12 @@ class Bracket {
 
 		// Cache and tally the current scores
 		foreach ($pools as $pool_id => $rounds) {
-			$match_ids = array();
-
 			foreach ($rounds as $round_id => $participants) {
-				foreach ($participants as $matches) {
-					$match_ids = array_merge($match_ids, $matches);
+				foreach ($participants as $match_ids) {
+					$this->_scores[$pool_id][$round_id] = $this->calculateScores($match_ids);
+					$this->_standings[$pool_id][$round_id] = $this->calculateStandings($match_ids);
 				}
 
-				$this->_scores[$pool_id][$round_id] = $this->calculateScores($match_ids);
-				$this->_standings[$pool_id][$round_id] = $this->calculateStandings($match_ids);
 			}
 		}
 
@@ -552,7 +550,7 @@ class Bracket {
 	public function setRounds(array $rounds) {
 		$this->_rounds = $rounds;
 
-		/*if (empty($this->_matches)) {
+		if (empty($this->_matches)) {
 			throw new Exception('Matches must be set before pools');
 		}
 
@@ -564,7 +562,7 @@ class Bracket {
 		}
 
 		$this->_scores = $this->calculateScores($match_ids);
-		$this->_standings = $this->calculateStandings($match_ids); */
+		$this->_standings = $this->calculateStandings($match_ids);
 
 		return $this;
 	}

@@ -43,7 +43,7 @@ class RoundRobin extends Tournament {
 		// Other rounds group into pools
 		} else {
 			$participants = $this->getParticipants(array(
-				'order' => array('EventParticipant.seed' => 'ASC')
+				'EventParticipant.seed' => 'ASC'
 			), true);
 
 			foreach ($participants as $participant) {

@@ -13,7 +13,7 @@ body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width
 		<?php foreach ($bracket->getRounds() as $round) { ?>
 
 			<div class="bracket-column">
-				<?php if ($matches = $bracket->getRoundMatches($round)) { ?>
+				<?php if ($matches = $bracket->getMatches($round)) { ?>
 
 					<ul>
 						<?php foreach ($matches as $match) { ?>
@@ -21,8 +21,6 @@ body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width
 							<li>
 								<?php echo $this->element('brackets/match', array(
 									'match' => $match,
-									'home' => $bracket->getParticipant($match['home_id']),
-									'away' => $bracket->getParticipant($match['away_id']),
 									'currentRound' => $round
 								)) ?>
 							</li>

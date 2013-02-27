@@ -1,32 +1,26 @@
-<?php if (!empty($participant)) {
-	$id = $participant['id']; ?>
+<?php
+$id = $participant['EventParticipant']['team_id'] ?: $participant['EventParticipant']['player_id']; ?>
 
-	<tr class="participant-<?php echo $type; ?> participant-<?php echo $id; ?> status-<?php echo $this->Bracket->matchStatus($id, $match); ?>">
-		<td class="cell-seed"></td>
-		<td class="cell-name">
-			<?php echo $this->Bracket->participant($participant); ?>
-		</td>
-		<td class="cell-score">
-			<?php if ($match['winner'] != Match::PENDING) {
-				echo $match[$type . 'Score'];
+<tr class="participant-<?php echo $type; ?> participant-<?php echo $id; ?> status-<?php echo $this->Bracket->matchStatus($id, $match); ?>">
+	<td class="cell-seed" data-tooltip="<?php echo __d('tournament', 'Seed'); ?>">
+		<?php echo $participant['EventParticipant']['seed']; ?>
+	</td>
+	<td class="cell-name">
+		<?php echo $this->Bracket->participant($participant); ?>
+	</td>
+	<td class="cell-score" data-tooltip="<?php echo __d('tournament', 'Points'); ?>">
+		<?php if ($match['Match']['winner'] != Match::PENDING) {
+			echo $match['Match'][$type . 'Score'];
 
-				$standing = $bracket->getStanding($id, $currentRound);
+			if ($bracket->isElimination()) {
+				if ($standing = $bracket->getStanding($id, $currentRound)) { ?>
 
-				if ($standing && $bracket->isElimination()) { ?>
-					<div class="standing standing-<?php echo $standing; ?>">
+					<div class="standing standing-<?php echo $standing; ?>" data-tooltip="<?php echo __d('tournament', 'Standing'); ?>">
 						<span><?php echo $standing; ?></span>
 					</div>
-				<?php }
-			} ?>
-		</td>
-	</tr>
 
-<?php } else { ?>
-
-	<tr class="participant-<?php echo $type; ?>">
-		<td class="cell-seed"></td>
-		<td></td>
-		<td class="cell-score"></td>
-	</tr>
-
-<?php } ?>
+			<?php }
+			}
+		} ?>
+	</td>
+</tr>
