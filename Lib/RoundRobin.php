@@ -9,28 +9,57 @@ class RoundRobin extends Tournament {
 	 * Generate matches for a round robin event.
 	 *
 	 * 	- Every participant will play every other participant within their pool (or no pool = all)
+	 *	- If there are rounds, the participants in the same pool will play a new set of matches
 	 * 	- Every match will be played in order based on round number
 	 *
 	 * @return void
 	 * @throws Exception
 	 */
 	public function generateMatches() {
-		if ($this->_event['isGenerated']) {
+		if ($this->_event['isFinished']) {
+			throw new Exception('Event has already finished');
+		}
+
+		$nextRound = (int) $this->_event['round'] + 1;
+		$maxRounds = (int) $this->_event['maxRounds'];
+		$poolSize = (int) $this->_event['poolSize'];
+		$pools = array();
+
+		// End the event if the max rounds is reached
+		if ($maxRounds && $nextRound > $maxRounds) {
 			$this->endEvent();
-			throw new Exception('Matches have already been generated for this event');
 		}
 
-		$participants = $this->getParticipants();
+		// First round chunk into pools
+		if ($nextRound == 1) {
+			$participants = $this->getParticipants();
 
-		// Cycle through all the IDs and generate match pairs
-		if ($poolSize = $this->_event['poolSize']) {
-			$pools = array_chunk($participants, $poolSize);
+			if ($poolSize) {
+				$pools = array_chunk($participants, $poolSize);
+			} else {
+				$pools = array($participants);
+			}
+
+		// Other rounds group into pools
 		} else {
-			$pools = array($participants);
+			$participants = $this->getParticipants(array(
+				'order' => array('EventParticipant.seed' => 'ASC')
+			), true);
+
+			foreach ($participants as $participant) {
+				$p = $participant['EventParticipant'];
+				$pools[$p['EventParticipant']['pool']][$p['EventParticipant']['seed']] = $p['EventParticipant'][$this->_forField];
+			}
+
+			$pools = array_values($pools);
 		}
+
+		// Loop over each pool and create all matches
+		$currentSeed = 1;
 
 		foreach ($pools as $index => $pool) {
 			$exclude = array();
+			$currentPool = ($index + 1);
 
 			foreach ($pool as $home_id) {
 				foreach ($pool as $away_id) {
@@ -38,9 +67,12 @@ class RoundRobin extends Tournament {
 						continue;
 					}
 
-					$this->createMatch($home_id, $away_id, null, ($index + 1));
+					$this->createMatch($home_id, $away_id, $nextRound, $currentPool);
 				}
 
+				$this->flagParticipant($home_id, $currentSeed, $currentPool);
+
+				$currentSeed++;
 				$exclude[] = $home_id;
 			}
 		}
@@ -48,7 +80,8 @@ class RoundRobin extends Tournament {
 		// Update event status
 		$this->Event->id = $this->_id;
 		$this->Event->save(array(
-			'isGenerated' => Event::YES
+			'isGenerated' => Event::YES,
+			'round' => $nextRound
 		), false);
 	}
 
@@ -62,61 +95,39 @@ class RoundRobin extends Tournament {
 	 * @return Bracket
 	 */
 	public function organizeBrackets($matches) {
-		if ($this->_event['for'] == Event::TEAM) {
-			$homeIndex = 'HomeTeam';
-			$awayIndex = 'AwayTeam';
-		} else {
-			$homeIndex = 'HomePlayer';
-			$awayIndex = 'AwayPlayer';
-		}
-
-		$participants = array();
+		$participants = $this->getParticipants(array(), true);
 		$pools = array();
-		$list = array();
 
 		foreach ($matches as $match) {
 			$home_id = $match['Match']['home_id'];
 			$away_id = $match['Match']['away_id'];
+			$round = (int) $match['Match']['round'];
 			$pool = (int) $match['Match']['pool'];
 
-			if (empty($pools[$pool])) {
-				$pools[$pool] = array();
+			// Store match IDs into a pool and round indexed by the participant
+			if (empty($pools[$pool][$round][$home_id])) {
+				$pools[$pool][$round][$home_id] = array();
 			}
 
-			// Store participant info
-			if (empty($participants[$home_id])) {
-				$participants[$home_id] = $match[$homeIndex];
+			if (empty($pools[$pool][$round][$away_id])) {
+				$pools[$pool][$round][$away_id] = array();
 			}
 
-			if (empty($participants[$away_id])) {
-				$participants[$away_id] = $match[$awayIndex];
-			}
-
-			// Store match info
-			$list[$match['Match']['id']] = $match['Match'];
-
-			// Store match IDs into a pool indexed by the participant
-			if (empty($pools[$pool][$home_id])) {
-				$pools[$pool][$home_id] = array();
-			}
-
-			if (empty($pools[$pool][$away_id])) {
-				$pools[$pool][$away_id] = array();
-			}
-
-			$pools[$pool][$home_id][] = $match['Match']['id'];
-			$pools[$pool][$away_id][] = $match['Match']['id'];
+			$pools[$pool][$round][$home_id][] = $match['Match']['id'];
+			$pools[$pool][$round][$away_id][] = $match['Match']['id'];
 		}
 
 		// Loop through and sort matches
 		foreach ($pools as &$p) {
-			foreach ($p as &$m) {
-				sort($m, SORT_NUMERIC);
+			foreach ($p as &$r) {
+				foreach ($r as &$m) {
+					sort($m, SORT_NUMERIC);
+				}
 			}
 		}
 
 		$bracket = new Bracket($this->_event);
-		$bracket->setMatches($list);
+		$bracket->setMatches($matches);
 		$bracket->setParticipants($participants);
 		$bracket->setPools($pools);
 

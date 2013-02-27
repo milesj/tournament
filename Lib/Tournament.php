@@ -31,6 +31,14 @@ abstract class Tournament {
 	protected $_event;
 
 	/**
+	 * Whether the event is Team or Player.
+	 *
+	 * @var string
+	 */
+	protected $_forModel;
+	protected $_forField;
+
+	/**
 	 * Fetch event information.
 	 *
 	 * @param array $event
@@ -44,16 +52,12 @@ abstract class Tournament {
 
 		if (!$event) {
 			throw new Exception('Invalid event');
-
-		} else if ($event['Event']['isRunning']) {
-			//throw new Exception('Event has already started');
-
-		} else if ($event['Event']['isFinished']) {
-			//throw new Exception('Event has already finished');
 		}
 
 		$this->_id = $event['Event']['id'];
 		$this->_event = $event['Event'];
+		$this->_forModel = ($this->_event['for'] == Event::TEAM) ? 'Team' : 'Player';
+		$this->_forField = ($this->_event['for'] == Event::TEAM) ? 'team_id' : 'player_id';
 
 		$this->validate();
 	}
@@ -150,7 +154,7 @@ abstract class Tournament {
 	 */
 	public function flagStandings() {
 		$participants = $this->EventParticipant->find('all', array(
-			'conditions' => array('EventParticipant.event_id' => $this->_event['id']),
+			'conditions' => array('EventParticipant.event_id' => $this->_id),
 			'order' => array('EventParticipant.points' => 'DESC')
 		));
 
@@ -178,22 +182,24 @@ abstract class Tournament {
 	}
 
 	/**
-	 * Flag a participant as the winner.
+	 * Flag a participant with seed and pool data.
 	 *
 	 * @param int $participant_id
+	 * @param int $seed
+	 * @param int $pool
 	 */
-	public function flagWinner($participant_id) {
+	public function flagParticipant($participant_id, $seed = null, $poll = null) {
 		$participant = $this->EventParticipant->find('first', array(
 			'conditions' => array(
-				'EventParticipant.event_id' => $this->_event['id'],
-				'EventParticipant.' . ($this->_event['for'] == Event::TEAM ? 'team_id' : 'player_id') => $participant_id
+				'EventParticipant.event_id' => $this->_id,
+				'EventParticipant.' . $this->_forField => $participant_id
 			)
 		));
 
 		$this->EventParticipant->id = $participant['EventParticipant']['id'];
 		$this->EventParticipant->save(array(
-			'isWinner' => EventParticipant::YES,
-			'wonOn' => date('Y-m-d H:i:s')
+			'seed' => $seed,
+			'poll' => $poll
 		));
 	}
 
@@ -208,15 +214,22 @@ abstract class Tournament {
 	 * Get all ready participant IDs for an event. Take into account the event seeding order.
 	 *
 	 * @param array $query
+	 * @param bool $return
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getParticipants(array $query = array()) {
-		$for = ($this->_event['for'] == Event::TEAM) ? 'Team' : 'Player';
+	public function getParticipants(array $query = array(), $return = false) {
+		$for = $this->_forModel;
 		$order = 'RAND()';
 
 		if ($this->_event['seed'] == Event::POINTS) {
 			$order = array($for . '.points' => 'ASC');
+		}
+
+		if ($for == 'Player') {
+			$contain = array($for => array('User'));
+		} else {
+			$contain = array($for);
 		}
 
 		$query = Hash::merge(array(
@@ -224,7 +237,7 @@ abstract class Tournament {
 				'EventParticipant.event_id' => $this->_id,
 				'EventParticipant.isReady' => EventParticipant::YES
 			),
-			'contain' => array($for),
+			'contain' => $contain,
 			'order' => $order
 		), $query);
 
@@ -232,6 +245,10 @@ abstract class Tournament {
 
 		if (!$participants) {
 			throw new Exception('There are no participants for this event');
+		}
+
+		if ($return) {
+			return $participants;
 		}
 
 		$participant_ids = array();
@@ -250,50 +267,54 @@ abstract class Tournament {
 	 * @return array
 	 */
 	public function organizeBrackets($matches) {
-		if ($this->_event['for'] == Event::TEAM) {
-			$homeIndex = 'HomeTeam';
-			$awayIndex = 'AwayTeam';
-		} else {
-			$homeIndex = 'HomePlayer';
-			$awayIndex = 'AwayPlayer';
-		}
-
-		$participants = array();
+		$participants = $this->getParticipants(array(), true);
 		$rounds = array();
-		$list = array();
+		$pools = array();
 
 		foreach ($matches as $match) {
-			$home_id = $match['Match']['home_id'];
-			$away_id = $match['Match']['away_id'];
 			$round = (int) $match['Match']['round'];
+			$pool = (int) $match['Match']['pool'];
 
-			// Store participant info
-			if (empty($participants[$home_id])) {
-				$participants[$home_id] = $match[$homeIndex];
+			if (empty($pools[$pool][$round])) {
+				$pools[$pool][$round] = array();
 			}
 
-			if (empty($participants[$away_id])) {
-				$participants[$away_id] = $match[$awayIndex];
-			}
+			$pools[$pool][$round][] = $match['Match']['id'];
 
-			// Store match IDs into rounds
+			/*// Store match IDs into rounds
 			if (empty($rounds[$round])) {
 				$rounds[$round] = array();
 			}
 
 			$rounds[$round][] = $match['Match']['id'];
-			$list[$match['Match']['id']] = $match['Match'];
+
+			// Store rounds into pools
+			if (empty($pools[$pool])) {
+				$pools[$pool] = array();
+			}
+
+			$pools[$pool][] = $round; */
 		}
 
+		debug($pools);
+
 		// Loop through and sort matches
-		foreach ($rounds as &$m) {
+		/*foreach ($rounds as &$m) {
 			sort($m, SORT_NUMERIC);
 		}
 
+		// Loop through and unique rounds
+		foreach ($pools as &$r) {
+			$r = array_unique($r);
+		} */
+
 		$bracket = new Bracket($this->_event);
-		$bracket->setMatches($list);
+		$bracket->setMatches($matches);
 		$bracket->setParticipants($participants);
 		$bracket->setRounds($rounds);
+		$bracket->setPools($pools);
+
+		debug($bracket);
 
 		return $bracket;
 	}

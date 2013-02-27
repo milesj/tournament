@@ -93,16 +93,16 @@ class BracketHelper extends AppHelper {
 	 * @return array
 	 */
 	public function matchScore($participant_id, $match) {
-		if ($match['winner'] == Match::PENDING) {
+		if ($match['Match']['winner'] == Match::PENDING) {
 			return null;
 		}
 
-		if ($match['home_id'] == $participant_id) {
-			$winPoint = $match['homeScore'];
-			$lossPoint = $match['awayScore'];
+		if ($match['Match']['home_id'] == $participant_id) {
+			$winPoint = $match['Match']['homeScore'];
+			$lossPoint = $match['Match']['awayScore'];
 		} else {
-			$winPoint = $match['awayScore'];
-			$lossPoint = $match['homeScore'];
+			$winPoint = $match['Match']['awayScore'];
+			$lossPoint = $match['Match']['homeScore'];
 		}
 
 		return array($winPoint, $lossPoint);
@@ -116,18 +116,18 @@ class BracketHelper extends AppHelper {
 	 * @return string
 	 */
 	public function matchStatus($participant_id, $match) {
-		if ($match['winner'] == Match::PENDING) {
+		if ($match['Match']['winner'] == Match::PENDING) {
 			return 'pending';
 
-		} else if ($match['winner'] == Match::NONE) {
+		} else if ($match['Match']['winner'] == Match::NONE) {
 			return 'tie';
 		}
 
 		$status = 'loss';
 
 		if (
-			($match['home_id'] == $participant_id && $match['winner'] == Match::HOME) ||
-			($match['away_id'] == $participant_id && $match['winner'] == Match::AWAY)
+			($match['Match']['home_id'] == $participant_id && $match['Match']['winner'] == Match::HOME) ||
+			($match['Match']['away_id'] == $participant_id && $match['Match']['winner'] == Match::AWAY)
 		) {
 			$status = 'win';
 		}

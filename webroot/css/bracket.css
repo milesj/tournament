@@ -73,5 +73,7 @@
 .round-robin { text-align: center; }
 .round-robin .cell-score { font-weight: bold; width: auto; }
 .round-robin .cell-participant { background: #fff; text-align: left; padding: 0; }
+.round-robin .table { margin-top: 5px; }
+.round-robin .table:first-child { margin: 0; }
 
 /*-------------------- Swiss --------------------*/

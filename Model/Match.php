@@ -139,7 +139,11 @@ class Match extends TournamentAppModel {
 	 * @return array
 	 */
 	public function getBrackets($event) {
-		$matches = $this->getMatches($event['Event']['id'], $event['Event']['for']);
+		$matches = $this->find('all', array(
+			'conditions' => array('Match.event_id' => $event['Event']['id']),
+			'order' => array('Match.id' => 'ASC'),
+			'cache' => array(__METHOD__, $event['Event']['id'])
+		));
 
 		return Tournament::factory($event)->organizeBrackets($matches);
 	}

@@ -275,17 +275,23 @@ class GenerateDataShell extends AppShell {
 			$excludeTeams = array();
 			$type = rand(0, 3);
 			$for = rand(0, 1);
-			$pool = null;
+			$pools = null;
 			$rounds = null;
 
 			if ($type == Event::SINGLE_ELIM || $type == Event::DOUBLE_ELIM) {
-				$max = rand(28, 32);
-			} else if ($type == Event::ROUND_ROBIN) {
-				$pool = rand(0, 10);
-				$max = ($pool * 3) + 10;
+				$sizes = array(8, 16, 24, 32);
+				$max = $sizes[rand(0, 3)];
+
 			} else {
-				$max = 16;
-				$rounds = 10;
+				$sizes = array(0, 5, 10, 15);
+				$pools = $sizes[rand(0, 3)];
+				$max = ($pools * 3) + 10;
+
+				if ($type == Event::ROUND_ROBIN) {
+					$rounds = rand(1, 3);
+				} else {
+					$rounds = rand(5, 10);
+				}
 			}
 
 			if ($for == Event::TEAM) {
@@ -303,7 +309,7 @@ class GenerateDataShell extends AppShell {
 				'name' => 'Event #' . $i,
 				'maxParticipants' => $max,
 				'maxRounds' => $rounds,
-				'poolSize' => $pool,
+				'poolSize' => $pools,
 				'start' => date('Y-m-d H:i:s', strtotime('+1 week')),
 				'end' => date('Y-m-d H:i:s', strtotime('+5 weeks')),
 				'signupStart' => date('Y-m-d H:i:s', strtotime('-4 weeks')),

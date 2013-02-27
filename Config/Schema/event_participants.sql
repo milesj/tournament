@@ -9,6 +9,7 @@ CREATE TABLE `{prefix}event_participants` (
 	`status` smallint(6) NOT NULL DEFAULT '0',
 	`standing` smallint(11) DEFAULT NULL,
 	`seed` smallint(11) DEFAULT NULL,
+	`pool` smallint(11) DEFAULT NULL,
 	`wins` int(11) NOT NULL DEFAULT '0',
 	`losses` int(11) NOT NULL DEFAULT '0',
 	`ties` int(11) NOT NULL DEFAULT '0',
