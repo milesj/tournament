@@ -98,4 +98,34 @@ class Event extends TournamentAppModel {
 		));
 	}
 
+	/**
+	 * Before save.
+	 *
+	 * @param array $options
+	 * @return bool
+	 */
+	public function beforeSave($options = array()) {
+		$data = $this->data['Event'];
+
+		// Store the maxRounds value for elimination events by calculating the max participants
+		if (isset($data['type']) && isset($data['maxParticipants'])) {
+			switch ($data['type']) {
+				case self::SINGLE_ELIM:
+				case self::DOUBLE_ELIM:
+					$participantCount = $data['maxParticipants'];
+					$rounds = 1;
+
+					while ($participantCount != 1) {
+						$participantCount = ceil($participantCount / 2);
+						$rounds++;
+					}
+
+					$this->data['Event']['maxRounds'] = $rounds;
+				break;
+			}
+		}
+
+		return true;
+	}
+
 }

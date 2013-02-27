@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Tie Breaking:
+ * http://en.wikipedia.org/wiki/Buchholz_system
+ * http://www.wizards.com/dci/downloads/Tiebreakers.pdf
+ */
+
 App::uses('ClassRegistry', 'Utility');
 App::uses('Sanitize', 'Utility');
 

@@ -98,6 +98,7 @@ class RoundRobin extends Tournament {
 	public function organizeBrackets($matches) {
 		$participants = $this->getParticipants(array(), true);
 		$pools = array();
+		$rounds = array();
 
 		foreach ($matches as $match) {
 			$home_id = $match['Match']['home_id'];
@@ -116,6 +117,13 @@ class RoundRobin extends Tournament {
 
 			$pools[$pool][$round][$home_id][] = $match['Match']['id'];
 			$pools[$pool][$round][$away_id][] = $match['Match']['id'];
+
+			// Store the rounds as a reference
+			if (empty($rounds[$round])) {
+				$rounds[$round] = array();
+			}
+
+			$rounds[$round][] = $match['Match']['id'];
 		}
 
 		// Loop through and sort matches
@@ -131,6 +139,7 @@ class RoundRobin extends Tournament {
 		$bracket->setMatches($matches);
 		$bracket->setParticipants($participants);
 		$bracket->setPools($pools);
+		$bracket->setRounds($rounds, false);
 
 		return $bracket;
 	}

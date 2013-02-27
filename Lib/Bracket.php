@@ -233,11 +233,7 @@ class Bracket {
 	 * @return int
 	 */
 	public function getMaxRounds() {
-		if ($max = $this->_event['maxRounds']) {
-			return (int) $max;
-		}
-
-		return count($this->getRounds());
+		return (int) $this->_event['maxRounds'];
 	}
 
 	/**
@@ -314,23 +310,6 @@ class Bracket {
 		}
 
 		return array_keys($this->_rounds);
-
-		/*switch ($this->_event['type']) {
-			case Event::SINGLE_ELIM:
-			case Event::DOUBLE_ELIM:
-				$participantCount = count($this->_rounds[1]);
-				$rounds = array(1 => $participantCount);
-
-				while ($participantCount != 1) {
-					$participantCount = ceil($participantCount / 2);
-					$rounds[] = $participantCount;
-				}
-
-				return $rounds;
-			break;
-		}
-
-		return array_keys($this->_rounds);*/
 	}
 
 	/**
@@ -394,21 +373,6 @@ class Bracket {
 	 */
 	public function getTotalPools() {
 		return count($this->_pools);
-	}
-
-	/**
-	 * Return the total round count.
-	 *
-	 * @return int
-	 */
-	public function getTotalRounds() {
-		if ($this->isRoundRobin()) {
-			$pools = array_values($this->_pools);
-
-			return count($pools[0]);
-		}
-
-		return count($this->_rounds);
 	}
 
 	/**
@@ -515,14 +479,19 @@ class Bracket {
 	 * Each participant should have an array of match IDs.
 	 *
 	 * @param array $pools
+	 * @param bool $calculate
 	 * @return Bracket
 	 * @throws Exception
 	 */
-	public function setPools(array $pools) {
+	public function setPools(array $pools, $calculate = true) {
 		$this->_pools = $pools;
 
 		if (empty($this->_matches)) {
 			throw new Exception('Matches must be set before pools');
+		}
+
+		if (!$calculate) {
+			return $this;
 		}
 
 		// Cache and tally the current scores
@@ -544,14 +513,19 @@ class Bracket {
 	 * the value should be an array of match IDs in correct order.
 	 *
 	 * @param array $rounds
+	 * @param bool $calculate
 	 * @return Bracket
 	 * @throws Exception
 	 */
-	public function setRounds(array $rounds) {
+	public function setRounds(array $rounds, $calculate = true) {
 		$this->_rounds = $rounds;
 
 		if (empty($this->_matches)) {
 			throw new Exception('Matches must be set before pools');
+		}
+
+		if (!$calculate) {
+			return $this;
 		}
 
 		// Cache and tally the current scores

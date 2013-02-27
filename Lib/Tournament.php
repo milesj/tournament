@@ -88,7 +88,7 @@ abstract class Tournament {
 			$query = $query + array(
 				'winner' => Match::HOME,
 				'homeOutcome' => Match::BYE,
-				'homeScore' => $this->_event['pointsForTie'],
+				'homeScore' => $this->_event['pointsForWin'],
 				'awayOutcome' => Match::BYE,
 				'awayScore' => 0
 			);
