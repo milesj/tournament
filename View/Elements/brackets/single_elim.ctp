@@ -54,7 +54,20 @@ body { width: <?php echo ($maxRounds * 335); ?>px; min-width: 100%; }
 					</li>
 
 					<?php $matchesDisplayed++;
-				} ?>
+				}
+
+				// Display the bronze match
+				if ($bracket->isRound($round, Bracket::FINALS)) { ?>
+
+					<li>
+						<?php echo $this->element('brackets/match', array(
+							'match' => null,
+							'title' => 'Bronze Match',
+							'currentRound' => $round
+						)); ?>
+					</li>
+
+				<?php } ?>
 
 				</ul>
 			</div>

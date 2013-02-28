@@ -101,6 +101,9 @@ Configure::write('Tournament.settings', array(
 	'defaultLossPoints' => 0,
 	'defaultTiePoints' => 1,
 
+	// Bracket
+	'showBracketSeed' => true,
+
 	// Misc
 	'defaultLocale' => 'eng',
 	'defaultTimezone' => -8

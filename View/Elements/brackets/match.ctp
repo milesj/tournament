@@ -14,6 +14,12 @@ if ($bracket->isElimination()) { ?>
 	<div class="bracket-line">
 		<div></div>
 	</div>
+<?php }
+
+if (isset($title)) { ?>
+	<div class="match-title">
+		<?php echo $title; ?>
+	</div>
 <?php } ?>
 
 <div class="match <?php if ($isBye) echo 'match-bye'; ?>"
