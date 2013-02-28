@@ -2,13 +2,13 @@
 <?php
 $home = null;
 $away = null;
+$isBye = false;
 
-if (!empty($match)) {
+if ($match) {
 	$home = $bracket->getParticipant($match['Match']['home_id']);
 	$away = $bracket->getParticipant($match['Match']['away_id']);
+	$isBye = ($match['Match']['homeOutcome'] == Match::BYE);
 }
-
-$isBye = ($home && !$away);
 
 if ($bracket->isElimination()) { ?>
 	<div class="bracket-line">

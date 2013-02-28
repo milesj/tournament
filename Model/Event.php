@@ -112,15 +112,7 @@ class Event extends TournamentAppModel {
 			switch ($data['type']) {
 				case self::SINGLE_ELIM:
 				case self::DOUBLE_ELIM:
-					$participantCount = $data['maxParticipants'];
-					$rounds = 1;
-
-					while ($participantCount != 1) {
-						$participantCount = ceil($participantCount / 2);
-						$rounds++;
-					}
-
-					$this->data['Event']['maxRounds'] = $rounds;
+					$this->data['Event']['maxRounds'] = log($data['maxParticipants'], 2);
 				break;
 			}
 		}

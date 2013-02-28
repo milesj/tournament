@@ -22,7 +22,7 @@ body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width
 								<?php echo $this->element('brackets/match', array(
 									'match' => $match,
 									'currentRound' => $round
-								)) ?>
+								)); ?>
 							</li>
 
 						<?php } ?>

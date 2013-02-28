@@ -6,6 +6,13 @@ App::uses('Event', 'Tournament.Model');
 class RoundRobin extends Tournament {
 
 	/**
+	 * Event type.
+	 *
+	 * @var int
+	 */
+	protected $_type = Event::ROUND_ROBIN;
+
+	/**
 	 * Generate matches for a round robin event.
 	 *
 	 * 	- Every participant will play every other participant within their pool (or no pool = all)
@@ -142,15 +149,6 @@ class RoundRobin extends Tournament {
 		$bracket->setRounds($rounds, false);
 
 		return $bracket;
-	}
-
-	/**
-	 * Validate the event is the correct type for the class.
-	 */
-	public function validate() {
-		if ($this->_event['type'] != Event::ROUND_ROBIN) {
-			throw new Exception('Event is not Round Robin');
-		}
 	}
 
 }

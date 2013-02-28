@@ -5,6 +5,13 @@ App::uses('Tournament', 'Tournament.Lib');
 class Swiss extends Tournament {
 
 	/**
+	 * Event type.
+	 *
+	 * @var int
+	 */
+	protected $_type = Event::SWISS;
+
+	/**
 	 * Generate matches for a swiss event.
 	 *
 	 * 	- Event participants will be paired each round with opponents of similar point score

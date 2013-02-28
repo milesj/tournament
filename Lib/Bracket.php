@@ -67,6 +67,24 @@ class Bracket {
 	}
 
 	/**
+	 * Calculate how many matches should be present for this round.
+	 * Only applies to elimination games.
+	 *
+	 * @param $round
+	 * @return float|int
+	 */
+	public function calculateRoundMatches($round) {
+		$max = $this->getMaxParticipants();
+
+		while ($round > 0) {
+			$max = ceil($max / 2);
+			$round--;
+		}
+
+		return $max;
+	}
+
+	/**
 	 * Loop through a list of match IDs and calculate the current point scores.
 	 *
 	 * @param array $match_ids
@@ -200,6 +218,10 @@ class Bracket {
 	public function getMatches($round, $pool = null, $participant_id = null) {
 		if ($pool) {
 			$ids = $this->_pools[$pool][$round];
+
+		} else if (empty($this->_rounds[$round])) {
+			return array();
+
 		} else {
 			$ids = $this->_rounds[$round];
 		}
@@ -216,6 +238,15 @@ class Bracket {
 		}
 
 		return $matches;
+	}
+
+	/**
+	 * Return the max amount of participants that will play.
+	 *
+	 * @return int
+	 */
+	public function getMaxParticipants() {
+		return (int) $this->_event['maxParticipants'];
 	}
 
 	/**

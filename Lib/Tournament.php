@@ -39,6 +39,13 @@ abstract class Tournament {
 	protected $_forField;
 
 	/**
+	 * Event type.
+	 *
+	 * @var int
+	 */
+	protected $_type;
+
+	/**
 	 * Fetch event information.
 	 *
 	 * @param array $event
@@ -52,14 +59,15 @@ abstract class Tournament {
 
 		if (!$event) {
 			throw new Exception('Invalid event');
+
+		} else if ($event['Event']['type'] != $this->_type) {
+			throw new Exception(sprintf('Event is not %s', $this->Event->enum('type', $this->_type)));
 		}
 
 		$this->_id = $event['Event']['id'];
 		$this->_event = $event['Event'];
 		$this->_forModel = ($this->_event['for'] == Event::TEAM) ? 'Team' : 'Player';
 		$this->_forField = ($this->_event['for'] == Event::TEAM) ? 'team_id' : 'player_id';
-
-		$this->validate();
 	}
 
 	/**
@@ -262,6 +270,39 @@ abstract class Tournament {
 	}
 
 	/**
+	 * Return all the winners from the previous event round.
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getWinners() {
+		$matches = $this->Match->find('all', array(
+			'conditions' => array(
+				'Match.event_id' => $this->_id,
+				'Match.round' => $this->_event['round']
+			),
+			'order' => array('Match.id' => 'ASC')
+		));
+
+		if (!$matches) {
+			throw new Exception('No participants from the previous round');
+		}
+
+		$participant_ids = array();
+
+		foreach ($matches as $match) {
+			if ($match['Match']['winner'] == Match::HOME) {
+				$participant_ids[] = $match['Match']['home_id'];
+
+			} else if ($match['Match']['winner'] == Match::AWAY) {
+				$participant_ids[] = $match['Match']['away_id'];
+			}
+		}
+
+		return $participant_ids;
+	}
+
+	/**
 	 * Organize a list of matches into the correct match order for brackets.
 	 *
 	 * @param array $matches
@@ -295,8 +336,36 @@ abstract class Tournament {
 	}
 
 	/**
-	 * Validate the event is the correct type for the class.
+	 * Organize and sort the seed order of players.
+	 *
+	 * @param array $participant_ids
+	 * @return array
 	 */
-	abstract public function validate();
+	public function organizeSeeds($participant_ids) {
+		$seeds = $participant_ids;
+		$count = count($seeds);
+		$half = ceil($count / 2);
+		$slice = 1;
+
+		// Flag the seed order before sorting
+		foreach ($participant_ids as $i => $participant_id) {
+			$this->flagParticipant($participant_id, ($i + 1));
+		}
+
+		// Reorganize the seed order so that top tiered players match up last
+		while ($slice < $half) {
+			$temp = $seeds;
+			$seeds = array();
+
+			while (count($temp) > 0) {
+				$seeds = array_merge($seeds, array_splice($temp, 0, $slice));
+				$seeds = array_merge($seeds, array_splice($temp, -$slice, $slice));
+			}
+
+			$slice *= 2;
+		}
+
+		return $seeds;
+	}
 
 }

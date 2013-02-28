@@ -6,9 +6,16 @@ App::uses('Match', 'Tournament.Model');
 class SingleElim extends Tournament {
 
 	/**
+	 * Event type.
+	 *
+	 * @var int
+	 */
+	protected $_type = Event::SINGLE_ELIM;
+
+	/**
 	 * Generate matches for a single elimination event.
 	 *
-	 * 	- Top event participant will play bottom in the 1st round
+	 * 	- Top participants should be seeded so that they don't compete against each other until the last rounds
 	 * 	- Winners of each match will advance to the next round
 	 *
 	 * @return void
@@ -27,10 +34,23 @@ class SingleElim extends Tournament {
 			$this->endEvent();
 		}
 
+		// Organize players by seed for first round
 		if ($nextRound == 1) {
-			$this->generateFirstRound($nextRound);
+			$participants = $this->organizeSeeds($this->getParticipants());
+
+		// Other rounds should use the match order
 		} else {
-			$this->generateRound($nextRound);
+			$participants = $this->getWinners();
+		}
+
+		// Create matches
+		$half = ceil(count($participants) / 2);
+
+		for ($i = 0; $i < $half; $i++) {
+			$home_id = array_shift($participants);
+			$away_id = array_shift($participants);
+
+			$this->createMatch($home_id, $away_id, $nextRound);
 		}
 
 		// Update event status
@@ -39,96 +59,6 @@ class SingleElim extends Tournament {
 			'isGenerated' => Event::YES,
 			'round' => $nextRound
 		), false);
-	}
-
-	/**
-	 * Generate the 1st round brackets. The top player in the list should be matched against the bottom player.
-	 * If there is an uneven amount of players, give the remaining player a bye.
-	 *
-	 * @param int $round
-	 * @return void
-	 */
-	public function generateFirstRound($round) {
-		$participants = $this->getParticipants();
-		$count = count($participants);
-		$half = ceil($count / 2);
-		$topSeed = 1;
-		$bottomSeed = $count;
-
-		for ($i = 0; $i < $half; $i++) {
-			$home_id = array_shift($participants);
-			$away_id = array_pop($participants);
-
-			$this->createMatch($home_id, $away_id, $round);
-
-			$this->flagParticipant($home_id, $topSeed);
-			$this->flagParticipant($away_id, $bottomSeed);
-
-			$topSeed++;
-			$bottomSeed--;
-		}
-	}
-
-	/**
-	 * Generate the 2nd and up round brackets. The top 2 players within each loop will be paired in a match.
-	 * If there is an uneven amount of players, give the remaining player a bye.
-	 *
-	 * @param int $round
-	 * @return void
-	 * @throws Exception
-	 */
-	public function generateRound($round) {
-		$participants = $this->getWinners();
-		$half = ceil(count($participants) / 2);
-
-		for ($i = 0; $i < $half; $i++) {
-			$home_id = array_shift($participants);
-			$away_id = array_shift($participants);
-
-			$this->createMatch($home_id, $away_id, $round);
-		}
-	}
-
-	/**
-	 * Return all the winners from the previous event round.
-	 *
-	 * @return array
-	 * @throws Exception
-	 */
-	public function getWinners() {
-		$matches = $this->Match->find('all', array(
-			'conditions' => array(
-				'Match.event_id' => $this->_id,
-				'Match.round' => $this->_event['round']
-			),
-			'order' => array('Match.id' => 'ASC')
-		));
-
-		if (!$matches) {
-			throw new Exception('No participants from the previous round');
-		}
-
-		$participant_ids = array();
-
-		foreach ($matches as $match) {
-			if ($match['Match']['winner'] == Match::HOME) {
-				$participant_ids[] = $match['Match']['home_id'];
-
-			} else if ($match['Match']['winner'] == Match::AWAY) {
-				$participant_ids[] = $match['Match']['away_id'];
-			}
-		}
-
-		return $participant_ids;
-	}
-
-	/**
-	 * Validate the event is the correct type for the class.
-	 */
-	public function validate() {
-		if ($this->_event['type'] != Event::SINGLE_ELIM) {
-			throw new Exception('Event is not Single Elimination');
-		}
 	}
 
 }
