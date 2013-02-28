@@ -375,7 +375,7 @@ class GenerateDataShell extends AppShell {
 
 				} else {
 					$max = rand(8, 20);
-					$rounds = rand(0, 3);
+					$rounds = rand(1, 3);
 				}
 
 				if ($for == Event::TEAM) {

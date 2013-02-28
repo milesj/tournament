@@ -75,17 +75,19 @@ abstract class Tournament {
 	 *
 	 * @param int $home_id
 	 * @param int $away_id
+	 * @param int $order
 	 * @param int $round
 	 * @param int $pool
 	 * @return mixed
 	 */
-	public function createMatch($home_id, $away_id, $round = null, $pool = null) {
+	public function createMatch($home_id, $away_id, $order, $round = null, $pool = null) {
 		$query = array(
 			'league_id' => $this->_event['league_id'],
 			'event_id' => $this->_id,
 			'home_id' => $home_id,
 			'away_id' => $away_id,
 			'type' => $this->_event['for'],
+			'order' => $order,
 			'round' => $round,
 			'pool' => $pool,
 			'playOn' => null // @TODO
@@ -281,7 +283,7 @@ abstract class Tournament {
 				'Match.event_id' => $this->_id,
 				'Match.round' => $this->_event['round']
 			),
-			'order' => array('Match.id' => 'ASC')
+			'order' => array('Match.order' => 'ASC')
 		));
 
 		if (!$matches) {

@@ -101,7 +101,7 @@ class Match extends TournamentAppModel {
 	public function getMatches($event_id, $type) {
 		$query = array(
 			'conditions' => array('Match.event_id' => $event_id),
-			'order' => array('Match.id' => 'ASC'),
+			'order' => array('Match.order' => 'ASC'),
 			'cache' => array(__METHOD__, $event_id, $type)
 		);
 
@@ -128,7 +128,8 @@ class Match extends TournamentAppModel {
 			'conditions' => array(
 				'Match.event_id' => $event_id,
 				'Match.winner' => self::PENDING
-			)
+			),
+			'order' => array('Match.order' => 'ASC')
 		));
 	}
 
@@ -141,7 +142,7 @@ class Match extends TournamentAppModel {
 	public function getBrackets($event) {
 		$matches = $this->find('all', array(
 			'conditions' => array('Match.event_id' => $event['Event']['id']),
-			'order' => array('Match.id' => 'ASC'),
+			'order' => array('Match.order' => 'ASC'),
 			'cache' => array(__METHOD__, $event['Event']['id'])
 		));
 

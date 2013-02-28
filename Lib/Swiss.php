@@ -57,7 +57,7 @@ class Swiss extends Tournament {
 			$home_id = array_shift($participants);
 			$away_id = array_shift($participants);
 
-			$this->createMatch($home_id, $away_id, $nextRound);
+			$this->createMatch($home_id, $away_id, $i, $nextRound);
 		}
 
 		// Update event status

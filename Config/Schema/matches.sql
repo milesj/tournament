@@ -12,6 +12,7 @@ CREATE TABLE `{prefix}matches` (
 	`winner` smallint(6) NOT NULL DEFAULT '0',
 	`round` smallint(6) DEFAULT NULL,
 	`pool` smallint(6) DEFAULT NULL,
+	`order` smallint(6) DEFAULT NULL,
 	`homeOutcome` int(11) NOT NULL DEFAULT '0',
 	`homeScore` int(11) NOT NULL,
 	`awayOutcome` int(11) NOT NULL DEFAULT '0',

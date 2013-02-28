@@ -64,6 +64,7 @@ class RoundRobin extends Tournament {
 
 		// Loop over each pool and create all matches
 		$currentSeed = 1;
+		$order = 0;
 
 		foreach ($pools as $index => $pool) {
 			$exclude = array();
@@ -75,7 +76,8 @@ class RoundRobin extends Tournament {
 						continue;
 					}
 
-					$this->createMatch($home_id, $away_id, $nextRound, $currentPool);
+					$this->createMatch($home_id, $away_id, $order, $nextRound, $currentPool);
+					$order++;
 				}
 
 				$this->flagParticipant($home_id, $currentSeed, $currentPool);
@@ -122,8 +124,8 @@ class RoundRobin extends Tournament {
 				$pools[$pool][$round][$away_id] = array();
 			}
 
-			$pools[$pool][$round][$home_id][] = $match['Match']['id'];
-			$pools[$pool][$round][$away_id][] = $match['Match']['id'];
+			$pools[$pool][$round][$home_id][$match['Match']['order']] = $match['Match']['id'];
+			$pools[$pool][$round][$away_id][$match['Match']['order']] = $match['Match']['id'];
 
 			// Store the rounds as a reference
 			if (empty($rounds[$round])) {
@@ -137,7 +139,7 @@ class RoundRobin extends Tournament {
 		foreach ($pools as &$p) {
 			foreach ($p as &$r) {
 				foreach ($r as &$m) {
-					sort($m, SORT_NUMERIC);
+					$m = array_values($m);
 				}
 			}
 		}
