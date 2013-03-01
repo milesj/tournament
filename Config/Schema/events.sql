@@ -25,6 +25,7 @@ CREATE TABLE `{prefix}events` (
 	`poolSize` int(11) DEFAULT NULL,
 	`startingByes` int(11) DEFAULT NULL,
 	`startingMatches` int(11) DEFAULT NULL,
+	`bestOf` tinyint(4) NOT NULL DEFAULT '1',
 	`pointsForWin` tinyint(4) NOT NULL DEFAULT '0',
 	`pointsForLoss` tinyint(4) NOT NULL DEFAULT '0',
 	`pointsForTie` tinyint(4) NOT NULL DEFAULT '0',

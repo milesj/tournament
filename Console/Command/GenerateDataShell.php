@@ -549,29 +549,29 @@ class GenerateDataShell extends AppShell {
 				if ($winner == Match::HOME) {
 					$query['homeOutcome'] = Match::WIN;
 					$query['awayOutcome'] = Match::LOSS;
-					$query['homeScore'] = $settings['defaultWinPoints'];
-					$query['awayScore'] = $settings['defaultLossPoints'];
+					$query['homePoints'] = $settings['defaultWinPoints'];
+					$query['awayPoints'] = $settings['defaultLossPoints'];
 
-					$this->EventParticipant->updateStatistics($event_id, $home_id, array('wins' => 1, 'points' => $query['homeScore']));
-					$this->EventParticipant->updateStatistics($event_id, $away_id, array('losses' => 1, 'points' => $query['awayScore']));
+					$this->EventParticipant->updateStatistics($event_id, $home_id, array('wins' => 1, 'points' => $query['homePoints']));
+					$this->EventParticipant->updateStatistics($event_id, $away_id, array('losses' => 1, 'points' => $query['awayPoints']));
 
 				} else if ($winner == Match::AWAY) {
 					$query['homeOutcome'] = Match::LOSS;
 					$query['awayOutcome'] = Match::WIN;
-					$query['homeScore'] = $settings['defaultLossPoints'];
-					$query['awayScore'] = $settings['defaultWinPoints'];
+					$query['homePoints'] = $settings['defaultLossPoints'];
+					$query['awayPoints'] = $settings['defaultWinPoints'];
 
-					$this->EventParticipant->updateStatistics($event_id, $home_id, array('losses' => 1, 'points' => $query['homeScore']));
-					$this->EventParticipant->updateStatistics($event_id, $away_id, array('wins' => 1, 'points' => $query['awayScore']));
+					$this->EventParticipant->updateStatistics($event_id, $home_id, array('losses' => 1, 'points' => $query['homePoints']));
+					$this->EventParticipant->updateStatistics($event_id, $away_id, array('wins' => 1, 'points' => $query['awayPoints']));
 
 				} else {
 					$query['homeOutcome'] = Match::TIE;
 					$query['awayOutcome'] = Match::TIE;
-					$query['homeScore'] = $settings['defaultTiePoints'];
-					$query['awayScore'] = $settings['defaultTiePoints'];
+					$query['homePoints'] = $settings['defaultTiePoints'];
+					$query['awayPoints'] = $settings['defaultTiePoints'];
 
-					$this->EventParticipant->updateStatistics($event_id, $home_id, array('ties' => 1, 'points' => $query['homeScore']));
-					$this->EventParticipant->updateStatistics($event_id, $away_id, array('ties' => 1, 'points' => $query['awayScore']));
+					$this->EventParticipant->updateStatistics($event_id, $home_id, array('ties' => 1, 'points' => $query['homePoints']));
+					$this->EventParticipant->updateStatistics($event_id, $away_id, array('ties' => 1, 'points' => $query['awayPoints']));
 				}
 
 				$this->Match->id = $match['Match']['id'];

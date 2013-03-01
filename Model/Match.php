@@ -5,20 +5,9 @@ App::uses('Tournament', 'Tournament.Lib');
 
 class Match extends TournamentAppModel {
 
-	// Winner
-	const HOME = 1;
-	const AWAY = 2;
-	const NONE = 3;
-
 	// Bracket
 	const WINNERS = 0;
 	const LOSERS = 1;
-
-	// Outcome
-	const WIN = 1;
-	const LOSS = 2;
-	const TIE = 3;
-	const BYE = 4;
 
 	/**
 	 * Belongs to.
@@ -52,6 +41,17 @@ class Match extends TournamentAppModel {
 			'className' => 'Tournament.Player',
 			'foreignKey' => 'away_id',
 			'conditions' => array('Match.type' => self::PLAYER)
+		)
+	);
+
+	/**
+	 * Has many.
+	 *
+	 * @var array
+	 */
+	public $hasMany = array(
+		'MatchScore' => array(
+			'className' => 'Tournament.MatchScore'
 		)
 	);
 
@@ -143,6 +143,7 @@ class Match extends TournamentAppModel {
 		$matches = $this->find('all', array(
 			'conditions' => array('Match.event_id' => $event['Event']['id']),
 			'order' => array('Match.order' => 'ASC'),
+			'contain' => array('MatchScore'),
 			'cache' => array(__METHOD__, $event['Event']['id'])
 		));
 

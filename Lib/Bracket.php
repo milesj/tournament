@@ -111,8 +111,8 @@ class Bracket {
 				continue;
 			}
 
-			$scores[$home_id] += $match['Match']['homeScore'];
-			$scores[$away_id] += $match['Match']['awayScore'];
+			$scores[$home_id] += $match['Match']['homePoints'];
+			$scores[$away_id] += $match['Match']['awayPoints'];
 		}
 
 		return $scores;

@@ -4,24 +4,30 @@ App::uses('CakeSession', 'Model/Datasource');
 
 class TournamentAppModel extends AppModel {
 
-	/**
-	 * Toggleable constants.
-	 */
 	const YES = 1;
 	const NO = 0;
 
-	/**
-	 * Status enums.
-	 */
+	// Status flags
 	const PENDING = 0;
 	const ACTIVE = 1;
 	const DISABLED = 2;
 
-	/**
-	 * Setup types.
-	 */
+	// Participant flags
 	const TEAM = 0;
 	const PLAYER = 1;
+
+	// Winner flags
+	// PENDING = 0;
+	const HOME = 1;
+	const AWAY = 2;
+	const NONE = 3;
+
+	// Outcome flags
+	// PENDING = 0;
+	const WIN = 1;
+	const LOSS = 2;
+	const TIE = 3;
+	const BYE = 4;
 
 	/**
 	 * Table prefix.
@@ -99,6 +105,17 @@ class TournamentAppModel extends AppModel {
 		parent::__construct($id, $table, $ds);
 
 		$this->Session = new CakeSession();
+	}
+
+	/**
+	 * Use an md5 hash of the file name.
+	 *
+	 * @param string $name
+	 * @param \Transit\File $file
+	 * @return string
+	 */
+	public function formatFilename($name, $file) {
+		return md5($name . time());
 	}
 
 	/**

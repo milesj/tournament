@@ -4,6 +4,7 @@ App::uses('TournamentAppModel', 'Tournament.Model');
 
 class Team extends TournamentAppModel {
 
+	// Status
 	const DISBANDED = 3;
 
 	/**
@@ -98,7 +99,7 @@ class Team extends TournamentAppModel {
 
 		$this->actsAs['Uploader.Attachment'] = array(
 			'logo' => array(
-				'nameCallback' => 'formatLogo',
+				'nameCallback' => 'formatFilename',
 				'uploadDir' => WWW_ROOT . 'files/tournament/teams/',
 				'finalPath' => 'files/tournament/teams/',
 				'dbColumn' => 'logo',
@@ -186,14 +187,14 @@ class Team extends TournamentAppModel {
 	 * @param \Transit\File $file
 	 * @return string
 	 */
-	public function formatLogo($name, $file) {
+	public function formatFilename($name, $file) {
 		if ($this->id) {
 			if ($team = $this->getById($this->id)) {
 				return $team['Team']['slug'];
 			}
 		}
 
-		return md5($name);
+		return parent::formatFilename($name, $file);
 	}
 
 	/**

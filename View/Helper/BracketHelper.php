@@ -98,11 +98,11 @@ class BracketHelper extends AppHelper {
 		}
 
 		if ($match['Match']['home_id'] == $participant_id) {
-			$winPoint = $match['Match']['homeScore'];
-			$lossPoint = $match['Match']['awayScore'];
+			$winPoint = $match['Match']['homePoints'];
+			$lossPoint = $match['Match']['awayPoints'];
 		} else {
-			$winPoint = $match['Match']['awayScore'];
-			$lossPoint = $match['Match']['homeScore'];
+			$winPoint = $match['Match']['awayPoints'];
+			$lossPoint = $match['Match']['homePoints'];
 		}
 
 		return array($winPoint, $lossPoint);
