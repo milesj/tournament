@@ -107,14 +107,30 @@ class Event extends TournamentAppModel {
 	public function beforeSave($options = array()) {
 		$data = $this->data['Event'];
 
-		// Store the maxRounds value for elimination events by calculating the max participants
+		// Calculate the max amount of rounds for elimination games
+		// Also store the starting matches and byes for easy calculating
 		if (isset($data['type']) && isset($data['maxParticipants'])) {
+			$players = $data['maxParticipants'];
+
 			switch ($data['type']) {
 				case self::SINGLE_ELIM:
 				case self::DOUBLE_ELIM:
-					$this->data['Event']['maxRounds'] = log($data['maxParticipants'], 2);
+					$rounds = ceil(log($players, 2));
+					$byes = pow(2, $rounds) - $players;
+
+					if ($byes < 0) {
+						$byes = 0;
+					}
+
+					$this->data['Event']['maxRounds'] = $rounds;
+				break;
+				default:
+					$byes = (int) ($players % 2 != 0);
 				break;
 			}
+
+			$this->data['Event']['startingByes'] = $byes;
+			$this->data['Event']['startingMatches'] = ceil(($players + $byes) / 2);
 		}
 
 		return true;

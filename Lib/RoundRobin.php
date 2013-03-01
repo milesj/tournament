@@ -64,7 +64,7 @@ class RoundRobin extends Tournament {
 
 		// Loop over each pool and create all matches
 		$currentSeed = 1;
-		$order = 0;
+		$order = 1;
 
 		foreach ($pools as $index => $pool) {
 			$exclude = array();

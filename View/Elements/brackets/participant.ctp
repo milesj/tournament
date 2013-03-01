@@ -11,7 +11,8 @@ $id = $participant['EventParticipant']['team_id'] ?: $participant['EventParticip
 		<?php echo $this->Bracket->participant($participant); ?>
 	</td>
 	<td class="cell-score" data-tooltip="<?php echo __d('tournament', 'Points'); ?>">
-		<?php if ($match['Match']['winner'] != Match::PENDING) {
+		<?php
+		if ($match['Match']['winner'] != Match::PENDING) {
 			echo $match['Match'][$type . 'Score'];
 
 			if ($bracket->isElimination()) {

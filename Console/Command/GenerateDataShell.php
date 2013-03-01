@@ -363,8 +363,7 @@ class GenerateDataShell extends AppShell {
 				$rounds = null;
 
 				if ($type == Event::SINGLE_ELIM || $type == Event::DOUBLE_ELIM) {
-					$sizes = array(8, 16, 24, 32);
-					$max = $sizes[rand(0, 3)];
+					$max = rand(2, 32);
 
 				} else if ($type == Event::ROUND_ROBIN) {
 					$sizes = array(0, 5, 10, 15);

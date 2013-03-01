@@ -35,23 +35,32 @@ class SingleElim extends Tournament {
 		}
 
 		// Organize players by seed for first round
+		// Determine how many players should get byes based on the number of participants
 		if ($nextRound == 1) {
-			$participants = $this->organizeSeeds($this->getParticipants());
+			$participants = $this->getParticipants();
+
+			if ($byes = $this->_event['startingByes']) {
+				$participants = array_merge($participants, array_fill(0, $byes, null));
+			}
+
+			$participants = $this->organizeSeeds($participants);
 
 		// Other rounds should use the match order
 		} else {
 			$participants = $this->getWinners();
 		}
 
-		// Create matches
-		$half = ceil(count($participants) / 2);
+		$half = round(count($participants) / 2);
 
-		for ($i = 0; $i < $half; $i++) {
+		for ($i = 1; $i <= $half; $i++) {
 			$home_id = array_shift($participants);
 			$away_id = array_shift($participants);
 
 			$this->createMatch($home_id, $away_id, $i, $nextRound);
 		}
+
+		// Advance matches that are byes
+		$this->advanceByes($nextRound);
 
 		// Update event status
 		$this->Event->id = $this->_id;

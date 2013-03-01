@@ -74,7 +74,8 @@ class Bracket {
 	 * @return float|int
 	 */
 	public function calculateRoundMatches($round) {
-		$max = $this->getMaxParticipants();
+		$max = $this->_event['startingMatches'];
+		$round--;
 
 		while ($round > 0) {
 			$max = ceil($max / 2);
@@ -234,7 +235,8 @@ class Bracket {
 		$matches = array();
 
 		foreach ($ids as $match_id) {
-			$matches[$match_id] = $this->getMatch($match_id);
+			$match = $this->getMatch($match_id);
+			$matches[$match['Match']['order']] = $match;
 		}
 
 		return $matches;

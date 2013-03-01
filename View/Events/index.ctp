@@ -25,7 +25,7 @@
 
 					<tr>
 						<td>
-							<b><?php echo $this->Html->link($event['Event']['name'], array('action' => 'view', 'league' => $event['League']['slug'], 'event' => $event['Event']['slug'])); ?></b>
+							<b><?php echo $this->Html->link($event['Event']['name'], array('action' => 'bracket', 'league' => $event['League']['slug'], 'event' => $event['Event']['slug'])); ?></b>
 						</td>
 						<td><?php echo $event['Game']['name']; ?></td>
 						<td>

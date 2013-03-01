@@ -31,6 +31,7 @@
 .match .participant-winner .cell-name { padding: 10px; background: #fff; height: 60px; }
 .match .participant-winner .cell-name a { font-size: 18px; }
 .match .participant-winner .cell-name .stat { font-weight: bold; font-size: 12px; }
+.match-title { margin-bottom: 5px; }
 
 .standing { position: absolute; right: -12px; background: #69D2E7; color: #fff; font-weight: bold; box-shadow: 0 0 3px #000; line-height: 100%; z-index: 10; padding: 4px 7px; border-radius: 10px; }
 .participant-home .standing { top: -12px; }
@@ -68,6 +69,9 @@
 .round-10 li { margin-top: 45997px; }
 .round-10 li:first-child { margin-top: 22995px; }
 .round-10 li .bracket-line { height: 23037px; top: -11480px; }
+
+.bracket-column li.bronze-match { margin-top: 74px; }
+.bracket-column li.bronze-match .bracket-line { display: none; }
 
 /*-------------------- Round Robin --------------------*/
 

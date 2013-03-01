@@ -53,7 +53,7 @@ class Swiss extends Tournament {
 		// Create matches
 		$half = ceil(count($participants) / 2);
 
-		for ($i = 0; $i < $half; $i++) {
+		for ($i = 1; $i <= $half; $i++) {
 			$home_id = array_shift($participants);
 			$away_id = array_shift($participants);
 

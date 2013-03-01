@@ -71,6 +71,55 @@ abstract class Tournament {
 	}
 
 	/**
+	 * Create new matches for byes in the next round.
+	 *
+	 * @param int $round
+	 */
+	public function advanceByes($round) {
+		$this->Match->cacheQueries = false;
+
+		$matches = $this->Match->find('all', array(
+			'conditions' => array(
+				'Match.event_id' => $this->_id,
+				'Match.round' => $round,
+				'Match.homeOutcome' => Match::BYE
+			),
+			'order' => array('Match.order' => 'ASC')
+		));
+
+		if ($matches) {
+			$nextRound = $round + 1;
+
+			foreach ($matches as $match) {
+				$order = ceil($match['Match']['order'] / 2);
+				$home_id = $match['Match']['home_id'];
+				$away_id = null;
+
+				if ($order < 1) {
+					$order = 1;
+				}
+
+				// Find a match in the next round in case 2 byes meet
+				$target = $this->Match->find('first', array(
+					'conditions' => array(
+						'Match.event_id' => $this->_id,
+						'Match.round' => $nextRound,
+						'Match.order' => $order
+					)
+				));
+
+				if ($target) {
+					$this->Match->id = $target['Match']['id'];
+					$this->Match->saveField('away_id', $home_id);
+
+				} else {
+					$this->createMatch($home_id, $away_id, $order, $nextRound, null, false);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Create a match. Check for missing players and supply a bye.
 	 *
 	 * @param int $home_id
@@ -78,9 +127,10 @@ abstract class Tournament {
 	 * @param int $order
 	 * @param int $round
 	 * @param int $pool
+	 * @param bool $bye
 	 * @return mixed
 	 */
-	public function createMatch($home_id, $away_id, $order, $round = null, $pool = null) {
+	public function createMatch($home_id, $away_id, $order, $round = null, $pool = null, $bye = true) {
 		$query = array(
 			'league_id' => $this->_event['league_id'],
 			'event_id' => $this->_id,
@@ -93,8 +143,9 @@ abstract class Tournament {
 			'playOn' => null // @TODO
 		);
 
+
 		// If away is null, give home a bye
-		if (!$away_id) {
+		if (!$away_id && $bye) {
 			$query = $query + array(
 				'winner' => Match::HOME,
 				'homeOutcome' => Match::BYE,
@@ -104,7 +155,20 @@ abstract class Tournament {
 			);
 		}
 
-		$this->Match->create();
+		// Check if the match already exists
+		$target = $this->Match->find('first', array(
+			'conditions' => array(
+				'Match.event_id' => $this->_id,
+				'Match.round' => $round,
+				'Match.order' => $order
+			)
+		));
+
+		if ($target) {
+			$this->Match->id = $target['Match']['id'];
+		} else {
+			$this->Match->create();
+		}
 
 		return $this->Match->save($query);
 	}
@@ -345,16 +409,22 @@ abstract class Tournament {
 	 */
 	public function organizeSeeds($participant_ids) {
 		$seeds = $participant_ids;
+
+		// Flag the seed order before sorting
+		$seed = 1;
+
+		foreach ($participant_ids as $participant_id) {
+			if ($participant_id) {
+				$this->flagParticipant($participant_id, $seed);
+				$seed++;
+			}
+		}
+
+		// Reorganize the seed order so that top tiered players match up last
 		$count = count($seeds);
 		$half = ceil($count / 2);
 		$slice = 1;
 
-		// Flag the seed order before sorting
-		foreach ($participant_ids as $i => $participant_id) {
-			$this->flagParticipant($participant_id, ($i + 1));
-		}
-
-		// Reorganize the seed order so that top tiered players match up last
 		while ($slice < $half) {
 			$temp = $seeds;
 			$seeds = array();

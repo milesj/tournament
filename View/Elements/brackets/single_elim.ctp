@@ -15,13 +15,15 @@ body { width: <?php echo ($maxRounds * 335); ?>px; min-width: 100%; }
 		<?php // Loop over each round
 		for ($i = 1; $i <= $maxRounds; $i++) {
 			$matchesToShow = $bracket->calculateRoundMatches($i);
-			$matchesDisplayed = 0;
 			$round = $i;
 			$class = '';
 
 			// Give the final rounds a special class
 			switch ($matchesToShow) {
-				case 1:	$class = 'finals'; break;
+				case 1:
+					$class = 'finals';
+					$matchesToShow++; // bronze
+				break;
 				case 2:	$class = 'semi-finals'; break;
 				case 4:	$class = 'quarter-finals'; break;
 			} ?>
@@ -30,44 +32,33 @@ body { width: <?php echo ($maxRounds * 335); ?>px; min-width: 100%; }
 				<ul>
 
 				<?php // Loop over official matches
-				if ($matches = $bracket->getMatches($round)) {
-					foreach ($matches as $match) { ?>
+				$matches = $bracket->getMatches($round);
 
-					<li>
-						<?php echo $this->element('brackets/match', array(
-							'match' => $match,
-							'currentRound' => $round
-						)); ?>
-					</li>
+				for ($m = 1; $m <= $matchesToShow; $m++) {
+					if ($m == 2 && $bracket->isRound($round, Bracket::FINALS)) { ?>
 
-					<?php $matchesDisplayed++;
-				} }
+						<li class="bronze-match">
+							<div class="match-title">
+								<?php echo __d('tournament', 'Bronze Match'); ?>
+							</div>
 
-				// Loop over and create fake matches to fill the gaps
-				while ($matchesDisplayed < $matchesToShow) { ?>
+							<?php echo $this->element('brackets/match', array(
+								'match' => isset($matches[$m]) ? $matches[$m] : null,
+								'currentRound' => $round
+							)); ?>
+						</li>
 
-					<li>
-						<?php echo $this->element('brackets/match', array(
-							'match' => null,
-							'currentRound' => $round
-						)); ?>
-					</li>
+					<?php } else { ?>
 
-					<?php $matchesDisplayed++;
-				}
+						<li>
+							<?php echo $this->element('brackets/match', array(
+								'match' => isset($matches[$m]) ? $matches[$m] : null,
+								'currentRound' => $round
+							)); ?>
+						</li>
 
-				// Display the bronze match
-				if ($bracket->isRound($round, Bracket::FINALS)) { ?>
-
-					<li>
-						<?php echo $this->element('brackets/match', array(
-							'match' => null,
-							'title' => 'Bronze Match',
-							'currentRound' => $round
-						)); ?>
-					</li>
-
-				<?php } ?>
+					<?php }
+				} ?>
 
 				</ul>
 			</div>
