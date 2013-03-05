@@ -32,6 +32,26 @@ class MatchScore extends TournamentAppModel {
 	);
 
 	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'match_id' => 'notEmpty'
+	);
+
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'hideFields' => array('game'),
+		'imageFields' => array('screenshot'),
+		'fileFields' => array('replay')
+	);
+
+	/**
 	 * Configure Uploader manually.
 	 *
 	 * @param bool|int $id

@@ -24,23 +24,19 @@ class Match extends TournamentAppModel {
 		),
 		'HomeTeam' => array(
 			'className' => 'Tournament.Team',
-			'foreignKey' => 'home_id',
-			'conditions' => array('Match.type' => self::TEAM)
+			'foreignKey' => 'home_id'
 		),
 		'AwayTeam' => array(
 			'className' => 'Tournament.Team',
-			'foreignKey' => 'away_id',
-			'conditions' => array('Match.type' => self::TEAM)
+			'foreignKey' => 'away_id'
 		),
 		'HomePlayer' => array(
 			'className' => 'Tournament.Player',
-			'foreignKey' => 'home_id',
-			'conditions' => array('Match.type' => self::PLAYER)
+			'foreignKey' => 'home_id'
 		),
 		'AwayPlayer' => array(
 			'className' => 'Tournament.Player',
-			'foreignKey' => 'away_id',
-			'conditions' => array('Match.type' => self::PLAYER)
+			'foreignKey' => 'away_id'
 		)
 	);
 
@@ -51,7 +47,9 @@ class Match extends TournamentAppModel {
 	 */
 	public $hasMany = array(
 		'MatchScore' => array(
-			'className' => 'Tournament.MatchScore'
+			'className' => 'Tournament.MatchScore',
+			'dependent' => true,
+			'exclusive' => true
 		)
 	);
 
@@ -89,6 +87,40 @@ class Match extends TournamentAppModel {
 			self::TIE => 'TIE',
 			self::BYE => 'BYE'
 		)
+	);
+
+	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'league_id' => 'notEmpty',
+		'event_id' => 'notEmpty',
+		'home_id' => 'notEmpty',
+		'away_id' => 'notEmpty',
+		'type' => 'notEmpty',
+		'bracket' => 'notEmpty',
+		'winner' => 'notEmpty',
+		'homeOutcome' => 'notEmpty',
+		'awayOutcome' => 'notEmpty',
+		'homePoints' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'awayPoints' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+	);
+
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'hideFields' => array('round', 'pool', 'order')
 	);
 
 	/**

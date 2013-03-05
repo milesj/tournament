@@ -11,7 +11,21 @@ class Division extends TournamentAppModel {
 	 */
 	public $hasMany = array(
 		'Event' => array(
-			'className' => 'Tournament.Event'
+			'className' => 'Tournament.Event',
+			'dependent' => true,
+			'exclusive' => true
+		)
+	);
+
+	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'name' => array(
+			'rule' => 'notEmpty',
+			'required' => true
 		)
 	);
 

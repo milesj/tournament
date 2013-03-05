@@ -50,6 +50,11 @@ class League extends TournamentAppModel {
 			'className' => 'Tournament.Event',
 			'dependent' => true,
 			'exclusive' => true
+		),
+		'Match' => array(
+			'className' => 'Tournament.Match',
+			'dependent' => true,
+			'exclusive' => true
 		)
 	);
 
@@ -62,6 +67,26 @@ class League extends TournamentAppModel {
 		'Utility.Sluggable' => array(
 			'field' => 'name'
 		)
+	);
+
+	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'game_id' => 'notEmpty',
+		'region_id' => 'notEmpty',
+		'name' => 'notEmpty'
+	);
+
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'imageFields' => array('logo')
 	);
 
 	/**

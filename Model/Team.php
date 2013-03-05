@@ -27,10 +27,24 @@ class Team extends TournamentAppModel {
 	public $hasMany = array(
 		'TeamMember' => array(
 			'className' => 'Tournament.TeamMember',
-			'dependent' => true,
-			'exclusive' => true,
 			'conditions' => array('TeamMember.status >' => self::PENDING),
-			'order' => array('TeamMember.status' => 'ASC', 'TeamMember.role' => 'ASC')
+			'order' => array('TeamMember.status' => 'ASC', 'TeamMember.role' => 'ASC'),
+			'dependent' => true,
+			'exclusive' => true
+		),
+		'HomeMatch' => array(
+			'className' => 'Tournament.Match',
+			'foreignKey' => 'home_id',
+			'conditions' => array('HomeMatch.type' => self::TEAM),
+			'dependent' => true,
+			'exclusive' => true
+		),
+		'AwayMatch' => array(
+			'className' => 'Tournament.Match',
+			'foreignKey' => 'away_id',
+			'conditions' => array('AwayMatch.type' => self::TEAM),
+			'dependent' => true,
+			'exclusive' => true
 		)
 	);
 
@@ -59,13 +73,34 @@ class Team extends TournamentAppModel {
 	);
 
 	/**
-	 * Validation rules.
+	 * Validation.
 	 *
 	 * @var array
 	 */
 	public $validate = array(
-		'name' => 'notEmpty',
-		'password' => 'notEmpty'
+		'user_id' => 'notEmpty',
+		'status' => 'notEmpty',
+		'name' => array(
+			'rule' => 'notEmpty',
+			'required' => true
+		),
+		'password' => 'notEmpty',
+		'wins' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'losses' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'ties' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'points' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		)
 	);
 
 	/**
@@ -80,6 +115,15 @@ class Team extends TournamentAppModel {
 			self::DISABLED => 'DISABLED',
 			self::DISBANDED => 'DISBANDED'
 		)
+	);
+
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'imageFields' => array('logo')
 	);
 
 	/**

@@ -84,6 +84,69 @@ class Event extends TournamentAppModel {
 	);
 
 	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'game_id' => 'notEmpty',
+		'league_id' => 'notEmpty',
+		'division_id' => 'notEmpty',
+		'type' => 'notEmpty',
+		'for' => 'notEmpty',
+		'seed' => 'notEmpty',
+		'name' => array(
+			'rule' => 'notEmpty',
+			'required' => true
+		),
+		'requiredMembers' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters',
+			'allowEmpty' => true
+		),
+		'maxParticipants' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters',
+			'allowEmpty' => true
+		),
+		'maxRounds' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters',
+			'allowEmpty' => true
+		),
+		'poolSize' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters',
+			'allowEmpty' => true
+		),
+		'bestOf' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'pointsForWin' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'pointsForLoss' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'pointsForTie' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+	);
+
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'hideFields' => array('round', 'startingByes', 'startingMatches')
+	);
+
+	/**
 	 * Return all events for a league.
 	 *
 	 * @param int $league_id

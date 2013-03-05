@@ -22,4 +22,22 @@ class Game extends TournamentAppModel {
 		)
 	);
 
+	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'name' => 'notEmpty'
+	);
+
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'imageFields' => array('image', 'imageSmall', 'imageIcon')
+	);
+
 }

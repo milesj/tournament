@@ -58,6 +58,19 @@ class TeamMember extends TournamentAppModel {
 	);
 
 	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'team_id' => 'notEmpty',
+		'player_id' => 'notEmpty',
+		'user_id' => 'notEmpty',
+		'role' => 'notEmpty',
+		'status' => 'notEmpty',
+	);
+
+	/**
 	 * Demote a member.
 	 *
 	 * @param int $id

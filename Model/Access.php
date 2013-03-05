@@ -26,6 +26,13 @@ class Access extends Aro {
 	public $useTable = 'aros';
 
 	/**
+	 * Disable admin.
+	 *
+	 * @var bool
+	 */
+	public $admin = false;
+
+	/**
 	 * Belongs to.
 	 *
 	 * @var array

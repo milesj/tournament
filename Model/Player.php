@@ -28,6 +28,53 @@ class Player extends TournamentAppModel {
 	);
 
 	/**
+	 * Has many.
+	 *
+	 * @var array
+	 */
+	public $hasMany = array(
+		'HomeMatch' => array(
+			'className' => 'Tournament.Match',
+			'foreignKey' => 'home_id',
+			'conditions' => array('HomeMatch.type' => self::PLAYER),
+			'dependent' => true,
+			'exclusive' => true
+		),
+		'AwayMatch' => array(
+			'className' => 'Tournament.Match',
+			'foreignKey' => 'away_id',
+			'conditions' => array('AwayMatch.type' => self::PLAYER),
+			'dependent' => true,
+			'exclusive' => true
+		)
+	);
+
+	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'user_id' => 'notEmpty',
+		'wins' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'losses' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'ties' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'points' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		)
+	);
+
+	/**
 	 * Has and belongs to many.
 	 *
 	 * @var array

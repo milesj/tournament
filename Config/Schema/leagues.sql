@@ -7,7 +7,7 @@ CREATE TABLE `{prefix}leagues` (
 	`region_id` int(11) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`slug` varchar(50) NOT NULL,
-	`description` varchar(255) NOT NULL,
+	`description` text NOT NULL,
 	`logo` varchar(255) NOT NULL,
 	`created` datetime DEFAULT NULL,
 	`modified` datetime DEFAULT NULL,

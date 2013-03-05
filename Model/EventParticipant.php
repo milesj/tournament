@@ -23,6 +23,32 @@ class EventParticipant extends TournamentAppModel {
 	);
 
 	/**
+	 * Validation.
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'event_id' => 'notEmpty',
+		'status' => 'notEmpty',
+		'wins' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'losses' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'ties' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		),
+		'points' => array(
+			'rule' => 'numeric',
+			'message' => 'May only contain numerical characters'
+		)
+	);
+
+	/**
 	 * Return all participants by a specific type.
 	 * Only contain relations based on that type.
 	 *
