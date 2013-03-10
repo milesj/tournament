@@ -15,6 +15,7 @@
 		"php": ">=5.3.3",
 		"mjohnson/utility": "*",
 		"mjohnson/uploader": "*",
+		"mjohnson/admin": "*",
 		"composer/installers": "*"
 	},
 	"support": {

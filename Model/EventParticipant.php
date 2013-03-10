@@ -49,6 +49,16 @@ class EventParticipant extends TournamentAppModel {
 	);
 
 	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'iconClass' => 'icon-list',
+		'hideFields' => array('standing', 'pool', 'seed')
+	);
+
+	/**
 	 * Return all participants by a specific type.
 	 * Only contain relations based on that type.
 	 *

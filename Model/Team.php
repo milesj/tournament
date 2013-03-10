@@ -123,6 +123,7 @@ class Team extends TournamentAppModel {
 	 * @var array
 	 */
 	public $admin = array(
+		'iconClass' => 'icon-group',
 		'imageFields' => array('logo')
 	);
 

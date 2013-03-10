@@ -143,6 +143,7 @@ class Event extends TournamentAppModel {
 	 * @var array
 	 */
 	public $admin = array(
+		'iconClass' => 'icon-calendar',
 		'hideFields' => array('round', 'startingByes', 'startingMatches')
 	);
 

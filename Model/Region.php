@@ -30,4 +30,13 @@ class Region extends TournamentAppModel {
 		'slug' => 'notEmpty'
 	);
 
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'iconClass' => 'icon-globe'
+	);
+
 }

@@ -37,6 +37,7 @@ class Game extends TournamentAppModel {
 	 * @var array
 	 */
 	public $admin = array(
+		'iconClass' => 'icon-screenshot',
 		'imageFields' => array('image', 'imageSmall', 'imageIcon')
 	);
 

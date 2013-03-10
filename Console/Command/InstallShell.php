@@ -16,9 +16,7 @@ class InstallShell extends BaseInstallShell {
 			'Set Table Prefix' => 'checkTablePrefix',
 			'Set Users Table' => 'checkUsersTable',
 			'Check Table Status' => 'checkRequiredTables',
-			'Setup ACL' => 'setupAcl',
 			'Create Database Tables' => 'createTables',
-			'Create Administrator' => 'createAdmin',
 			'Finish Installation' => 'finish'
 		))
 		->setDbConfig(TOURNAMENT_DATABASE)
@@ -31,61 +29,6 @@ class InstallShell extends BaseInstallShell {
 		$this->out('Help: http://milesj.me/code/cakephp/tournament');
 
 		parent::main();
-	}
-
-	/**
-	 * Setup all the ACL records.
-	 */
-	public function setupAcl() {
-		$this->out('<info>Creating ACL records...</info>');
-
-		$admin = Configure::read('Tournament.aroMap.admin');
-		$acl = ClassRegistry::init('Tournament.Access')->installAcl();
-
-		foreach ($acl['aro'] as $id => $alias) {
-			if ($alias === $admin) {
-				$this->config['acl_admin'] = $id;
-			}
-		}
-
-		$this->out('<info>ACL setup, proceeding...</info>');
-		return true;
-	}
-
-	/**
-	 * Setup the admin user.
-	 *
-	 * @return bool
-	 */
-	public function createAdmin() {
-		$answer = strtoupper($this->in('<question>Would you like to [c]reate a new user, use an [e]xisting user, or [s]kip?</question>', array('C', 'E', 'S')));
-
-		if ($answer === 'C') {
-			$id = $this->createUser();
-
-		} else if ($answer === 'E') {
-			$id = $this->findUser();
-
-		} else if ($answer === 'S') {
-			$this->out('<info>Skipped administrator, continuing...</info>');
-			return true;
-
-		} else {
-			return $this->createAdmin();
-		}
-
-		$result = ClassRegistry::init('Tournament.Access')->add(array(
-			'parent_id' => $this->config['acl_admin'],
-			'foreign_key' => $id
-		));
-
-		if (!$result) {
-			$this->out('<error>An error occurred while granting administrator access</error>');
-			return $this->createAdmin();
-		}
-
-		$this->out('<info>Administrator setup, proceeding...</info>');
-		return true;
 	}
 
 	/**

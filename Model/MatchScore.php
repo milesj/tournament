@@ -13,6 +13,22 @@ class MatchScore extends TournamentAppModel {
 	public $belongsTo = array(
 		'Match' => array(
 			'className' => 'Tournament.Match'
+		),
+		'HomeTeam' => array(
+			'className' => 'Tournament.Team',
+			'foreignKey' => 'home_id'
+		),
+		'AwayTeam' => array(
+			'className' => 'Tournament.Team',
+			'foreignKey' => 'away_id'
+		),
+		'HomePlayer' => array(
+			'className' => 'Tournament.Player',
+			'foreignKey' => 'home_id'
+		),
+		'AwayPlayer' => array(
+			'className' => 'Tournament.Player',
+			'foreignKey' => 'away_id'
 		)
 	);
 
@@ -46,6 +62,7 @@ class MatchScore extends TournamentAppModel {
 	 * @var array
 	 */
 	public $admin = array(
+		'iconClass' => 'icon-list-ol',
 		'hideFields' => array('game'),
 		'imageFields' => array('screenshot'),
 		'fileFields' => array('replay')

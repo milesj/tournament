@@ -86,6 +86,7 @@ class League extends TournamentAppModel {
 	 * @var array
 	 */
 	public $admin = array(
+		'iconClass' => 'icon-trophy',
 		'imageFields' => array('logo')
 	);
 

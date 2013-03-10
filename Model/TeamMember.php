@@ -71,6 +71,15 @@ class TeamMember extends TournamentAppModel {
 	);
 
 	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'iconClass' => 'icon-user-md'
+	);
+
+	/**
 	 * Demote a member.
 	 *
 	 * @param int $id

@@ -50,6 +50,25 @@ class Player extends TournamentAppModel {
 	);
 
 	/**
+	 * Has and belongs to many.
+	 *
+	 * @var array
+	 */
+	public $hasAndBelongsToMany = array(
+		'Team' => array(
+			'className' => 'Tournament.Team',
+			'with' => 'Tournament.TeamMember',
+			'conditions' => array('TeamMember.status !=' => self::PENDING),
+			'order' => array('Team.status' => 'ASC', 'TeamMember.created' => 'DESC')
+		),
+		'Event' => array(
+			'className' => 'Tournament.Event',
+			'with' => 'Tournament.EventParticipant',
+			'order' => array('EventParticipant.created' => 'DESC')
+		)
+	);
+
+	/**
 	 * Validation.
 	 *
 	 * @var array
@@ -75,22 +94,12 @@ class Player extends TournamentAppModel {
 	);
 
 	/**
-	 * Has and belongs to many.
+	 * Admin settings.
 	 *
 	 * @var array
 	 */
-	public $hasAndBelongsToMany = array(
-		'Team' => array(
-			'className' => 'Tournament.Team',
-			'with' => 'Tournament.TeamMember',
-			'conditions' => array('TeamMember.status !=' => self::PENDING),
-			'order' => array('Team.status' => 'ASC', 'TeamMember.created' => 'DESC')
-		),
-		'Event' => array(
-			'className' => 'Tournament.Event',
-			'with' => 'Tournament.EventParticipant',
-			'order' => array('EventParticipant.created' => 'DESC')
-		)
+	public $admin = array(
+		'iconClass' => 'icon-user'
 	);
 
 	/**

@@ -120,6 +120,7 @@ class Match extends TournamentAppModel {
 	 * @var array
 	 */
 	public $admin = array(
+		'iconClass' => 'icon-table',
 		'hideFields' => array('round', 'pool', 'order')
 	);
 

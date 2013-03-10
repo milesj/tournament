@@ -56,12 +56,6 @@ class TournamentToolbarComponent extends Component {
 			$player = ClassRegistry::init('Tournament.Player')->getPlayer($user_id);
 
 			// @todo ACL
-
-			// Save more data if they are admin
-			if ($isAdmin) {
-				$groups = array_merge($groups, array_keys(ClassRegistry::init('Tournament.Access')->getList()));
-			}
-
 		// If not logged in or banned
 		} else {
 			$permissions = false;

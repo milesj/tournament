@@ -29,4 +29,13 @@ class Division extends TournamentAppModel {
 		)
 	);
 
+	/**
+	 * Admin settings.
+	 *
+	 * @var array
+	 */
+	public $admin = array(
+		'iconClass' => 'icon-sitemap'
+	);
+
 }
