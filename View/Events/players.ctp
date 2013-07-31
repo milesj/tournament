@@ -24,12 +24,12 @@
 
 					<tr>
 						<td>
-							<?php if ($logo = $player['Player']['User'][$config['userMap']['avatar']]) {
+							<?php if ($logo = $player['Player']['User'][$config['User']['fieldMap']['avatar']]) {
 								echo $this->Html->image($logo, array('url' => array('controller' => 'players', 'action' => 'profile', 'id' => $player['Player']['User']['id']), 'width' => 25, 'height' => 25));
 							} ?>
 						</td>
 						<td>
-							<b><?php echo $this->Html->link($player['Player']['User'][$config['userMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $player['Player']['User']['id'])); ?></b>
+							<b><?php echo $this->Html->link($player['Player']['User'][$config['User']['fieldMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $player['Player']['User']['id'])); ?></b>
 						</td>
 						<td class="align-center"><?php echo $this->Tournament->options('EventParticipant.status', $player['EventParticipant']['status']); ?></td>
 						<td class="align-center"><?php echo $this->Tournament->options('EventParticipant.isReady', $player['EventParticipant']['isReady']); ?></td>

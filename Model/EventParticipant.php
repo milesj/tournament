@@ -7,7 +7,7 @@ class EventParticipant extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'Event' => array(
@@ -25,7 +25,7 @@ class EventParticipant extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'event_id' => 'notEmpty',
@@ -51,7 +51,7 @@ class EventParticipant extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-list',

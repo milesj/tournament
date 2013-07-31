@@ -19,21 +19,21 @@ abstract class Tournament {
 	/**
 	 * Event ID.
 	 *
-	 * @var int
+	 * @type int
 	 */
 	protected $_id;
 
 	/**
 	 * Event record.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_event;
 
 	/**
 	 * Whether the event is Team or Player.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $_forModel;
 	protected $_forField;
@@ -41,7 +41,7 @@ abstract class Tournament {
 	/**
 	 * Event type.
 	 *
-	 * @var int
+	 * @type int
 	 */
 	protected $_type;
 

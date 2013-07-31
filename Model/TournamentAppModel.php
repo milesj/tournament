@@ -32,52 +32,48 @@ class TournamentAppModel extends AppModel {
 	/**
 	 * Table prefix.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	public $tablePrefix = TOURNAMENT_PREFIX;
 
 	/**
 	 * Database config.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	public $useDbConfig = TOURNAMENT_DATABASE;
 
 	/**
 	 * Cache queries.
 	 *
-	 * @var boolean
+	 * @type boolean
 	 */
 	public $cacheQueries = true;
 
 	/**
 	 * No recursion.
 	 *
-	 * @var int
+	 * @type int
 	 */
 	public $recursive = -1;
 
 	/**
 	 * Behaviors.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $actsAs = array(
 		'Containable',
-		'Utility.Enumerable' => array(
-			'persist' => true,
-			'format' => 'append'
-		),
+		'Utility.Enumerable',
 		'Utility.Cacheable' => array(
-			'appendKey' => false,
-			'expires' => '+1 hour'
+			'cacheConfig' => 'tournament'
 		)
 	);
 
 	/**
 	 * Enum mapping.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $enum = array(
 		'status' => array(
@@ -90,7 +86,7 @@ class TournamentAppModel extends AppModel {
 	/**
 	 * Session instance.
 	 *
-	 * @var CakeSession
+	 * @type CakeSession
 	 */
 	public $Session;
 

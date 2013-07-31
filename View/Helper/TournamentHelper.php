@@ -7,7 +7,7 @@ class TournamentHelper extends AppHelper {
 	/**
 	 * Helpers.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $helpers = array('Time', 'Session');
 
@@ -112,7 +112,7 @@ class TournamentHelper extends AppHelper {
 	 * @return string
 	 */
 	public function timezone() {
-		$timezone = Configure::read('Tournament.userMap.timezone');
+		$timezone = Configure::read('User.fieldMap.timezone');
 		$default = Configure::read('Tournament.settings.defaultTimezone');
 
 		if (!$timezone) {

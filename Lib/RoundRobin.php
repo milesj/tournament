@@ -8,7 +8,7 @@ class RoundRobin extends Tournament {
 	/**
 	 * Event type.
 	 *
-	 * @var int
+	 * @type int
 	 */
 	protected $_type = Event::ROUND_ROBIN;
 

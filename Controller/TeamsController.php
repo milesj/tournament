@@ -13,14 +13,14 @@ class TeamsController extends TournamentAppController {
 	/**
 	 * Models.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $uses = array('Tournament.Team', 'Tournament.TeamMember', 'Tournament.Player');
 
 	/**
 	 * Pagination.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $paginate = array(
 		'Team' => array(
@@ -42,7 +42,7 @@ class TeamsController extends TournamentAppController {
 	 * Create a team.
 	 */
 	public function create() {
-		$autoApprove = $this->config['settings']['autoApproveTeams'];
+		$autoApprove = $this->settings['autoApproveTeams'];
 		$user_id = $this->Auth->user('id');
 
 		// Must not be part of a team

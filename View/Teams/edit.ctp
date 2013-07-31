@@ -25,7 +25,7 @@
 		</section>
 
 		<section id="team-logo" style="display: none">
-			<p><?php echo __d('tournament', 'Uploaded logos will be resized to %s.', implode('x', $config['uploads']['teamLogo'])); ?></p>
+			<p><?php echo __d('tournament', 'Uploaded logos will be resized to %s.', implode('x', $config['Tournament']['uploads']['teamLogo'])); ?></p>
 
 			<?php
 			echo $this->Form->create('Team', array('type' => 'file'));

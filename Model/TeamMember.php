@@ -19,7 +19,7 @@ class TeamMember extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'Team' => array(
@@ -31,14 +31,14 @@ class TeamMember extends TournamentAppModel {
 			'className' => 'Tournament.Player'
 		),
 		'User' => array(
-			'className' => TOURNAMENT_USER
+			'className' => USER_MODEL
 		)
 	);
 
 	/**
 	 * Enum mappings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $enum = array(
 		'role' => array(
@@ -60,7 +60,7 @@ class TeamMember extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'team_id' => 'notEmpty',
@@ -73,7 +73,7 @@ class TeamMember extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-user-md'
@@ -160,7 +160,7 @@ class TeamMember extends TournamentAppModel {
 			foreach ($results as $result) {
 				$list[$result['User']['id']] = sprintf('%s - %s',
 					__d('tournament', 'teammember.role.' . strtolower($result['TeamMember']['role_enum'])),
-					$result['User'][Configure::read('Tournament.userMap.username')]);
+					$result['User'][Configure::read('User.fieldMap.username')]);
 			}
 		}
 

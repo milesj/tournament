@@ -11,21 +11,21 @@ class EventsController extends TournamentAppController {
 	/**
 	 * Models.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $uses = array('Tournament.Event', 'Tournament.Match');
 
 	/**
 	 * Helpers.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $helpers = array('Tournament.Bracket');
 
 	/**
 	 * Pagination.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $paginate = array(
 		'Event' => array(

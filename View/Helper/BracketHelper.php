@@ -8,7 +8,7 @@ class BracketHelper extends AppHelper {
 	/**
 	 * Helpers.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $helpers = array('Html');
 
@@ -26,7 +26,7 @@ class BracketHelper extends AppHelper {
 			$participant = $participant['Team'];
 		}
 
-		$userMap = Configure::read('Tournament.userMap');
+		$userMap = Configure::read('User.fieldMap');
 
 		if (isset($participant['User'])) {
 			$type = 'player';

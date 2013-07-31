@@ -7,7 +7,7 @@ class Game extends TournamentAppModel {
 	/**
 	 * Has many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasMany = array(
 		'League' => array(
@@ -25,7 +25,7 @@ class Game extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'name' => 'notEmpty'
@@ -34,7 +34,7 @@ class Game extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-screenshot',

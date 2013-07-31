@@ -6,11 +6,6 @@
  */
 
 /**
- * Enable RSS feeds.
- */
-Router::parseExtensions('rss');
-
-/**
  * Defaults.
  */
 Router::connect('/tournament/schedule/*', array('plugin' => 'tournament', 'controller' => 'tournament', 'action' => 'schedule'));

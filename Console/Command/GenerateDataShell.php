@@ -22,10 +22,10 @@ class GenerateDataShell extends AppShell {
 	/**
 	 * Models.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $uses = array(
-		TOURNAMENT_USER,
+		USER_MODEL,
 		'Tournament.Player',
 		'Tournament.Team',
 		'Tournament.TeamMember',
@@ -40,28 +40,28 @@ class GenerateDataShell extends AppShell {
 	/**
 	 * User and player IDs.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $users = array();
 
 	/**
 	 * Team and leader IDs.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $teams = array();
 
 	/**
 	 * Game data.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $games = array();
 
 	/**
 	 * Event IDs.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $events = array();
 
@@ -122,11 +122,11 @@ class GenerateDataShell extends AppShell {
 
 		if ($this->params['filter'] === 'all') {
 			$this->User->deleteAll(array(
-				'User.' . Configure::read('Tournament.userMap.username') . ' LIKE' => 'User #%'
+				'User.' . Configure::read('User.fieldMap.username') . ' LIKE' => 'User #%'
 			));
 
-			$userMap = Configure::read('Tournament.userMap');
-			$statusMap = Configure::read('Tournament.statusMap');
+			$userMap = Configure::read('User.fieldMap');
+			$statusMap = Configure::read('User.statusMap');
 
 			for ($i = 0; $i < 250; $i++) {
 				$this->User->create();

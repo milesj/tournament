@@ -10,11 +10,11 @@ class Team extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'Leader' => array(
-			'className' => TOURNAMENT_USER,
+			'className' => USER_MODEL,
 			'foreignKey' => 'user_id'
 		)
 	);
@@ -22,7 +22,7 @@ class Team extends TournamentAppModel {
 	/**
 	 * Has many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasMany = array(
 		'TeamMember' => array(
@@ -51,7 +51,7 @@ class Team extends TournamentAppModel {
 	/**
 	 * Has and belongs to many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasAndBelongsToMany = array(
 		'Event' => array(
@@ -64,7 +64,7 @@ class Team extends TournamentAppModel {
 	/**
 	 * Behaviors.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $actsAs = array(
 		'Utility.Sluggable' => array(
@@ -75,7 +75,7 @@ class Team extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'user_id' => 'notEmpty',
@@ -106,7 +106,7 @@ class Team extends TournamentAppModel {
 	/**
 	 * Enum mapping.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $enum = array(
 		'status' => array(
@@ -120,7 +120,7 @@ class Team extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-group',

@@ -7,7 +7,7 @@ class Swiss extends Tournament {
 	/**
 	 * Event type.
 	 *
-	 * @var int
+	 * @type int
 	 */
 	protected $_type = Event::SWISS;
 

@@ -10,14 +10,14 @@ class TournamentToolbarComponent extends Component {
 	/**
 	 * Components.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $components = array('Session');
 
 	/**
 	 * Controller instance.
 	 *
-	 * @var Controller
+	 * @type Controller
 	 */
 	public $Controller;
 
@@ -45,7 +45,7 @@ class TournamentToolbarComponent extends Component {
 		}
 
 		$user_id = $this->Controller->Auth->user('id');
-		$banned = ($this->Controller->Auth->user(Configure::read('Tournament.userMap.status')) == Configure::read('Tournament.statusMap.banned'));
+		$banned = ($this->Controller->Auth->user(Configure::read('User.fieldMap.status')) == Configure::read('User.statusMap.banned'));
 		$lastVisit = date('Y-m-d H:i:s');
 		$isAdmin = false;
 		$isSuper = false;

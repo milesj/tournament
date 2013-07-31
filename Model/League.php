@@ -7,7 +7,7 @@ class League extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'Game' => array(
@@ -21,7 +21,7 @@ class League extends TournamentAppModel {
 	/**
 	 * Has one.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasOne = array(
 		'CurrentEvent' => array(
@@ -43,7 +43,7 @@ class League extends TournamentAppModel {
 	/**
 	 * Has many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasMany = array(
 		'Event' => array(
@@ -61,7 +61,7 @@ class League extends TournamentAppModel {
 	/**
 	 * Behaviors.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $actsAs = array(
 		'Utility.Sluggable' => array(
@@ -72,7 +72,7 @@ class League extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'game_id' => 'notEmpty',
@@ -83,7 +83,7 @@ class League extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-trophy',

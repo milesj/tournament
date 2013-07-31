@@ -14,11 +14,6 @@ App::uses('Sanitize', 'Utility');
  */
 define('TOURNAMENT_PLUGIN', dirname(__DIR__) . '/');
 
-// User Model
-if (!defined('TOURNAMENT_USER')) {
-	define('TOURNAMENT_USER', 'User');
-}
-
 // Table Prefix
 if (!defined('TOURNAMENT_PREFIX')) {
 	define('TOURNAMENT_PREFIX', 'tourn_');
@@ -33,48 +28,6 @@ if (!defined('TOURNAMENT_DATABASE')) {
  * Current version.
  */
 Configure::write('Tournament.version', file_get_contents(dirname(__DIR__) . '/version.md'));
-
-/**
- * A map of user fields that are used within this plugin. If your users table has a different naming scheme
- * for the username, email, status, etc fields, you can define their replacement here.
- */
-Configure::write('Tournament.userMap', array(
-	'username'	=> 'username',
-	'password'	=> 'password',
-	'email'		=> 'email',
-	'status'	=> 'status',
-	'avatar'	=> 'avatar',
-	'locale'	=> 'locale',
-	'timezone'	=> 'timezone'
-));
-
-/**
- * A map of status values for the users "status" column.
- * This column determines if the user is pending, currently active, or banned.
- */
-Configure::write('Tournament.statusMap', array(
-	'pending'	=> 0,
-	'active'	=> 1,
-	'banned'	=> 2
-));
-
-/**
- * A map of keys to ACL requester aliases.
- */
-Configure::write('Tournament.aroMap', array(
-	'admin' 	=> 'administrator',
-	'superMod'	=> 'superModerator'
-));
-
-/**
- * A map of external user management URLs.
- */
-Configure::write('Tournament.routes', array(
-	'login' => array('plugin' => false, 'admin' => false, 'controller' => 'users', 'action' => 'login'),
-	'logout' => array('plugin' => false, 'admin' => false, 'controller' => 'users', 'action' => 'logout'),
-	'signup' => array('plugin' => false, 'admin' => false, 'controller' => 'users', 'action' => 'signup'),
-	'profile' => array('plugin' => 'tournament', 'admin' => false, 'controller' => 'players', 'action' => 'profile', 'id' => '{id}')
-));
 
 /**
  * Customizable view settings. This allows for layout and template overrides.
@@ -106,7 +59,7 @@ Configure::write('Tournament.settings', array(
 
 	// Misc
 	'defaultLocale' => 'eng',
-	'defaultTimezone' => -8
+	'defaultTimezone' => '-8'
 ));
 
 /**
@@ -117,8 +70,3 @@ Configure::write('Tournament.uploads', array(
 	'teamLogo' => array(250, 125),
 	'transport' => array()
 ));
-
-/**
- * Handle exceptions and errors.
- */
-Configure::write('Exception.renderer', 'Tournament.TournamentExceptionRenderer');

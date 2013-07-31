@@ -13,9 +13,9 @@
 	],
 	"require": {
 		"php": ">=5.3.3",
-		"mjohnson/utility": "*",
-		"mjohnson/uploader": "*",
 		"mjohnson/admin": "*",
+		"mjohnson/utility": "~1.5",
+		"mjohnson/uploader": "*",
 		"composer/installers": "*"
 	},
 	"support": {

@@ -12,7 +12,7 @@ class Match extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'League' => array(
@@ -43,7 +43,7 @@ class Match extends TournamentAppModel {
 	/**
 	 * Has many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasMany = array(
 		'MatchScore' => array(
@@ -56,7 +56,7 @@ class Match extends TournamentAppModel {
 	/**
 	 * Enum mappings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $enum = array(
 		'type' => array(
@@ -92,7 +92,7 @@ class Match extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'league_id' => 'notEmpty',
@@ -117,7 +117,7 @@ class Match extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-table',

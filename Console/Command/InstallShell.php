@@ -8,8 +8,10 @@ class InstallShell extends BaseInstallShell {
 	 * Trigger install.
 	 */
 	public function main() {
-		$userMap = Configure::read('Tournament.userMap');
-		unset($userMap['status'], $userMap['avatar']);
+		if (!CakePlugin::loaded('Admin')) {
+			$this->err('Admin plugin is not installed, aborting!');
+			return;
+		}
 
 		$this->setSteps(array(
 			'Check Database Configuration' => 'checkDbConfig',
@@ -21,8 +23,7 @@ class InstallShell extends BaseInstallShell {
 		))
 		->setDbConfig(TOURNAMENT_DATABASE)
 		->setTablePrefix(TOURNAMENT_PREFIX)
-		->setRequiredTables(array('aros', 'acos', 'aros_acos'))
-		->setUserFields($userMap);
+		->setRequiredTables(array('aros', 'acos', 'aros_acos'));
 
 		$this->out('Plugin: Tournament v' . Configure::read('Tournament.version'));
 		$this->out('Copyright: Miles Johnson, 2010-' . date('Y'));

@@ -8,7 +8,7 @@ class SingleElim extends Tournament {
 	/**
 	 * Event type.
 	 *
-	 * @var int
+	 * @type int
 	 */
 	protected $_type = Event::SINGLE_ELIM;
 

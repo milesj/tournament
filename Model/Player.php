@@ -7,18 +7,18 @@ class Player extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'User' => array(
-			'className' => TOURNAMENT_USER
+			'className' => USER_MODEL
 		)
 	);
 
 	/**
 	 * Has one.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasOne = array(
 		'CurrentTeam' => array(
@@ -30,7 +30,7 @@ class Player extends TournamentAppModel {
 	/**
 	 * Has many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasMany = array(
 		'HomeMatch' => array(
@@ -52,7 +52,7 @@ class Player extends TournamentAppModel {
 	/**
 	 * Has and belongs to many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasAndBelongsToMany = array(
 		'Team' => array(
@@ -71,7 +71,7 @@ class Player extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'user_id' => 'notEmpty',
@@ -96,7 +96,7 @@ class Player extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-user'

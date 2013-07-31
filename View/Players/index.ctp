@@ -12,7 +12,7 @@
 				<thead>
 					<tr>
 						<th> </th>
-						<th><?php echo $this->Paginator->sort('User.' . $config['userMap']['username'], __d('tournament', 'Player')); ?></th>
+						<th><?php echo $this->Paginator->sort('User.' . $config['User']['fieldMap']['username'], __d('tournament', 'Player')); ?></th>
 						<th><?php echo $this->Paginator->sort('CurrentTeam.team_id', __d('tournament', 'Team')); ?></th>
 						<th><?php echo $this->Paginator->sort('Player.points', __d('tournament', 'Points')); ?></th>
 						<th><?php echo $this->Paginator->sort('Player.wins', __d('tournament', 'Wins')); ?></th>
@@ -27,7 +27,7 @@
 					<tr>
 						<td class="col-icon"><?php echo $this->Bracket->participant($player, 'logo-link'); ?></td>
 						<td>
-							<b><?php echo $this->Html->link($player['User'][$config['userMap']['username']], array('action' => 'profile', 'id' => $player['User']['id'])); ?></b>
+							<b><?php echo $this->Html->link($player['User'][$config['User']['fieldMap']['username']], array('action' => 'profile', 'id' => $player['User']['id'])); ?></b>
 						</td>
 						<td>
 							<?php if (!empty($player['CurrentTeam']['Team'])) {

@@ -11,14 +11,14 @@ class PlayersController extends TournamentAppController {
 	/**
 	 * Models.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $uses = array('Tournament.Player');
 
 	/**
 	 * Pagination.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $paginate = array(
 		'Player' => array(
@@ -32,7 +32,7 @@ class PlayersController extends TournamentAppController {
 	 */
 	public function index() {
 		$this->set('players', $this->paginate('Player', array(
-			'User.status' => Configure::read('Tournament.statusMap.active')
+			'User.status' => Configure::read('User.statusMap.active')
 		)));
 	}
 

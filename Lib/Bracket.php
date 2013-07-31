@@ -11,49 +11,49 @@ class Bracket {
 	/**
 	 * Event information.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_event;
 
 	/**
 	 * List of matches.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_matches = array();
 
 	/**
 	 * List of participants.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_participants = array();
 
 	/**
 	 * Mapping of pools.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_pools = array();
 
 	/**
 	 * Mapping of rounds.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_rounds = array();
 
 	/**
 	 * Mapping of participant total scores by pool or round.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_scores = array();
 
 	/**
 	 * The order of participants by highest score.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_standings = array();
 

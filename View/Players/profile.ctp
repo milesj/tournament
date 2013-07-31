@@ -1,5 +1,5 @@
 <div class="page-title">
-	<h2><?php echo $player['User'][$config['userMap']['username']]; ?></h2>
+	<h2><?php echo $player['User'][$config['User']['fieldMap']['username']]; ?></h2>
 	<b><?php echo __d('tournament', 'Points'); ?>:</b> <?php echo $player['Player']['points']; ?><br>
 	<b><?php echo __d('tournament', 'Wins'); ?>:</b> <?php echo $player['Player']['wins']; ?><br>
 	<b><?php echo __d('tournament', 'Losses'); ?>:</b> <?php echo $player['Player']['losses']; ?><br>

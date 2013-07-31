@@ -17,7 +17,7 @@ class Event extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'Game' => array(
@@ -34,7 +34,7 @@ class Event extends TournamentAppModel {
 	/**
 	 * Has many.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $hasMany = array(
 		'EventParticipant' => array(
@@ -52,7 +52,7 @@ class Event extends TournamentAppModel {
 	/**
 	 * Behaviors.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $actsAs = array(
 		'Utility.Sluggable' => array(
@@ -64,7 +64,7 @@ class Event extends TournamentAppModel {
 	/**
 	 * Enum mappings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $enum = array(
 		'type' => array(
@@ -86,7 +86,7 @@ class Event extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'game_id' => 'notEmpty',
@@ -140,7 +140,7 @@ class Event extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-calendar',

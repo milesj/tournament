@@ -18,7 +18,7 @@
 					<tr>
 						<th> </th>
 						<th><?php echo $this->Paginator->sort('Team.name', __d('tournament', 'Team')); ?></th>
-						<th><?php echo $this->Paginator->sort('Leader.' . $config['userMap']['username'], __d('tournament', 'Leader')); ?></th>
+						<th><?php echo $this->Paginator->sort('Leader.' . $config['User']['fieldMap']['username'], __d('tournament', 'Leader')); ?></th>
 						<th><?php echo $this->Paginator->sort('Team.team_member_count', __d('tournament', 'Members')); ?></th>
 						<th><?php echo $this->Paginator->sort('Team.points', __d('tournament', 'Points')); ?></th>
 						<th><?php echo $this->Paginator->sort('Team.wins', __d('tournament', 'Wins')); ?></th>
@@ -37,7 +37,7 @@
 						</td>
 						<td>
 							<?php if (!empty($team['Leader']['id'])) {
-								echo $this->Html->link($team['Leader'][$config['userMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $team['Leader']['id']), array('class' => 'alt'));
+								echo $this->Html->link($team['Leader'][$config['User']['fieldMap']['username']], array('controller' => 'players', 'action' => 'profile', 'id' => $team['Leader']['id']), array('class' => 'alt'));
 							} ?>
 						</td>
 						<td class="align-center"><?php echo $team['Team']['team_member_count']; ?></td>

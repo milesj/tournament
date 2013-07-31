@@ -7,7 +7,7 @@ class DoubleElim extends SingleElim {
 	/**
 	 * Event type.
 	 *
-	 * @var int
+	 * @type int
 	 */
 	protected $_type = Event::DOUBLE_ELIM;
 

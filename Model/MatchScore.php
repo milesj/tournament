@@ -8,7 +8,7 @@ class MatchScore extends TournamentAppModel {
 	/**
 	 * Belongs to.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $belongsTo = array(
 		'Match' => array(
@@ -35,7 +35,7 @@ class MatchScore extends TournamentAppModel {
 	/**
 	 * Enum mappings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $enum = array(
 		'status' => array(
@@ -50,7 +50,7 @@ class MatchScore extends TournamentAppModel {
 	/**
 	 * Validation.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $validate = array(
 		'match_id' => 'notEmpty'
@@ -59,7 +59,7 @@ class MatchScore extends TournamentAppModel {
 	/**
 	 * Admin settings.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	public $admin = array(
 		'iconClass' => 'icon-list-ol',
