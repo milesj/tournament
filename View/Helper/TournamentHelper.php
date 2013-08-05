@@ -80,30 +80,36 @@ class TournamentHelper extends AppHelper {
 	}
 
 	/**
-	 * Return a translated equivalent of a model enum field.
+	 * Return true if the user is an admin.
 	 *
-	 * @param string $key
-	 * @param mixed $value
+	 * @return bool
+	 */
+	public function isAdmin() {
+		return (bool) $this->Session->read('Acl.isAdmin');
+	}
+
+	/**
+	 * Return a user profile URL.
+	 *
+	 * @param array $user
 	 * @return string
 	 */
-	public function options($key, $value) {
-		list($model, $field) = explode('.', $key);
+	public function profileUrl($user) {
+		$route = Configure::read('User.routes.profile');
 
-		if ($field === 'status') {
-			$key = 'status';
+		foreach ($route as &$value) {
+			if ($value === '{id}') {
+				$value = $user['id'];
+
+			} else if ($value === '{slug}' && isset($user['slug'])) {
+				$value = $user['slug'];
+
+			} else if ($value === '{username}') {
+				$value = $user[Configure::read('User.fieldMap.username')];
+			}
 		}
 
-		switch ($key) {
-			case 'Event.for':
-				return __d('tournament', $value ? 'Solo' : 'Team');
-			break;
-			case 'EventParticipant.isReady':
-				return __d('tournament', $value ? 'Yes' : 'No');
-			break;
-			default:
-				return __d('tournament', strtolower($key . '.' . ClassRegistry::init('Tournament.' . $model)->enum($field, $value)));
-			break;
-		}
+		return $this->url($route);
 	}
 
 	/**
@@ -112,18 +118,11 @@ class TournamentHelper extends AppHelper {
 	 * @return string
 	 */
 	public function timezone() {
-		$timezone = Configure::read('User.fieldMap.timezone');
-		$default = Configure::read('Tournament.settings.defaultTimezone');
-
-		if (!$timezone) {
-			return $default;
+		if ($timezone = $this->Session->read(AuthComponent::$sessionKey . '.' . Configure::read('User.fieldMap.timezone'))) {
+			return $timezone;
 		}
 
-		if ($this->Session->check('Auth.User.' . $timezone)) {
-			return $this->Session->read('Auth.User.' . $timezone);
-		}
-
-		return $default;
+		return Configure::read('Tournament.settings.defaultTimezone');
 	}
 
 }

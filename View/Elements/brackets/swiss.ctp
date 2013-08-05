@@ -1,14 +1,14 @@
 
 <style>
-body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width: 100%; }
+	body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width: 100%; }
 </style>
 
-<div class="container">
-	<div class="container-head">
-		<h3><?php echo __d('tournament', 'Rounds %s of %s', $bracket->getCompletedRounds(), $bracket->getMaxRounds()); ?></h3>
+<div class="panel">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?php echo __d('tournament', 'Rounds %s of %s', $bracket->getCompletedRounds(), $bracket->getMaxRounds()); ?></h3>
 	</div>
 
-	<div class="container-body bracket swiss">
+	<div class="bracket swiss">
 
 		<?php foreach ($bracket->getRounds() as $round) { ?>
 
@@ -43,7 +43,5 @@ body { width: <?php echo ($bracket->getCompletedRounds() * 325); ?>px; min-width
 			</div>
 
 		<?php } ?>
-
-		<span class="clear"></span>
 	</div>
 </div>

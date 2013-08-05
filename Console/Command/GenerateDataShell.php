@@ -132,7 +132,8 @@ class GenerateDataShell extends AppShell {
 				$this->User->create();
 				$this->User->save(array(
 					$userMap['username'] => 'User #' . ($i + 1),
-					$userMap['status'] => $statusMap['active']
+					$userMap['status'] => $statusMap['active'],
+					$userMap['email'] => 'email' . ($i + 1) . '@tournament.com'
 				));
 
 				$this->users[] = array('id' => $this->User->id);

@@ -2,12 +2,12 @@
 <?php // Loop over each pool
 foreach ($bracket->getPools() as $pool) { ?>
 
-<div id="pool-<?php echo $pool; ?>" class="container">
-	<div class="container-head">
-		<h3><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
+<div id="pool-<?php echo $pool; ?>" class="panel">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
 	</div>
 
-	<div class="container-body bracket round-robin">
+	<div class="bracket round-robin">
 
 		<?php // Loop over each round
 		foreach ($bracket->getRounds($pool) as $round) {
@@ -15,8 +15,7 @@ foreach ($bracket->getPools() as $pool) { ?>
 			$participant_ids = array_keys($participants);
 			$matchesCount = count($participants); ?>
 
-		<div class="table no-paging">
-			<table>
+			<table class="table table-striped table-bordered table-hover table-condensed">
 				<thead>
 					<tr>
 						<th colspan="<?php echo $matchesCount + 1; ?>" class="align-left">
@@ -91,7 +90,6 @@ foreach ($bracket->getPools() as $pool) { ?>
 					<?php } ?>
 				</tbody>
 			</table>
-		</div>
 
 		<?php } ?>
 

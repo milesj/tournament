@@ -2,15 +2,15 @@
 $maxRounds = $bracket->getMaxRounds(); ?>
 
 <style>
-body { width: <?php echo ($maxRounds * 335); ?>px; min-width: 100%; }
+	body { width: <?php echo ($maxRounds * 335); ?>px; min-width: 100%; }
 </style>
 
-<div class="container">
-	<div class="container-head">
-		<h3><?php echo __d('tournament', 'Rounds %s of %s', $bracket->getCompletedRounds(), $maxRounds); ?></h3>
+<div class="panel">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?php echo __d('tournament', 'Rounds %s of %s', $bracket->getCompletedRounds(), $maxRounds); ?></h3>
 	</div>
 
-	<div class="container-body bracket single-elim">
+	<div class="bracket single-elim">
 
 		<?php // Loop over each round
 		for ($i = 1; $i <= $maxRounds; $i++) {
@@ -76,6 +76,5 @@ body { width: <?php echo ($maxRounds * 335); ?>px; min-width: 100%; }
 
 		<?php } ?>
 
-		<span class="clear"></span>
 	</div>
 </div>
