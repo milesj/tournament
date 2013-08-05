@@ -168,6 +168,25 @@ class TeamMember extends TournamentAppModel {
 	}
 
 	/**
+	 * Return a team if the user is the leader.
+	 *
+	 * @param int $user_id
+	 * @return array
+	 */
+	public function getTeamIfLeader($user_id) {
+		return $this->find('first', array(
+			'conditions' => array(
+				'TeamMember.user_id' => $user_id,
+				'TeamMember.status' => self::ACTIVE,
+				'TeamMember.role' => self::LEADER
+			),
+			'contain' => array('Team'),
+			'cache' => array(__METHOD__, $user_id),
+			'cacheExpires' => '+5 minutes'
+		));
+	}
+
+	/**
 	 * Join a team.
 	 *
 	 * @param int $team_id

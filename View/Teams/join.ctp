@@ -1,8 +1,8 @@
-<div class="page-header">
+<div class="title">
 	<h2><?php echo __d('tournament', 'Join Team'); ?></h2>
 </div>
 
-<div class="page">
+<div class="container">
 	<div class="alert alert-info"><?php echo __d('tournament', 'Entering a correct password will automatically join the team roster, else you will need to be approved by the team leader.'); ?></div>
 
 	<?php

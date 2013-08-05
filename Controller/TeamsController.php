@@ -36,6 +36,10 @@ class TeamsController extends TournamentAppController {
 		$this->set('teams', $this->paginate('Team', array(
 			'Team.status' => Team::ACTIVE
 		)));
+
+		if ($user_id = $this->Auth->user('id')) {
+			$this->set('myTeam', $this->TeamMember->getTeamIfLeader($user_id));
+		}
 	}
 
 	/**

@@ -1,11 +1,11 @@
 <?php
 echo $this->Html->docType();
-echo $this->OpenGraph->html(array('xmlns' => 'http://www.w3.org/1999/xhtml')); ?>
+echo $this->OpenGraph->html(); ?>
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title><?php echo $this->Breadcrumb->pageTitle($settings['name'], array('separator' => $settings['titleSeparator'])); ?></title>
 	<?php
-	echo $this->Html->css('Tournament.normalize');
+	echo $this->Html->css('//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css');
 	echo $this->Html->css('//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css');
 	echo $this->Html->css('Tournament.titon-0.2.0.min');
 	echo $this->Html->css('Tournament.style');

@@ -1,8 +1,8 @@
-<div class="page-header">
+<div class="title">
 	<h2><?php echo __d('tournament', 'Manage Team'); ?></h2>
 </div>
 
-<div class="page">
+<div class="container">
 	<div class="tabs" id="team-tabs">
 		<nav>
 			<ul class="nav nav-pills">

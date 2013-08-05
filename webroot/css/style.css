@@ -4,20 +4,22 @@ table { width: 100%; }
 
 /*------------------ Layout ------------------*/
 
-.foot { border-top: 1px solid #E5E5E5; text-align: center; padding: 25px; margin-top: 25px; }
+.body { padding: 20px; }
+.foot { border-top: 1px solid #E5E5E5; text-align: center; padding: 25px; }
 
-.page-header,
-.page-header h2 { margin: 0; }
-.page-header { padding: 20px; }
-.page-header .buttons { float: right; }
-.page-header .buttons .btn { margin-left: 5px; }
+.container { max-width: 100%; }
 
-.page { padding: 20px; }
+.title { margin: 0 0 20px 0; }
+.title h2 { margin: 0; }
+.title .buttons { float: right; }
+.title .buttons .btn { margin-left: 5px; }
 
 /*------------------ UI ------------------*/
 
 .table { margin: 0; }
 .table a { display: block; }
+.table thead th { background-color: #474949; color: #fff; }
+.table thead th a { color: #fff; }
 .table .no-results { text-align: center; padding: 25px; }
 
 .pagination.top { margin-top: 0; }
