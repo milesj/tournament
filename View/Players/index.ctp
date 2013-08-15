@@ -4,7 +4,7 @@
 
 <div class="container">
 	<?php
-	echo $this->element('pagination', array('class' => 'top'));
+	echo $this->element('Admin.pagination', array('class' => 'top'));
 	echo $this->element('tables/player_list');
-	echo $this->element('pagination', array('class' => 'bottom')); ?>
+	echo $this->element('Admin.pagination', array('class' => 'bottom')); ?>
 </div>

@@ -8,6 +8,6 @@
 	echo $this->Form->input('name');
 	echo $this->Form->input('password');
 	echo $this->Form->input('description');
-	echo $this->Form->submit(__d('tournament', 'Create'), array('class' => 'btn btn-success btn-large'));
+	echo $this->Form->submit(__d('tournament', 'Create'), array('class' => 'button success large', 'div' => 'form-actions'));
 	echo $this->Form->end(); ?>
 </div>

@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover">
+<table class="table table--hover table--sortable">
 	<thead>
 		<tr>
 			<th><?php echo $this->Paginator->sort('Event.name', __d('tournament', 'Event')); ?></th>

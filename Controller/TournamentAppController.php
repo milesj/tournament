@@ -32,7 +32,8 @@ class TournamentAppController extends AppController {
 	public $helpers = array(
 		'Html', 'Session', 'Form', 'Time', 'Text',
 		'Utility.Breadcrumb', 'Utility.OpenGraph', 'Utility.Utility', 'Utility.Decoda',
-		'Tournament.Tournament'
+		'Tournament.Tournament',
+		'Admin.Admin'
 	);
 
 	/**

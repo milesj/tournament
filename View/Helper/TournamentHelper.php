@@ -80,39 +80,6 @@ class TournamentHelper extends AppHelper {
 	}
 
 	/**
-	 * Return true if the user is an admin.
-	 *
-	 * @return bool
-	 */
-	public function isAdmin() {
-		return (bool) $this->Session->read('Acl.isAdmin');
-	}
-
-	/**
-	 * Return a user profile URL.
-	 *
-	 * @param array $user
-	 * @return string
-	 */
-	public function profileUrl($user) {
-		$route = Configure::read('User.routes.profile');
-
-		foreach ($route as &$value) {
-			if ($value === '{id}') {
-				$value = $user['id'];
-
-			} else if ($value === '{slug}' && isset($user['slug'])) {
-				$value = $user['slug'];
-
-			} else if ($value === '{username}') {
-				$value = $user[Configure::read('User.fieldMap.username')];
-			}
-		}
-
-		return $this->url($route);
-	}
-
-	/**
 	 * Get the users timezone.
 	 *
 	 * @return string

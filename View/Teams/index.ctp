@@ -1,10 +1,10 @@
 <div class="title">
 	<?php if ($user) { ?>
-		<div class="buttons">
+		<div class="action-buttons">
 			<?php if (!empty($myTeam)) {
-				echo $this->Html->link(__d('tournament', 'Manage Team'), array('plugin' => 'tournament', 'action' => 'edit', 'slug' => $myTeam['Team']['slug']), array('class' => 'btn btn-info'));
+				echo $this->Html->link(__d('tournament', 'Manage Team'), array('plugin' => 'tournament', 'action' => 'edit', 'slug' => $myTeam['Team']['slug']), array('class' => 'button info'));
 			} else {
-				echo $this->Html->link(__d('tournament', 'Create Team'), array('action' => 'create'), array('class' => 'btn btn-primary'));
+				echo $this->Html->link(__d('tournament', 'Create Team'), array('action' => 'create'), array('class' => 'button info'));
 			} ?>
 		</div>
 	<?php } ?>
@@ -14,7 +14,7 @@
 
 <div class="container">
 	<?php
-	echo $this->element('pagination', array('class' => 'top'));
+	echo $this->element('Admin.pagination', array('class' => 'top'));
 	echo $this->element('tables/team_list');
-	echo $this->element('pagination', array('class' => 'bottom')); ?>
+	echo $this->element('Admin.pagination', array('class' => 'bottom')); ?>
 </div>

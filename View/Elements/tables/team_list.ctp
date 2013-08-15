@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover">
+<table class="table table--hover table--sortable">
 	<thead>
 		<tr>
 			<th> </th>

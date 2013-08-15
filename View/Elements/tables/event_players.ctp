@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover">
+<table class="table table--hover">
 	<thead>
 		<tr>
 			<th colspan="2"><?php echo __d('tournament', 'Player'); ?></th>

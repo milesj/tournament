@@ -1,14 +1,14 @@
 <div class="title">
 	<?php if ($user && $team['Team']['status'] == Team::ACTIVE) { ?>
-		<div class="buttons">
+		<div class="action-buttons">
 			<?php if ($user['id'] == $team['Team']['user_id']) {
-				echo $this->Html->link(__d('tournament', 'Manage Team'), array('plugin' => 'tournament', 'action' => 'edit', 'slug' => $team['Team']['slug']), array('class' => 'btn btn-info'));
+				echo $this->Html->link(__d('tournament', 'Manage Team'), array('plugin' => 'tournament', 'action' => 'edit', 'slug' => $team['Team']['slug']), array('class' => 'button info'));
 			}
 
 			if ($member) {
-				echo $this->Html->link(__d('tournament', 'Leave Team'), array('plugin' => 'tournament', 'action' => 'leave', 'slug' => $team['Team']['slug']), array('class' => 'btn btn-danger'));
+				echo $this->Html->link(__d('tournament', 'Leave Team'), array('plugin' => 'tournament', 'action' => 'leave', 'slug' => $team['Team']['slug']), array('class' => 'button error'));
 			} else {
-				echo $this->Html->link(__d('tournament', 'Join Team'), array('plugin' => 'tournament', 'action' => 'join', 'slug' => $team['Team']['slug']), array('class' => 'btn btn-default'));
+				echo $this->Html->link(__d('tournament', 'Join Team'), array('plugin' => 'tournament', 'action' => 'join', 'slug' => $team['Team']['slug']), array('class' => 'button'));
 			} ?>
 		</div>
 	<?php } ?>
