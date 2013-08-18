@@ -8,5 +8,8 @@
 </div>
 
 <div class="container">
-	<?php echo $this->element('tables/event_teams'); ?>
+	<?php
+	echo $this->element('Admin.pagination', array('class' => 'top'));
+	echo $this->element('tables/event_teams');
+	echo $this->element('Admin.pagination', array('class' => 'bottom')); ?>
 </div>

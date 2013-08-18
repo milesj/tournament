@@ -68,13 +68,4 @@ class Swiss extends Tournament {
 		), false);
 	}
 
-	/**
-	 * Validate the event is the correct type for the class.
-	 */
-	public function validate() {
-		if ($this->_event['type'] != Event::SWISS) {
-			throw new Exception('Event is not Swiss');
-		}
-	}
-
 }

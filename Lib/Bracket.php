@@ -190,7 +190,8 @@ class Bracket {
 	 * @return int
 	 */
 	public function getCompletedRounds() {
-		return count($this->_rounds);
+		return (int) $this->_event['round'];
+		//return count($this->_rounds);
 	}
 
 	/**
@@ -377,14 +378,15 @@ class Bracket {
 		$maxRounds = $this->getMaxRounds();
 		$remainder = $maxRounds - $round;
 
-		if ($remainder == self::FINALS && $standing <= 2) {
+		// Winners and bronze bracket
+		if ($remainder == self::FINALS && $standing <= 4) {
 			return $standing;
 
-		} else if ($remainder == self::SEMI_FINALS && ($standing == 4 || $standing == 3)) {
+		/*} else if ($remainder == self::SEMI_FINALS && ($standing == 4 || $standing == 3)) {
 			return $standing;
 
 		} else if ($remainder == self::QUARTER_FINALS && ($standing >= 5 && $standing <= 8)) {
-			return $standing;
+			return $standing;*/
 		}
 
 		return null;

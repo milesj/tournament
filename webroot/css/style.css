@@ -1,4 +1,33 @@
 
-.input { display: block; margin-bottom: 1rem; }
-.input label { display: block; margin-bottom: 5px; }
-.input.checkbox label { display: inline-block; margin: 0 0 0 5px; }
+/*-------------------- Forms --------------------*/
+
+.input { display: block; margin-bottom: 1.5rem; }
+.input > label { display: inline-block; vertical-align: top; width: 25%; text-align: right; padding-top: 6px; margin-right: 1.5rem; }
+.input:hover { border-color: #e5e5e5; }
+.submit { text-align: center; margin: 1.5rem 0; }
+
+input,
+select,
+textarea { padding: 5px; background: #fff; border: 1px solid #e5e5e5; border-radius: .3rem; }
+input:hover,
+select:hover,
+textarea:hover { border-color: #c2c2c2; }
+input:focus,
+select:focus,
+textarea:focus { border-color: #45c5eb; box-shadow: 0 0 5px #dbf1fa; outline: 0; }
+
+.input input[type="text"] { width: 25%; }
+.input textarea { min-width: 45%; }
+.input .form-poll { display: inline-block; width: 45%; }
+.input .form-poll table { margin-left: -6px; }
+.input .form-poll input[type="text"] { width: 98%; }
+.input .form-poll input[type="checkbox"] { position: relative; top: 2px; }
+
+.input.checkbox { padding-left: 27%; }
+.input.checkbox label { margin: 0 0 0 5px; width: auto; }
+.input.checkbox input { position: relative; margin-top: 2px; }
+
+.input-help,
+.error-message { display: block; margin: 5px 0 0 25%; padding-left: 1.5rem; }
+
+.form-filters label { margin-right: 5px; }

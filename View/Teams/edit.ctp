@@ -20,7 +20,7 @@
 			echo $this->Form->input('name');
 			echo $this->Form->input('password', array('type' => 'text'));
 			echo $this->Form->input('description');
-			echo $this->Form->submit(__d('tournament', 'Update'), array('class' => 'button success large', 'div' => 'form-actions'));
+			echo $this->Form->submit(__d('tournament', 'Update'), array('class' => 'button success large'));
 			echo $this->Form->end(); ?>
 		</section>
 
@@ -31,7 +31,7 @@
 			echo $this->Form->create('Team', array('type' => 'file'));
 			echo $this->Form->input('action', array('type' => 'hidden', 'value' => 'logo'));
 			echo $this->Form->input('logo', array('type' => 'file'));
-			echo $this->Form->submit(__d('tournament', 'Upload'), array('class' => 'button success large', 'div' => 'form-actions'));
+			echo $this->Form->submit(__d('tournament', 'Upload'), array('class' => 'button success large'));
 			echo $this->Form->end(); ?>
 		</section>
 
@@ -43,7 +43,7 @@
 			echo $this->Form->input('action', array('type' => 'hidden', 'value' => 'owner'));
 			echo $this->Form->input('user_id', array('label' => __d('tournament', 'Promote')));
 			echo $this->Form->input('leave', array('type' => 'checkbox', 'label' => __d('tournament', 'Leave Team?')));
-			echo $this->Form->submit(__d('tournament', 'Change'), array('class' => 'button success large', 'div' => 'form-actions'));
+			echo $this->Form->submit(__d('tournament', 'Change'), array('class' => 'button success large'));
 			echo $this->Form->end(); ?>
 		</section>
 
@@ -54,7 +54,7 @@
 			echo $this->Form->create('Team');
 			echo $this->Form->input('action', array('type' => 'hidden', 'value' => 'disband'));
 			echo $this->Form->input('disband', array('type' => 'checkbox', 'label' => __d('tournament', 'Are you sure?')));
-			echo $this->Form->submit(__d('tournament', 'Disband'), array('class' => 'button success large', 'div' => 'form-actions'));
+			echo $this->Form->submit(__d('tournament', 'Disband'), array('class' => 'button success large'));
 			echo $this->Form->end(); ?>
 		</section>
 	</div>

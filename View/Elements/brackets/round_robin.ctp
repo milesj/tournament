@@ -1,13 +1,12 @@
-
 <?php // Loop over each pool
 foreach ($bracket->getPools() as $pool) { ?>
 
-<div id="pool-<?php echo $pool; ?>" class="panel">
-	<div class="panel-heading">
-		<h3 class="panel-title"><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
+<div id="pool-<?php echo $pool; ?>" class="robin">
+	<div class="robin-head">
+		<h3><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
 	</div>
 
-	<div class="bracket round-robin">
+	<div class="robin-body bracket">
 
 		<?php // Loop over each round
 		foreach ($bracket->getRounds($pool) as $round) {
@@ -15,10 +14,10 @@ foreach ($bracket->getPools() as $pool) { ?>
 			$participant_ids = array_keys($participants);
 			$matchesCount = count($participants); ?>
 
-			<table class="table table-striped table-bordered table-hover table-condensed">
+			<table class="table">
 				<thead>
 					<tr>
-						<th colspan="<?php echo $matchesCount + 1; ?>" class="align-left">
+						<th colspan="<?php echo $matchesCount + 1; ?>">
 							<?php echo __d('tournament', 'Round %s of %s', $round, $bracket->getMaxRounds()); ?>
 						</th>
 						<th><?php echo __d('tournament', 'Score'); ?></th>
@@ -68,7 +67,7 @@ foreach ($bracket->getPools() as $pool) { ?>
 									$lossPoints += $score[1];
 								} ?>
 
-							<td class="status-<?php echo $this->Bracket->matchStatus($participant_id, $match); ?>">
+							<td class="cell-score status-<?php echo $this->Bracket->matchStatus($participant_id, $match); ?>">
 								<?php if ($score) {
 									echo implode(' - ', $score);
 								} ?>
@@ -77,7 +76,7 @@ foreach ($bracket->getPools() as $pool) { ?>
 							<?php }
 						} ?>
 
-						<td class="cell-score">
+						<td class="cell-total-score">
 							<?php echo $winPoints; ?> -
 							<?php echo $lossPoints; ?>
 						</td>

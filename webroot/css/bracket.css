@@ -1,7 +1,97 @@
 
+.status-loss { background: #ffeeee !important; }
+.status-win { background: #eefff1 !important; }
+.status-tie { background: #eef1ff !important; }
+
 /*-------------------- Brackets --------------------*/
 
-.participant-link { height: 40px; line-height: 40px; font-weight: bold; display: block; font-size: 12px; }
+.bracket { width: 100%; white-space: nowrap; overflow: auto; }
+.bracket:after { display: block; content: ""; clear: both; }
+
+.bracket-column { float: left; width: 300px; margin: 0 25px 0 0;  }
+.bracket-column ul { list-style: none; margin: 0; padding: 0; }
+.bracket-column li { margin-bottom: 15px; position: relative; }
+.bracket-column li:last-child { margin-bottom: 0; }
+
+.bracket-line { position: absolute; left: -25px; top: -50%; border: 3px solid #636363; border-left: 0; width: 14px; }
+.bracket-line div,
+.bracket-line-horizontal { position: absolute; width: 11px; height: 3px; background: #636363; top: 50%; right: -14px; margin-top: -1.5px; }
+.bracket-line-horizontal { width: 25px; left: -25px; }
+
+.round-1 li .bracket-line { display: none; }
+.round-2 li { margin-top: 121px; }
+.round-2 li:first-child { margin-top: 53px; }
+.round-2 li .bracket-line { height: 109px; top: -9px; }
+.round-3 li { margin-top: 333px; }
+.round-3 li:first-child { margin-top: 159px; }
+.round-3 li .bracket-line { height: 215px; top: -62px; }
+.round-4 li { margin-top: 757px; }
+.round-4 li:first-child { margin-top: 371px; }
+.round-4 li .bracket-line { height: 427px; top: -168px; }
+.round-5 li { margin-top: 1605px; }
+.round-5 li:first-child { margin-top: 795px; }
+.round-5 li .bracket-line { height: 851px; top: -380px; }
+.round-6 li { margin-top: 3301px; }
+.round-6 li:first-child { margin-top: 1643px; }
+.round-6 li .bracket-line { height: 1699px; top: -804px; }
+.round-7 li { margin-top: 6693px; }
+.round-7 li:first-child { margin-top: 3339px; }
+.round-7 li .bracket-line { height: 3395px; top: -1652px; }
+.round-8 li { margin-top: 13477px; }
+.round-8 li:first-child { margin-top: 6731px; }
+.round-8 li .bracket-line { height: 6787px; top: -3348px; }
+.round-9 li { margin-top: 27045px; }
+.round-9 li:first-child { margin-top: 13515px; }
+.round-9 li .bracket-line { height: 13571px; top: -6740px; }
+.round-10 li { margin-top: 54181px; }
+.round-10 li:first-child { margin-top: 27083px; }
+.round-10 li .bracket-line { height: 27139px; top: -13524px; }
+
+.bracket-column li.bronze-match { margin-top: 121px; }
+.bracket-column li.bronze-match .bracket-line { display: none; }
+
+/*-------------------- Matches --------------------*/
+
+.match { position: relative; height: 91px; }
+.match table { width: 100%; border-spacing: 1px; border-collapse: collapse; border-radius: .3rem; }
+.match table td { border: 1px solid #e5e5e5; vertical-align: middle; padding: 0 .76rem; height: 45px; }
+.match table tr { background: #f5f5f5; }
+.match table tr:nth-child(odd) { background: #f8f8f8; }
+.match .cell-bye { font-style: italic; }
+.match .cell-score,
+.match .cell-seed { width: 45px; background: rgba(255, 255, 255, .50); text-align: center; }
+.match .participant-winner { background: #fff !important; }
+.match .standing { font-weight: bold; height: 30px; line-height: 30px; background: #fff; border: 1px solid #e5e5e5; position: absolute; right: 0; width: 46px; }
+.match .participant-home .standing { top: -30px; border-bottom: 0; border-top-left-radius: 3px; border-top-right-radius: 3px; }
+.match .participant-away .standing { bottom: -30px; border-top: 0; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; }
+
+/*-------------------- Round Robin --------------------*/
+
+.robin { border: 1px solid #e5e5e5; background: #fbfbfb; margin-bottom: 1.5rem; border-radius: .3rem; }
+.robin .cell-void { background: #f0f0f0; }
+.robin .cell-score,
+.robin .cell-standing { text-align: center; }
+.robin .cell-total-score { background: #fff; text-align: center; }
+.robin .cell-participant { background: #fff; text-align: left; }
+.robin .table:not(:first-child) { margin-top: 1rem; }
+.robin-head { background: #f5f5f5; padding: 1rem; border-top-left-radius: .3rem; border-top-right-radius: .3rem; border-bottom: 1px solid #e5e5e5; }
+.robin-body { padding: 1rem; }
+
+/*-------------------- Swiss --------------------*/
+
+.swiss { border: 1px solid #e5e5e5; background: #fbfbfb; margin-bottom: 1.5rem; border-radius: .3rem; }
+.swiss-head { background: #f5f5f5; padding: 1rem; border-top-left-radius: .3rem; border-top-right-radius: .3rem; border-bottom: 1px solid #e5e5e5; }
+.swiss-body { padding: 1rem; }
+
+/*-------------------- Elimination --------------------*/
+
+.elim { border: 1px solid #e5e5e5; background: #fbfbfb; margin-bottom: 1.5rem; border-radius: .3rem; }
+.elim-head { background: #f5f5f5; padding: 1rem; border-top-left-radius: .3rem; border-top-right-radius: .3rem; border-bottom: 1px solid #e5e5e5; }
+.elim-body { padding: 1rem; }
+
+/*-------------------- Brackets --------------------*/
+
+/*.participant-link { height: 40px; line-height: 40px; font-weight: bold; display: block; font-size: 12px; }
 .participant-link .logo { float: left; margin-right: 5px; }
 .participant-link.no-logo { padding-left: 5px; }
 
@@ -38,10 +128,6 @@
 .participant-home .standing { top: -12px; }
 .participant-away .standing { bottom: -12px; }
 
-.status-loss { background: #ffeeee !important; }
-.status-win { background: #eefff1 !important; }
-.status-tie { background: #eef1ff !important; }
-
 .round-1 li .bracket-line { display: none; }
 .round-2 li { margin-top: 97px; }
 .round-2 li:first-child { margin-top: 45px; }
@@ -72,15 +158,7 @@
 .round-10 li .bracket-line { height: 23037px; top: -11480px; }
 
 .bracket-column li.bronze-match { margin-top: 74px; }
-.bracket-column li.bronze-match .bracket-line { display: none; }
-
-/*-------------------- Round Robin --------------------*/
-
-.round-robin { text-align: center; }
-.round-robin .cell-score { font-weight: bold; width: auto; }
-.round-robin .cell-participant { background: #fff; text-align: left; padding: 0; }
-.round-robin .table { margin-top: 5px; }
-.round-robin .table:first-child { margin: 0; }
+.bracket-column li.bronze-match .bracket-line { display: none; }*/
 
 /*-------------------- Swiss --------------------*/
 

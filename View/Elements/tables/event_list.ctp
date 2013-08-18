@@ -7,6 +7,7 @@
 			<th><?php echo $this->Paginator->sort('Division.name', __d('tournament', 'Division')); ?></th>
 			<th><?php echo $this->Paginator->sort('Event.type', __d('tournament', 'Type')); ?></th>
 			<th><?php echo $this->Paginator->sort('Event.for', __d('tournament', 'Setup')); ?></th>
+			<th><?php echo $this->Paginator->sort('Event.event_participant_count', __d('tournament', 'Entered')); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,6 +25,7 @@
 			<td class="col-division-name"><?php echo $event['Division']['name']; ?></td>
 			<td class="col-event-type"><?php echo $this->Utility->enum('Event', 'type', $event['Event']['type']); ?></td>
 			<td class="col-event-for"><?php echo $this->Utility->enum('Event', 'for', $event['Event']['for']); ?></td>
+			<td class="col-event-participantCount"><?php echo __d('tournament', '%s of %s', $event['Event']['event_participant_count'], $event['Event']['maxParticipants']); ?></td>
 		</tr>
 
 			<?php }

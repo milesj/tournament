@@ -1,13 +1,13 @@
-<table class="table table--hover">
+<table class="table table--hover table--sortable">
 	<thead>
 		<tr>
-			<th colspan="2"><?php echo __d('tournament', 'Player'); ?></th>
-			<th><?php echo __d('tournament', 'Status'); ?></th>
-			<th><?php echo __d('tournament', 'Ready'); ?></th>
-			<th><?php echo __d('tournament', 'Points'); ?></th>
-			<th><?php echo __d('tournament', 'Wins'); ?></th>
-			<th><?php echo __d('tournament', 'Losses'); ?></th>
-			<th><?php echo __d('tournament', 'Ties'); ?></th>
+			<th colspan="2"><?php echo $this->Paginator->sort('EventParticipant.player_id', __d('tournament', 'Player')); ?></th>
+			<th><?php echo $this->Paginator->sort('EventParticipant.status', __d('tournament', 'Status')); ?></th>
+			<th><?php echo $this->Paginator->sort('EventParticipant.isReady', __d('tournament', 'Ready')); ?></th>
+			<th><?php echo $this->Paginator->sort('EventParticipant.points', __d('tournament', 'Points')); ?></th>
+			<th><?php echo $this->Paginator->sort('EventParticipant.wins', __d('tournament', 'Wins')); ?></th>
+			<th><?php echo $this->Paginator->sort('EventParticipant.losses', __d('tournament', 'Losses')); ?></th>
+			<th><?php echo $this->Paginator->sort('EventParticipant.ties', __d('tournament', 'Ties')); ?></th>
 		</tr>
 	</thead>
 	<tbody>

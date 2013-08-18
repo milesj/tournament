@@ -143,7 +143,6 @@ abstract class Tournament {
 			'playOn' => null // @TODO
 		);
 
-
 		// If away is null, give home a bye
 		if (!$away_id && $bye) {
 			$query = $query + array(
@@ -170,7 +169,7 @@ abstract class Tournament {
 			$this->Match->create();
 		}
 
-		return $this->Match->save($query);
+		return $this->Match->save($query, false);
 	}
 
 	/**
@@ -362,6 +361,39 @@ abstract class Tournament {
 
 			} else if ($match['Match']['winner'] == Match::AWAY) {
 				$participant_ids[] = $match['Match']['away_id'];
+			}
+		}
+
+		return $participant_ids;
+	}
+
+	/**
+	 * Return all the losers from the previous event round.
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getLosers() {
+		$matches = $this->Match->find('all', array(
+			'conditions' => array(
+				'Match.event_id' => $this->_id,
+				'Match.round' => $this->_event['round']
+			),
+			'order' => array('Match.order' => 'ASC')
+		));
+
+		if (!$matches) {
+			throw new Exception('No participants from the previous round');
+		}
+
+		$participant_ids = array();
+
+		foreach ($matches as $match) {
+			if ($match['Match']['winner'] == Match::HOME) {
+				$participant_ids[] = $match['Match']['away_id'];
+
+			} else if ($match['Match']['winner'] == Match::AWAY) {
+				$participant_ids[] = $match['Match']['home_id'];
 			}
 		}
 

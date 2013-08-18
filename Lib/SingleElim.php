@@ -59,6 +59,18 @@ class SingleElim extends Tournament {
 			$this->createMatch($home_id, $away_id, $i, $nextRound);
 		}
 
+		// Generate bronze match
+		if ($nextRound === $maxRounds || $half === 1) {
+			$bronzePlayers = $this->getLosers();
+
+			// Remove nulls (byes)
+			$bronzePlayers = array_filter($bronzePlayers);
+
+			if (count($bronzePlayers) == 2) {
+				$this->createMatch(array_shift($bronzePlayers), array_shift($bronzePlayers), $i, $nextRound);
+			}
+		}
+
 		// Advance matches that are byes
 		$this->advanceByes($nextRound);
 

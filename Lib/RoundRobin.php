@@ -137,9 +137,10 @@ class RoundRobin extends Tournament {
 
 		// Loop through and sort matches
 		foreach ($pools as &$p) {
+			ksort($p);
 			foreach ($p as &$r) {
 				foreach ($r as &$m) {
-					$m = array_values($m);
+					ksort($m);
 				}
 			}
 		}

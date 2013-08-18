@@ -97,8 +97,6 @@ class Match extends TournamentAppModel {
 	public $validate = array(
 		'league_id' => 'notEmpty',
 		'event_id' => 'notEmpty',
-		'home_id' => 'notEmpty',
-		'away_id' => 'notEmpty',
 		'type' => 'notEmpty',
 		'bracket' => 'notEmpty',
 		'winner' => 'notEmpty',

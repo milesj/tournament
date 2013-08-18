@@ -31,7 +31,11 @@ class EventsController extends TournamentAppController {
 		'Event' => array(
 			'contain' => array('League', 'Division', 'Game'),
 			'limit' => 25
-		)
+		),
+		'EventParticipant' => array(
+			'order' => array('EventParticipant.isReady' => 'DESC', 'EventParticipant.created' => 'ASC'),
+			'limit' => 50
+		),
 	);
 
 	/**
@@ -73,8 +77,11 @@ class EventsController extends TournamentAppController {
 			throw new NotFoundException();
 		}
 
+		$this->paginate['EventParticipant']['contain'] = array('Team' => array('Leader'));
+		$this->paginate['EventParticipant']['conditions'] = array('EventParticipant.event_id' => $event['Event']['id']);
+
 		$this->set('event', $event);
-		$this->set('participants', $this->Event->EventParticipant->getParticipants($event['Event']['id']));
+		$this->set('participants', $this->paginate('EventParticipant'));
 	}
 
 	/**
@@ -91,8 +98,11 @@ class EventsController extends TournamentAppController {
 			throw new NotFoundException();
 		}
 
+		$this->paginate['EventParticipant']['contain'] = array('Player' => array('User'));
+		$this->paginate['EventParticipant']['conditions'] = array('EventParticipant.event_id' => $event['Event']['id']);
+
 		$this->set('event', $event);
-		$this->set('participants', $this->Event->EventParticipant->getParticipants($event['Event']['id']));
+		$this->set('participants', $this->paginate('EventParticipant'));
 	}
 
 	/**

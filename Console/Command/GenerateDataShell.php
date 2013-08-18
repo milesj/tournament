@@ -81,17 +81,39 @@ class GenerateDataShell extends AppShell {
 		$boxOuterHeight = ($boxInnerHeight + $boxMargin);
 		$boxHalfHeight = round($boxOuterHeight / 2);
 		$lineBorderWidth = $this->params['lineWidth'];
+		$boxSizing = $this->params['boxSizing'];
 		$maxRounds = 10;
 		$multiplier = 0;
+
+		$this->out('Margin: ' . $boxMargin);
+		$this->out('Inner Height: ' . $boxInnerHeight);
+		$this->out('Outer Height (with margin): ' . $boxOuterHeight);
+		$this->out('Half Outer Height (with margin): ' . $boxHalfHeight);
+		$this->out('Line Width: ' . $lineBorderWidth);
+		$this->out('CSS Box Sizing: ' . $boxSizing);
+		$this->out();
 
 		for ($i = 2; $i <= $maxRounds; $i++) {
 			$multiplier = ($multiplier * 2) + 1;
 
-			$topMargin = ($multiplier * $boxOuterHeight) + $boxMargin;
-			$topMarginFirst = ($multiplier * $boxHalfHeight);
+			// The gap between each match is dependent on the round multiplier
+			// Each gap is equal to: round multiplier * match height + extra margin
+			$topMargin = ceil($multiplier * $boxOuterHeight) + $boxMargin;
+			$topMarginFirst = ceil($multiplier * $boxHalfHeight);
 
+			// Generate the sizes for the bracket arrow lines
 			$lineHeight = floor(($multiplier + 1) * $boxOuterHeight / 2) - $lineBorderWidth;
 			$lineTop = round($lineHeight / 2) - $boxHalfHeight + ($lineBorderWidth * 2);
+
+			// If CSS box-sizing is border-box, add more height
+			if ($boxSizing === 'border-box') {
+				$lineHeight += ($lineBorderWidth * 2);
+				$lineTop += $lineBorderWidth;
+
+				if ($lineBorderWidth % 2 !== 0) {
+					$lineTop += 1;
+				}
+			}
 
 			$this->out(sprintf('.round-%s li { margin-top: %spx; }', $i, $topMargin));
 			$this->out(sprintf('.round-%s li:first-child { margin-top: %spx; }', $i, $topMarginFirst));
@@ -356,6 +378,7 @@ class GenerateDataShell extends AppShell {
 			$settings = Configure::read('Tournament.settings');
 
 			for ($i = 0; $i < 10; $i++) {
+				$id = $i + 1;
 				$excludeUsers = array();
 				$excludeTeams = array();
 				$type = rand(0, 3);
@@ -394,6 +417,7 @@ class GenerateDataShell extends AppShell {
 					'maxParticipants' => $max,
 					'maxRounds' => $rounds,
 					'poolSize' => $pools,
+					'event_participant_count' => $max,
 					'start' => date('Y-m-d H:i:s', strtotime('+1 week')),
 					'end' => date('Y-m-d H:i:s', strtotime('+5 weeks')),
 					'signupStart' => date('Y-m-d H:i:s', strtotime('-4 weeks')),
@@ -404,7 +428,7 @@ class GenerateDataShell extends AppShell {
 				));
 
 				$this->events[] = array(
-					'id' => $this->Event->id
+					'id' => $id
 				);
 
 				$this->out('-', 0);
@@ -412,7 +436,7 @@ class GenerateDataShell extends AppShell {
 				// Create $max participants per event
 				for ($p = 0; $p < $max; $p++) {
 					$query = array(
-						'event_id' => $this->Event->id,
+						'event_id' => $id,
 						'status' => EventParticipant::ACTIVE,
 						'isReady' => EventParticipant::YES
 					);
@@ -631,18 +655,23 @@ class GenerateDataShell extends AppShell {
 				'options' => array(
 					'boxMargin' => array(
 						'short' => 'm',
-						'help' => 'Box margin bottom',
-						'default' => 7
+						'help' => 'Box margin bottom (must be an odd number)',
+						'default' => 15
 					),
 					'boxHeight' => array(
 						'short' => 'h',
 						'help' => 'Box height excluding margin',
-						'default' => 83
+						'default' => 91
 					),
 					'lineWidth' => array(
 						'short' => 'l',
 						'help' => 'Box connecting line width',
 						'default' => 3
+					),
+					'boxSizing' => array(
+						'short' => 's',
+						'help' => 'CSS box sizing property',
+						'default' => 'border-box'
 					)
 				)
 			)
