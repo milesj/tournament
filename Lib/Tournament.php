@@ -91,6 +91,7 @@ abstract class Tournament {
 			$nextRound = $round + 1;
 
 			foreach ($matches as $match) {
+				// Divide by 2 since each round loses half of the players
 				$order = ceil($match['Match']['order'] / 2);
 				$home_id = $match['Match']['home_id'];
 				$away_id = null;
@@ -223,12 +224,18 @@ abstract class Tournament {
 	}
 
 	/**
-	 * Flag each participants standing in the database.
+	 * Loop through all participants and determine their standing based on the points earned.
+	 * This approach only works for swiss and round robin.
 	 */
 	public function flagStandings() {
 		$participants = $this->EventParticipant->find('all', array(
 			'conditions' => array('EventParticipant.event_id' => $this->_id),
-			'order' => array('EventParticipant.points' => 'DESC')
+			'order' => array(
+				'EventParticipant.points' => 'DESC',
+				'EventParticipant.wins' => 'DESC',
+				'EventParticipant.ties' => 'DESC',
+				'EventParticipant.losses' => 'DESC'
+			)
 		));
 
 		$currentStanding = 0;
@@ -244,6 +251,7 @@ abstract class Tournament {
 
 			$query['standing'] = $currentStanding;
 
+			// First place
 			if ($currentStanding == 1) {
 				$query['isWinner'] = EventParticipant::YES;
 				$query['wonOn'] = date('Y-m-d H:i:s');
@@ -421,9 +429,11 @@ abstract class Tournament {
 		}
 
 		// Loop through and sort matches
-		foreach ($rounds as &$m) {
-			sort($m, SORT_NUMERIC);
+		foreach ($rounds as &$r) {
+			sort($r, SORT_NUMERIC);
 		}
+
+		ksort($rounds);
 
 		$bracket = new Bracket($this->_event);
 		$bracket->setMatches($matches);

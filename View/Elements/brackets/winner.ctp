@@ -18,14 +18,17 @@
 							<?php echo $winner['EventParticipant']['wins']; ?>
 							<span class="icon-plus-sign"></span>
 						</span>
+
 						<span class="stat stat-losses js-tooltip" data-tooltip="<?php echo __d('tournament', 'Losses'); ?>">
 							<?php echo $winner['EventParticipant']['losses']; ?>
 							<span class="icon-remove-sign"></span>
 						</span>
+
 						<span class="stat stat-ties js-tooltip" data-tooltip="<?php echo __d('tournament', 'Ties'); ?>">
 							<?php echo $winner['EventParticipant']['ties']; ?>
 							<span class="icon-minus-sign"></span>
 						</span>
+
 						<span class="stat stat-points js-tooltip" data-tooltip="<?php echo __d('tournament', 'Points'); ?>">
 							<?php echo $winner['EventParticipant']['points']; ?>
 							<span class="icon-trophy"></span>

@@ -152,12 +152,14 @@ class Match extends TournamentAppModel {
 	 * Return all matches that haven't been played yet.
 	 *
 	 * @param int $event_id
+	 * @param int $round
 	 * @return array
 	 */
-	public function getPendingMatches($event_id) {
+	public function getPendingMatches($event_id, $round) {
 		return $this->find('all', array(
 			'conditions' => array(
 				'Match.event_id' => $event_id,
+				'Match.round' => $round,
 				'Match.winner' => self::PENDING
 			),
 			'order' => array('Match.order' => 'ASC')

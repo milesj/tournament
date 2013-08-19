@@ -13,6 +13,56 @@ class SingleElim extends Tournament {
 	protected $_type = Event::SINGLE_ELIM;
 
 	/**
+	 * Loop through all the matches and flag the standing for each participant in ascending order.
+	 * Unlike non-elimination games, each participant will have a unique standing.
+	 */
+	public function flagStandings() {
+		$matches = $this->Match->find('all', array(
+			'conditions' => array('Match.event_id' => $this->_id),
+			'order' => array(
+				'Match.round' => 'DESC',
+				'Match.order' => 'ASC'
+			)
+		));
+
+		$standings = array();
+
+		foreach ($matches as $match) {
+			if ($match['Match']['winner'] == Match::HOME) {
+				$ids = array($match['Match']['home_id'], $match['Match']['away_id']);
+
+			} else if ($match['Match']['winner'] == Match::AWAY) {
+				$ids = array($match['Match']['away_id'], $match['Match']['home_id']);
+
+			} else {
+				continue;
+			}
+
+			foreach ($ids as $id) {
+				if ($id && !in_array($id, $standings)) {
+					$standings[] = $id;
+				}
+			}
+		}
+
+		foreach ($standings as $i => $id) {
+			$query = array('standing' => $i + 1);
+
+			// First place
+			if ($i == 0) {
+				$query['isWinner'] = EventParticipant::YES;
+				$query['wonOn'] = '"' . date('Y-m-d H:i:s') . '"';
+			}
+
+			// Use updateAll() since we don't have a direct ID
+			$this->EventParticipant->updateAll($query, array(
+				'EventParticipant.' . $this->_forField => $id,
+				'EventParticipant.event_id' => $this->_id
+			));
+		}
+	}
+
+	/**
 	 * Generate matches for a single elimination event.
 	 *
 	 * 	- Top participants should be seeded so that they don't compete against each other until the last rounds

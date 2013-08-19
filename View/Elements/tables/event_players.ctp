@@ -1,6 +1,7 @@
 <table class="table table--hover table--sortable">
 	<thead>
 		<tr>
+			<th><?php echo $this->Paginator->sort('EventParticipant.standing', __d('tournament', 'Standing')); ?></th>
 			<th colspan="2"><?php echo $this->Paginator->sort('EventParticipant.player_id', __d('tournament', 'Player')); ?></th>
 			<th><?php echo $this->Paginator->sort('EventParticipant.status', __d('tournament', 'Status')); ?></th>
 			<th><?php echo $this->Paginator->sort('EventParticipant.isReady', __d('tournament', 'Ready')); ?></th>
@@ -15,6 +16,7 @@
 			foreach ($participants as $player) { ?>
 
 		<tr>
+			<td class="col-participant-standing"><?php echo $this->Bracket->standing($player['EventParticipant']['standing']); ?></td>
 			<td class="col-player-image">
 				<?php if ($logo = $player['Player']['User'][$userFields['avatar']]) {
 					echo $this->Html->image($logo, array('url' => array('controller' => 'players', 'action' => 'profile', 'id' => $player['Player']['User']['id']), 'width' => 25, 'height' => 25));

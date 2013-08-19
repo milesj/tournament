@@ -2,11 +2,14 @@
 foreach ($bracket->getPools() as $pool) { ?>
 
 <div id="pool-<?php echo $pool; ?>" class="robin">
-	<div class="robin-head">
-		<h3><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
-	</div>
+	<?php if ($bracket->getMaxRounds() > 1) { ?>
+		<div class="robin-head">
+			<h3><?php echo __d('tournament', 'Pool %s', $pool); ?></h3>
+		</div>
+	<?php } ?>
 
-	<div class="robin-body bracket">
+	<div class="robin-body">
+		<div class="bracket">
 
 		<?php // Loop over each round
 		foreach ($bracket->getRounds($pool) as $round) {
@@ -47,8 +50,9 @@ foreach ($bracket->getPools() as $pool) { ?>
 
 						<?php // Loop over each match for the participant
 						$count = 0;
-						$winPoints = 0;
-						$lossPoints = 0;
+						$wins = 0;
+						$losses = 0;
+						$ties = 0;
 
 						for ($i = 0; $i < $matchesCount; $i++) {
 
@@ -62,9 +66,12 @@ foreach ($bracket->getPools() as $pool) { ?>
 								$score = $this->Bracket->matchScore($participant_id, $match);
 								$count++;
 
-								if ($score) {
-									$winPoints += $score[0];
-									$lossPoints += $score[1];
+								if ($score[0] == $score[1]) {
+									$ties++;
+								} else if ($score[0] > $score[1]) {
+									$wins++;
+								} else {
+									$losses++;
 								} ?>
 
 							<td class="cell-score status-<?php echo $this->Bracket->matchStatus($participant_id, $match); ?>">
@@ -77,12 +84,14 @@ foreach ($bracket->getPools() as $pool) { ?>
 						} ?>
 
 						<td class="cell-total-score">
-							<?php echo $winPoints; ?> -
-							<?php echo $lossPoints; ?>
+							<?php echo $wins; ?> -
+							<?php echo $losses; ?>
 						</td>
 
 						<td class="cell-standing">
-							<?php echo $this->Bracket->standing($bracket->getStanding($participant_id, $round, $pool)); ?>
+							<?php if ($bracket->canShowStanding($round)) {
+								echo $this->Bracket->standing($participant['EventParticipant']['standing']);
+							} ?>
 						</td>
 					</tr>
 
@@ -92,6 +101,7 @@ foreach ($bracket->getPools() as $pool) { ?>
 
 		<?php } ?>
 
+		</div>
 	</div>
 </div>
 

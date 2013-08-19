@@ -33,7 +33,11 @@ class EventsController extends TournamentAppController {
 			'limit' => 25
 		),
 		'EventParticipant' => array(
-			'order' => array('EventParticipant.isReady' => 'DESC', 'EventParticipant.created' => 'ASC'),
+			'order' => array(
+				'EventParticipant.standing' => 'ASC',
+				'EventParticipant.isReady' => 'DESC',
+				'EventParticipant.created' => 'ASC'
+			),
 			'limit' => 50
 		),
 	);

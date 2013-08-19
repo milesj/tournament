@@ -14,15 +14,14 @@
 		if ($match['Match']['winner'] != Match::PENDING) {
 			echo $match['Match'][$type . 'Points'];
 
-			if ($bracket->isElimination()) {
-				if ($standing = $bracket->getStanding($id, $currentRound)) { ?>
+			if ($bracket->canShowStanding($currentRound)) {
+				$standing = $participant['EventParticipant']['standing']; ?>
 
-					<div class="standing standing-<?php echo $standing; ?> js-tooltip" data-tooltip="<?php echo __d('tournament', 'Standing'); ?>">
-						<span><?php echo $this->Bracket->standing($standing); ?></span>
-					</div>
+				<div class="standing standing-<?php echo $standing; ?> js-tooltip" data-tooltip="<?php echo __d('tournament', 'Standing'); ?>">
+					<span><?php echo $this->Bracket->standing($standing); ?></span>
+				</div>
 
 			<?php }
-			}
 		} ?>
 	</td>
 </tr>

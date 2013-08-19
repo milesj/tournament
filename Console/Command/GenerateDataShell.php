@@ -378,7 +378,6 @@ class GenerateDataShell extends AppShell {
 			$settings = Configure::read('Tournament.settings');
 
 			for ($i = 0; $i < 10; $i++) {
-				$id = $i + 1;
 				$excludeUsers = array();
 				$excludeTeams = array();
 				$type = rand(0, 3);
@@ -398,7 +397,7 @@ class GenerateDataShell extends AppShell {
 
 				} else {
 					$max = rand(8, 20);
-					$rounds = rand(1, 3);
+					$rounds = rand(1, 8);
 				}
 
 				if ($for == Event::TEAM) {
@@ -417,7 +416,6 @@ class GenerateDataShell extends AppShell {
 					'maxParticipants' => $max,
 					'maxRounds' => $rounds,
 					'poolSize' => $pools,
-					'event_participant_count' => $max,
 					'start' => date('Y-m-d H:i:s', strtotime('+1 week')),
 					'end' => date('Y-m-d H:i:s', strtotime('+5 weeks')),
 					'signupStart' => date('Y-m-d H:i:s', strtotime('-4 weeks')),
@@ -428,15 +426,17 @@ class GenerateDataShell extends AppShell {
 				));
 
 				$this->events[] = array(
-					'id' => $id
+					'id' => $this->Event->id
 				);
 
 				$this->out('-', 0);
 
 				// Create $max participants per event
+				$this->EventParticipant->cacheQueries = false;
+
 				for ($p = 0; $p < $max; $p++) {
 					$query = array(
-						'event_id' => $id,
+						'event_id' => $this->Event->id,
 						'status' => EventParticipant::ACTIVE,
 						'isReady' => EventParticipant::YES
 					);
@@ -556,7 +556,7 @@ class GenerateDataShell extends AppShell {
 		// Update matches with fake data
 		$this->out('Advancing current round matches');
 
-		if ($matches = $this->Match->getPendingMatches($event_id)) {
+		if ($matches = $this->Match->getPendingMatches($event_id, $event['Event']['round'])) {
 			foreach ($matches as $match) {
 				$home_id = $match['Match']['home_id'];
 				$away_id = $match['Match']['away_id'];

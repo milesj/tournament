@@ -157,7 +157,7 @@ class BracketHelper extends AppHelper {
 			return __($message, $num);
 		}
 
-		return $num;
+		return __('%sth', $num);
 	}
 
 }

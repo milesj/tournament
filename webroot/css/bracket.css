@@ -5,7 +5,7 @@
 
 /*-------------------- Brackets --------------------*/
 
-.bracket { width: 100%; white-space: nowrap; overflow: auto; }
+.bracket { width: 100%; white-space: nowrap; }
 .bracket:after { display: block; content: ""; clear: both; }
 
 .bracket-column { float: left; width: 300px; margin: 0 25px 0 0;  }
@@ -17,38 +17,6 @@
 .bracket-line div,
 .bracket-line-horizontal { position: absolute; width: 11px; height: 3px; background: #636363; top: 50%; right: -14px; margin-top: -1.5px; }
 .bracket-line-horizontal { width: 25px; left: -25px; }
-
-.round-1 li .bracket-line { display: none; }
-.round-2 li { margin-top: 121px; }
-.round-2 li:first-child { margin-top: 53px; }
-.round-2 li .bracket-line { height: 109px; top: -9px; }
-.round-3 li { margin-top: 333px; }
-.round-3 li:first-child { margin-top: 159px; }
-.round-3 li .bracket-line { height: 215px; top: -62px; }
-.round-4 li { margin-top: 757px; }
-.round-4 li:first-child { margin-top: 371px; }
-.round-4 li .bracket-line { height: 427px; top: -168px; }
-.round-5 li { margin-top: 1605px; }
-.round-5 li:first-child { margin-top: 795px; }
-.round-5 li .bracket-line { height: 851px; top: -380px; }
-.round-6 li { margin-top: 3301px; }
-.round-6 li:first-child { margin-top: 1643px; }
-.round-6 li .bracket-line { height: 1699px; top: -804px; }
-.round-7 li { margin-top: 6693px; }
-.round-7 li:first-child { margin-top: 3339px; }
-.round-7 li .bracket-line { height: 3395px; top: -1652px; }
-.round-8 li { margin-top: 13477px; }
-.round-8 li:first-child { margin-top: 6731px; }
-.round-8 li .bracket-line { height: 6787px; top: -3348px; }
-.round-9 li { margin-top: 27045px; }
-.round-9 li:first-child { margin-top: 13515px; }
-.round-9 li .bracket-line { height: 13571px; top: -6740px; }
-.round-10 li { margin-top: 54181px; }
-.round-10 li:first-child { margin-top: 27083px; }
-.round-10 li .bracket-line { height: 27139px; top: -13524px; }
-
-.bracket-column li.bronze-match { margin-top: 121px; }
-.bracket-column li.bronze-match .bracket-line { display: none; }
 
 /*-------------------- Matches --------------------*/
 
@@ -88,6 +56,38 @@
 .elim { border: 1px solid #e5e5e5; background: #fbfbfb; margin-bottom: 1.5rem; border-radius: .3rem; }
 .elim-head { background: #f5f5f5; padding: 1rem; border-top-left-radius: .3rem; border-top-right-radius: .3rem; border-bottom: 1px solid #e5e5e5; }
 .elim-body { padding: 1rem; }
+
+.elim .round-2 li { margin-top: 121px; }
+.elim .round-2 li:first-child { margin-top: 53px; }
+.elim .round-2 li .bracket-line { height: 109px; top: -9px; }
+.elim .round-3 li { margin-top: 333px; }
+.elim .round-3 li:first-child { margin-top: 159px; }
+.elim .round-3 li .bracket-line { height: 215px; top: -62px; }
+.elim .round-4 li { margin-top: 757px; }
+.elim .round-4 li:first-child { margin-top: 371px; }
+.elim .round-4 li .bracket-line { height: 427px; top: -168px; }
+.elim .round-5 li { margin-top: 1605px; }
+.elim .round-5 li:first-child { margin-top: 795px; }
+.elim .round-5 li .bracket-line { height: 851px; top: -380px; }
+.elim .round-6 li { margin-top: 3301px; }
+.elim .round-6 li:first-child { margin-top: 1643px; }
+.elim .round-6 li .bracket-line { height: 1699px; top: -804px; }
+.elim .round-7 li { margin-top: 6693px; }
+.elim .round-7 li:first-child { margin-top: 3339px; }
+.elim .round-7 li .bracket-line { height: 3395px; top: -1652px; }
+.elim .round-8 li { margin-top: 13477px; }
+.elim .round-8 li:first-child { margin-top: 6731px; }
+.elim .round-8 li .bracket-line { height: 6787px; top: -3348px; }
+.elim .round-9 li { margin-top: 27045px; }
+.elim .round-9 li:first-child { margin-top: 13515px; }
+.elim .round-9 li .bracket-line { height: 13571px; top: -6740px; }
+.elim .round-10 li { margin-top: 54181px; }
+.elim .round-10 li:first-child { margin-top: 27083px; }
+.elim .round-10 li .bracket-line { height: 27139px; top: -13524px; }
+
+.elim .round-1 li .bracket-line { display: none; }
+.elim .bracket-column li.bronze-match { margin-top: 121px; }
+.elim .bracket-column li.bronze-match .bracket-line { display: none; }
 
 /*-------------------- Brackets --------------------*/
 

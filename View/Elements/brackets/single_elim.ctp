@@ -39,7 +39,7 @@ $maxRounds = $bracket->getMaxRounds(); ?>
 						if ($m == 2 && $bracket->isRound($round, Bracket::FINALS)) {
 
 							// Hide bronze from events with low numbers of players
-							if ($round > 1 && $event['Event']['event_participant_count'] > 5) { ?>
+							if ($round > 1 && $event['Event']['event_participant_count'] >= 4) { ?>
 
 							<li class="bronze-match">
 								<div class="match-title">
