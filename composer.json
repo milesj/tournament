@@ -19,6 +19,6 @@
 		"composer/installers": "*"
 	},
 	"support": {
-		"source": "https://github.com/milesj/Tournament"
+		"source": "https://github.com/milesj/tournament"
 	}
 }
